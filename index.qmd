@@ -52,7 +52,7 @@ The practicals are provided in three different statistical software packages, St
 The Whitehall FoSSA Study is a simulated cohort study similar to the original Whitehall Study of Civil Servants, set up in the 1960s, which followed London-based male civil servants with a view to investigating cardiovascular disease and mortality. Participants from the original Whitehall cohort in the 1960s were flagged for mortality at the Office for National Statistics, which provided the date and cause of all deaths occurring until the end of September 2005. The (simulated) Whitehall FoSSA Study was conducted in 1997 to assess risk factors for cardiac and all-cause mortality in a subset of the original cohort that was still being followed. The Whitehall FoSSA Study contains information on 4,327 individuals that were followed-up from 1997 until 2005, and the variables are summarised in the table below. See Clarke et al. (2007), Arch Intern Med, 167(13) for more details on the real data that inspired this dataset.
 
 | Variable name | Description | Type of measure | Coding |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | whl1_id | Participant ID number | Continuous |  |
 | age_grp | Age group (years) | Categorical | 1=60-70; 2=71-75; 3=76-80; 4=81-95 |
 | prior_cvd | Prior CVD | Binary | 0=No; 1=Yes |
@@ -89,7 +89,7 @@ The FoSSA Mouse dataset is a simulated set of health check data of a group of 60
 Weights are quite self explanatory, but if you would like a frame of reference for the body condition scores (BCS) then you can see how these are assigned here- [Body Condition Score Mice.pdf](https://1drv.ms/b/s!AtvH6PgKXPEDgwS--ub-UbRhAYGa?e=qF1kL3){target="_blank"}
 
 | Variable name | Description | Type of measure | Coding |
-|----|----|----|----|
+|------------------|------------------|------------------|------------------|
 | Strain | Names of the three strains of mice in the trial, use for reference purposes | Categorical | Names |
 | Strain_group | Numerical groupings of the three mouse strains | Categorical |  |
 | 1= Wild type, 2= Cdkn1a knockout, 3= NRAS knockout |  |  |  |
@@ -1016,14 +1016,14 @@ You can download a copy of the slides here: [A2.4: Sample Size Calculations for 
 The sample size $n$ for each group in an RCT with continuous outcomes is given by:
 
 $$
-n = \frac{{2 \sigma^2 (Z_{\alpha/2} + Z_{\beta})^2}}{{\Delta^2}}
+n = \frac{{2 \sigma^2 (Z_{\frac{\alpha}{2}} + Z_{\beta})^2}}{{\Delta^2}}
 $$
 
 Where:
 
 -   $n$ is the sample size required in each group,
 -   $\sigma^2$ is the population variance (or an estimate based on prior studies or pilot data),
--   $Z_{\alpha/2}$ is the critical value of the standard normal distribution at significance level $\alpha$,(e.g., 95% confidence corresponds to $Z_{\alpha/2} \approx 1.96$).
+-   $Z_{\frac{\alpha}{2}}$ is the critical value of the standard normal distribution at significance level $\alpha$,(e.g., 95% confidence corresponds to $Z_{\alpha/2} \approx 1.96$).
 -   $Z_{\beta}$ is the critical value for power $1 - \beta$,(e.g., 80% power corresponds to $Z_{\beta} \approx 0.84$)
 -   $\Delta$ is the effect size (the minimum detectable difference between groups).
 
@@ -1080,13 +1080,13 @@ You can download a copy of the slides here: [A2.5: Sample size calculations for 
 To determine the sample size $n$ for estimating a population proportion in a cross-sectional study, use the following formula:
 
 $$
-n = \frac{{Z_{\alpha/2}^2 \cdot p \cdot (1 - p)}}{{d^2}}
+n = \frac{{Z_{\frac{\alpha}{2}}^2 \cdot p \cdot (1 - p)}}{{d^2}}
 $$
 
 Where:
 
 -   $n$ is the required sample size,
--   $Z_{\alpha/2}$ is the critical value for the desired confidence level (e.g., for 95% confidence, $Z_{\alpha/2} \approx 1.96$),
+-   $Z_{\frac{\alpha}{2}}$ is the critical value for the desired confidence level (e.g., for 95% confidence, $Z_{\frac{\alpha}{2}} \approx 1.96$),
 -   $p$ is the estimated population proportion (e.g., based on prior data or a pilot study),
 -   $d$ is the desired margin of error or precision (the maximum allowable difference between the sample estimate and population proportion).
 
@@ -1145,13 +1145,13 @@ You can download a copy of the slides here: [A2.6: Sample size calculations for 
 To calculate the sample size $n$ for each group (cases and controls) in a case-control study, use the following formula:
 
 $$
-n = \frac{(Z_{\alpha/2} + Z_{\beta})^2 \cdot [p_1 (1 - p_1) + p_2 (1 - p_2)]}{(p_1 - p_2)^2}
+n = \frac{(Z_{\frac{\alpha}{2}} + Z_{\beta})^2 \cdot [p_1 (1 - p_1) + p_2 (1 - p_2)]}{(p_1 - p_2)^2}
 $$
 
 Where:
 
 -   $n$ is the sample size required in each group (cases and controls),
--   $Z_{\alpha/2}$ is the critical value for the desired significance level (e.g., for 95% confidence, $Z_{\alpha/2} \approx 1.96$),
+-   $Z_{\frac{\alpha}{2}}$ is the critical value for the desired significance level (e.g., for 95% confidence, $Z_{\frac{\alpha}{2}} \approx 1.96$),
 -   $Z_{\beta}$ is the critical value for the desired power (e.g., for 80% power, $Z_{\beta} \approx 0.84$),
 -   $p_1$ is the proportion of cases exposed to the risk factor,
 -   $p_2$ is the proportion of controls exposed to the risk factor,
@@ -2722,7 +2722,7 @@ where:
 -   $\text{Grand Total}$ is the total count of all observations in the table.
 
 |   |   | DEATH | DEATH |   |
-|:--:|:--:|:--:|:--:|:--:|
+|:-------------:|:-------------:|:-------------:|:-------------:|:-------------:|
 |  |  | **Yes** | **No** | Total |
 | **BMI** | ≥25 kg/m2 | $\frac{(a+b)(a+c)}{a+b+c+d}$ | $\frac{(a+b)(b+d)}{a+b+c+d}$ | a+b |
 | **BMI** | \<25 kg/m2 | $\frac{(c+d)(a+c)}{a+b+c+d}$ | $\frac{(c+d)(b+d)}{a+b+c+d}$ | c+d |
