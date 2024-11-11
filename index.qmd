@@ -1016,7 +1016,7 @@ You can download a copy of the slides here: [A2.4: Sample Size Calculations for 
 The sample size $n$ for each group in an RCT with continuous outcomes is given by:
 
 $$
-n = \frac{{2 \sigma^2 (Z_{\frac{\alpha}{2}} + Z_{\beta})^2}}{{\Delta^2}}
+n = \frac{{2 \sigma^2 \left(Z_{\frac{\alpha}{2}} + Z_{\beta}\right)^2}}{{\Delta^2}}
 $$
 
 Where:
@@ -1079,9 +1079,7 @@ You can download a copy of the slides here: [A2.5: Sample size calculations for 
 
 To determine the sample size $n$ for estimating a population proportion in a cross-sectional study, use the following formula:
 
-$$
-n = \frac{{Z_{\frac{\alpha}{2}}^2 \cdot p \cdot (1 - p)}}{{d^2}}
-$$
+$$n = \frac{{Z_{\frac{\alpha}{2}}^2 \cdot p \cdot (1 - p)}}{{d^2}}$$
 
 Where:
 
@@ -1142,10 +1140,11 @@ By the end of this section, students will be able to:
 
 You can download a copy of the slides here: [A2.6: Sample size calculations for case-control studies](https://1drv.ms/p/s!AtvH6PgKXPEDgk4r89kfykscn_0P?e=XnJyGw){target="_blank"}
 
-To calculate the sample size $n$ for each group (cases and controls) in a case-control study, use the following formula:
+To calculate the sample size $n$ for each group (cases and controls) in a case-control study, use the following formula: 
+
 
 $$
-n = \frac{(Z_{\frac{\alpha}{2}} + Z_{\beta})^2 \cdot [p_1 (1 - p_1) + p_2 (1 - p_2)]}{(p_1 - p_2)^2}
+n = \frac{\left(Z_{\frac{\alpha}{2}} + Z_{\beta}\right)^2 \cdot [p_1 (1 - p_1) + p_2 (1 - p_2)]}{(p_1 - p_2)^2}
 $$
 
 Where:
