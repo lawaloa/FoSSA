@@ -52,7 +52,7 @@ The practicals are provided in three different statistical software packages, St
 The Whitehall FoSSA Study is a simulated cohort study similar to the original Whitehall Study of Civil Servants, set up in the 1960s, which followed London-based male civil servants with a view to investigating cardiovascular disease and mortality. Participants from the original Whitehall cohort in the 1960s were flagged for mortality at the Office for National Statistics, which provided the date and cause of all deaths occurring until the end of September 2005. The (simulated) Whitehall FoSSA Study was conducted in 1997 to assess risk factors for cardiac and all-cause mortality in a subset of the original cohort that was still being followed. The Whitehall FoSSA Study contains information on 4,327 individuals that were followed-up from 1997 until 2005, and the variables are summarised in the table below. See Clarke et al. (2007), Arch Intern Med, 167(13) for more details on the real data that inspired this dataset.
 
 | Variable name | Description | Type of measure | Coding |
-|------------------|------------------|-------------------|------------------|
+|----|----|----|----|
 | whl1_id | Participant ID number | Continuous |  |
 | age_grp | Age group (years) | Categorical | 1=60-70; 2=71-75; 3=76-80; 4=81-95 |
 | prior_cvd | Prior CVD | Binary | 0=No; 1=Yes |
@@ -89,7 +89,7 @@ The FoSSA Mouse dataset is a simulated set of health check data of a group of 60
 Weights are quite self explanatory, but if you would like a frame of reference for the body condition scores (BCS) then you can see how these are assigned here- [Body Condition Score Mice.pdf](https://1drv.ms/b/s!AtvH6PgKXPEDgwS--ub-UbRhAYGa?e=qF1kL3){target="_blank"}
 
 | Variable name | Description | Type of measure | Coding |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | Strain | Names of the three strains of mice in the trial, use for reference purposes | Categorical | Names |
 | Strain_group | Numerical groupings of the three mouse strains | Categorical |  |
 | 1= Wild type, 2= Cdkn1a knockout, 3= NRAS knockout |  |  |  |
@@ -2399,18 +2399,18 @@ cor.test(mouse$Weight_end, mouse$BCS_.end, method = "spearman")
 
 By the end of this section, students will be able to:
 
-- Define and calculate prevalence, risk, odds and rates
+-   Define and calculate prevalence, risk, odds and rates
 
-- Calculate and interpret risk ratios, odds ratios, rate ratios and their 95% confidence intervals
+-   Calculate and interpret risk ratios, odds ratios, rate ratios and their 95% confidence intervals
 :::
 
 You can download a copy of the slides here: [C1.1 Introduction to Prevalence, Risk, Odds and Rates](https://1drv.ms/p/s!AtvH6PgKXPEDgmvzvj557dfR9vVB?e=qDd8VU){target="_blank"}
 
 ### Risk
 
-- Risk describes the probability with which an outcome will occur in at risk population. 
+-   Risk describes the probability with which an outcome will occur in at risk population.
 
-- Proportion of new cases of an outcome in an at-risk population 
+-   Proportion of new cases of an outcome in an at-risk population
 
 The formula for risk in epidemiology is given by:
 
@@ -2420,20 +2420,21 @@ $$
 
 **Risk of CVD in the Oxford Study**
 
-- 1000 participants in the Oxford Study
-- 400 develop CVD
+-   1000 participants in the Oxford Study
 
-- Risk of CVD in the Oxford Study:
+-   400 develop CVD
+
+-   Risk of CVD in the Oxford Study:
 
 $$
 \text{risk (p)} = \frac{\text{Number of cases CVD}}{\text{Number in Oxford Study}} = \frac{400}{1000} = 0.40 \text{ or } 40\%
 $$
 
-**The risk of CVD in the Oxford Study is 40%** 
+**The risk of CVD in the Oxford Study is 40%**
 
 ### Odds
 
-- Odds is another way of presenting probability (or risk) 
+-   Odds is another way of presenting probability (or risk)
 
 The formula for odds in epidemiology is given by:
 
@@ -2457,9 +2458,9 @@ $$
 
 **Odds of CVD in the Oxford Study**
 
-- 1000 participants in the Oxford Study
-- 400 develop CVD
-- Risk of CVD in the Oxford Study $(p)$ = 0.40
+-   1000 participants in the Oxford Study
+-   400 develop CVD
+-   Risk of CVD in the Oxford Study $(p)$ = 0.40
 
 $$
 \text{Odds} = \frac{p}{1 - p} = \frac{0.40}{1 - 0.40} = \frac{0.40}{0.60} = 0.667 \text{ or } 67\%
@@ -2467,11 +2468,10 @@ $$
 
 **The odds of having CVD is 67%**
 
-::: {.callout-note}
-- The difference between risk and odds are small when there are few events, but when there are more events, the odds and risks are different from each other.
-- So it is obvious in our calculations above that odds is slightly higher than risk, because there are more common events, 400 events.
+::: callout-note
+-   The difference between risk and odds are small when there are few events, but when there are more events, the odds and risks are different from each other.
+-   So it is obvious in our calculations above that odds is slightly higher than risk, because there are more common events, 400 events.
 :::
-
 
 ### Rates
 
@@ -2479,15 +2479,15 @@ $$
 \text{Rate} =  \frac{\text{Number of events}}{\text{Person-time at risk}}
 $$
 
-- Rate is the number of new cases of an outcome to the total time a population is at risk.
-- Longitudinal studies can have variable follow-up time.
-- Rates incorporate time to the event and take account of how long each person was observed for.
+-   Rate is the number of new cases of an outcome to the total time a population is at risk.
+-   Longitudinal studies can have variable follow-up time.
+-   Rates incorporate time to the event and take account of how long each person was observed for.
 
 **Rate of CVD in the Oxford Study**
 
-- 1000 participants in the Oxford Study
-- 400 develop CVD
-- Follow-up was 10 years (137052 person-years)
+-   1000 participants in the Oxford Study
+-   400 develop CVD
+-   Follow-up was 10 years (137052 person-years)
 
 $$
 \text{rate} =  \frac{\text{Number of cases of CVD}}{\text{Person - time at risk}} = \frac{400}{137052} = .0029
@@ -2501,7 +2501,7 @@ $$
 
 Calculate the overall risk of death by using a combination of `table()` and `prop.table()` commands:
 
-```
+```         
 table(df$death)
 
 prop.table(table(df$death))
@@ -2509,13 +2509,13 @@ prop.table(table(df$death))
 
 Examine the pattern of **risk** of death in relation to increasing age. The margins option in the `prop.table()` command needs to be set to "2" because we want to report the proportions per group. For example, for age and death, this command would be:
 
-```
+```         
 table(df$age_grp, df$death)
 
 prop.table(table(df$age_grp, df$death), margins=2)
 ```
 
-### Question C1.1a.i: 
+### Question C1.1a.i:
 
 **What does your table suggest about the risk of death overall?**
 
@@ -2523,13 +2523,13 @@ prop.table(table(df$age_grp, df$death), margins=2)
 table(whitehall$death)
 ```
 
-
 ```{r}
 prop.table(table(whitehall$death))
 ```
+
 **For this cohort the overall risk of death is 1526/(2801+1526) = 0.3527 or 35.3% over the years of follow up.**
 
-### Question C1.1a.ii: 
+### Question C1.1a.ii:
 
 **What does your table suggest about the risk death across levels of age?**
 
@@ -2540,15 +2540,16 @@ table(whitehall$age_grp, whitehall$death)
 ```{r}
 prop.table(table(whitehall$age_grp, whitehall$death), 2)
 ```
+
 **The risk of death appears to increase as age increases.**
 
 **The epitools R package**
 
-A good R package to calculate basic epidemiologic analysis is the epitools R package, which includes commands for the design of two-way and multi-way contingency tables and epidemiologic measures, such as risk ratios and odds ratios. You can find more details on the commands included in the epitools R package [here](https://cran.r-project.org/web/packages/epitools/epitools.pdf){target="_blank}.
+A good R package to calculate basic epidemiologic analysis is the epitools R package, which includes commands for the design of two-way and multi-way contingency tables and epidemiologic measures, such as risk ratios and odds ratios. You can find more details on the commands included in the epitools R package [here](https://cran.r-project.org/web/packages/epitools/epitools.pdf){target="\"_blank"}.
 
 Install and load the epitools R package with the following commands:
 
-```
+```         
 install.packages("epitools")
 
 library(epitools)
@@ -2566,13 +2567,13 @@ where x is the vector of the exposure, y is the vector of the outcome and method
 
 We want to obtain the risk ratio of mortality for individuals that are current smokers compared to non-smokers. We type the command:
 
-```
+```         
 epitab(x = whitehall$currsmoker, y = whitehall$death, method = "riskratio")
 ```
 
 Use the [help file](https://cran.r-project.org/web/packages/epitools/epitools.pdf){target="_blank"} for the `epitab()` command to find out how to obtain an odds ratio.
 
-### Question C1.1b.i: 
+### Question C1.1b.i:
 
 **What is the risk ratio and 95% CI of death for individuals that are current smokers compared with individuals that are non-smokers?**
 
@@ -2584,13 +2585,11 @@ result1 <-  epitab(x = whitehall$currsmoker, y = whitehall$death, method = "risk
 print(result1)
 ```
 
-
 **The risk ratio for death is 1.16 times higher for current smokers compared to non-smokers. The 95% confidence interval around the risk ratio is 1.04-1.30.**
 
-### Question C1.1b.ii: 
+### Question C1.1b.ii:
 
 **What is the odds ratio for death in individuals that are current smokers vs non-smokers? State and interpret the 95% confidence interval.**
-
 
 ```{r}
 library(epitools)
@@ -2602,13 +2601,13 @@ print(result2)
 
 **The odds ratio for death in current smokers compared to non-smokers is 1.27 with a 95% confidence interval of 1.05-1.52. Or, you could say: "The odds of death in current smokers are 1.27 times those of non-smokers."**
 
-::: {.callout-note}
+::: callout-note
 **The 95% CI states that there is a 95% chance that the interval containing the true population odds ratio lies between 1.05-1.52. Since this interval does not cross 1, it indicates that there are significantly higher odds death for smokers compared to non-smokers.**
 :::
 
 **The ‘ir’ command for rates**
 
-Now let’s have a look at the rate ratio for death in smokers vs non-smokers.  This will require the 'rateratio' method in the `epitab()`  command.
+Now let’s have a look at the rate ratio for death in smokers vs non-smokers. This will require the 'rateratio' method in the `epitab()` command.
 
 Type the following command to produce the rate and rate ratio:
 
@@ -2623,16 +2622,19 @@ death_smokers <- sum(whitehall$death[whitehall$currsmoker=="1"], na.rm=TRUE)
 
 death_smokers 
 ```
+
 ```{r}
 fup_no_smoker <- sum(whitehall$fu_years[whitehall$currsmoker=="0"], na.rm=T)
 
 fup_no_smoker
 ```
+
 ```{r}
 fup_smoker <- sum(whitehall$fu_years[whitehall$currsmoker=="1"], na.rm=T)
 
 fup_smoker
 ```
+
 ```{r}
 library(epitools)
 
@@ -2643,7 +2645,6 @@ print(result3)
 
 **The rate ratio of death in current vs non-smokers is 1.18. This means the rate of death in current smokers is 1.18 times that of non-smokers. Alternatively, you could say the rate of death in smokers was 18% higher than in non-smokers. The 95% CI is 1.02-1.37. This CI does not cross the null value so we know the rate of death in current smokers is significantly higher than that of non-smokers.**
 
-
 ## C1.2 The Chi-Square Test and the Test For Trend {#sec-C1.2}
 
 ::: {.callout-important icon="false"}
@@ -2651,43 +2652,42 @@ print(result3)
 
 By the end of this section, students will be able to:
 
-- Understand the concept of contingency tables (2x2 table, 2xk table, rxc table)
+-   Understand the concept of contingency tables (2x2 table, 2xk table, rxc table)
 
-- Calculate and interpret a chi-squared test of association
+-   Calculate and interpret a chi-squared test of association
 
-- Calculate and interpret a chi-squared test for linear trend in proportions (2xk table)
+-   Calculate and interpret a chi-squared test for linear trend in proportions (2xk table)
 :::
 
 You can download a copy of the slides here: [C1.2 The Chi-Square Test and the Test For Trend](https://1drv.ms/p/s!AtvH6PgKXPEDgm0tmzRh9XlOU7lN?e=0MIWnY){target="_blank"}
 
 ### 2x2 Contingency Tables
 
-
-|                |       |Disease|No Disease|Total  |
-|:--------------:|:-----:|:-----:|:--------:|:-----:|
-| Exposure Status|Exposed|a      |b         |a+b    |
-|Exposure Status |Unexposed|c    |d         |c+d    |
-|                |Total |a+c     |b+d       |N      |
+|                 |           | Disease | No Disease | Total |
+|:---------------:|:---------:|:-------:|:----------:|:-----:|
+| Exposure Status |  Exposed  |    a    |     b      |  a+b  |
+| Exposure Status | Unexposed |    c    |     d      |  c+d  |
+|                 |   Total   |   a+c   |    b+d     |   N   |
 
 : Disease Status {#tbl-first}
 
 #### Effect of BMI on the Risk of Death {#sec-BMI}
 
-|    |         |DEATH      |DEATH     |       |
-|:--:|:-------:|:---------:|:--------:|:-----:|
-|    |         |**Yes**    |**No**    |Total  |
-|**BMI** |≥25 kg/m2|916 (0.21) |816 (0.19)|1732   |
-|**BMI** |<25 kg/m2|589 (0.14) |1945 (0.46)|2534  |
-|    |Total    |1505       |2761       |4266  |
+|         |            |   DEATH    |    DEATH    |       |
+|:-------:|:----------:|:----------:|:-----------:|:-----:|
+|         |            |  **Yes**   |   **No**    | Total |
+| **BMI** | ≥25 kg/m2  | 916 (0.21) | 816 (0.19)  | 1732  |
+| **BMI** | \<25 kg/m2 | 589 (0.14) | 1945 (0.46) | 2534  |
+|         |   Total    |    1505    |    2761     | 4266  |
 
 : BMI X Death {#tbl-first}
 
-### Chi-Square Test 
+### Chi-Square Test
 
-- Chi-squared test allows us to determine if there is a statistically significant difference between the expected and observed frequencies in one or more categories 
-- If expected frequencies differ from the observed frequencies, there may be an association between the two categories. 
-- Ho: No association between the BMI groups and death 
-- Ha: There is an association between the BMI groups and death 
+-   Chi-squared test allows us to determine if there is a statistically significant difference between the expected and observed frequencies in one or more categories
+-   If expected frequencies differ from the observed frequencies, there may be an association between the two categories.
+-   Ho: No association between the BMI groups and death
+-   Ha: There is an association between the BMI groups and death
 
 Ho: the proportion $\pi$ of death is the same in each group
 
@@ -2699,12 +2699,12 @@ Ha: $\pi_{{BMI} \geq 25kg/m2} \neq \pi_{{BMI} < 25kg/m2}$
 
 #### Observed Frequencies for 2x2 Table
 
-|    |         |DEATH      |DEATH     |       |
-|:--:|:-------:|:---------:|:--------:|:-----:|
-|    |         |**Yes**    |**No**    |Total  |
-|**BMI** |≥25 kg/m2|916 (a) |816 (b)|1732 (a+b)|
-|**BMI** |<25 kg/m2|589 (c) |1945 (d)|2534 (c+d)|
-|    |Total    |1505 (a+c)  |2761 (b+d)|4266 (a+b+c+d)|
+|         |            |   DEATH    |   DEATH    |                |
+|:-------:|:----------:|:----------:|:----------:|:--------------:|
+|         |            |  **Yes**   |   **No**   |     Total      |
+| **BMI** | ≥25 kg/m2  |  916 (a)   |  816 (b)   |   1732 (a+b)   |
+| **BMI** | \<25 kg/m2 |  589 (c)   |  1945 (d)  |   2534 (c+d)   |
+|         |   Total    | 1505 (a+c) | 2761 (b+d) | 4266 (a+b+c+d) |
 
 #### Expected Frequencies for 2x2 Table
 
@@ -2716,31 +2716,30 @@ $$
 
 where:
 
-- $E_{ij}$ is the expected frequency for the cell in row $i$ and column $j$.
-- $\text{Row Total}_i$ is the total sum for row $i$.
-- $\text{Column Total}_j$ is the total sum for column $j$.
-- $\text{Grand Total}$ is the total count of all observations in the table.
+-   $E_{ij}$ is the expected frequency for the cell in row $i$ and column $j$.
+-   $\text{Row Total}_i$ is the total sum for row $i$.
+-   $\text{Column Total}_j$ is the total sum for column $j$.
+-   $\text{Grand Total}$ is the total count of all observations in the table.
 
-|       |         |DEATH                        |DEATH                       |         |
-|:-----:|:-------:|:---------------------------:|:--------------------------:|:-------:|
-|       |         |**Yes**                      |**No**                      |Total    |
-|**BMI**|≥25 kg/m2|$\frac{(a+b)(a+c)}{a+b+c+d}$ |$\frac{(a+b)(b+d)}{a+b+c+d}$|a+b      |
-|**BMI**|<25 kg/m2|$\frac{(c+d)(a+c)}{a+b+c+d}$ |$\frac{(c+d)(b+d)}{a+b+c+d}$|c+d      |
-|       |Total    |    a+c                      |                    b+d     |a+b+c+d  |
-
+|   |   | DEATH | DEATH |   |
+|:--:|:--:|:--:|:--:|:--:|
+|  |  | **Yes** | **No** | Total |
+| **BMI** | ≥25 kg/m2 | $\frac{(a+b)(a+c)}{a+b+c+d}$ | $\frac{(a+b)(b+d)}{a+b+c+d}$ | a+b |
+| **BMI** | \<25 kg/m2 | $\frac{(c+d)(a+c)}{a+b+c+d}$ | $\frac{(c+d)(b+d)}{a+b+c+d}$ | c+d |
+|  | Total | a+c | b+d | a+b+c+d |
 
 #### Observed and Expected Frequencies
 
-|    |         |DEATH      |DEATH     |       |
-|:--:|:-------:|:---------:|:--------:|:-----:|
-|    |         |**Yes**    |**No**    |Total  |
-|**BMI** |≥25 kg/m2|916 (*611*) |816 (*1211*)|1732   |
-|**BMI** |<25 kg/m2|589 (*894*) |1945 (*1640*)|2534  |
-|    |Total    |1505       |2761       |4266  |
+|         |            |    DEATH    |     DEATH     |       |
+|:-------:|:----------:|:-----------:|:-------------:|:-----:|
+|         |            |   **Yes**   |    **No**     | Total |
+| **BMI** | ≥25 kg/m2  | 916 (*611*) | 816 (*1211*)  | 1732  |
+| **BMI** | \<25 kg/m2 | 589 (*894*) | 1945 (*1640*) | 2534  |
+|         |   Total    |    1505     |     2761      | 4266  |
 
 : BMI X Death {#tbl-second}
 
-#### Chi-Squared Formula 
+#### Chi-Squared Formula
 
 The chi-squared test statistic is calculated as:
 
@@ -2750,8 +2749,8 @@ $$
 
 where:
 
-- $O_i$ is the observed frequency.
-- $E_i$ is the expected frequency.
+-   $O_i$ is the observed frequency.
+-   $E_i$ is the expected frequency.
 
 The chi-squared ($\chi^2$) calculation is as follows:
 
@@ -2763,7 +2762,7 @@ $$
 \chi^2 = 395.93
 $$
 
-####    Degrees of Freedom
+#### Degrees of Freedom
 
 $$
 df = (r-1)(c-1)
@@ -2771,10 +2770,9 @@ $$
 
 where:
 
-- $df$ is the degrees of freedom
-- $r$ is the number of rows
-- $c$ is the number of columns
-
+-   $df$ is the degrees of freedom
+-   $r$ is the number of rows
+-   $c$ is the number of columns
 
 $$
 df = (2-1)(2-1) = 1
@@ -2788,7 +2786,7 @@ $$
 
 We want to look at the association of age group with fatal CVD. In order to obtain a chi-square test for association, we use the `chisq.test()` command, and the code looks like this: `chisq.test(df$age_grp, df$cvd_death, correct=FALSE)`
 
-#### Question C1.2a: 
+#### Question C1.2a:
 
 Is there an association between age group and fatal CVD? Just looking at a cross-tabulation table without doing any additional steps, are you able to tell which age groups are different from each other?
 
@@ -2796,26 +2794,25 @@ Is there an association between age group and fatal CVD? Just looking at a cross
 chisq.test(whitehall$age_grp, whitehall$cvd_death, correct=FALSE)
 ```
 
-The chi-square test statistic is shown below the table and is X2 = 221.6 on 3 df (chi2(3)) which gives a p-value of Pr <2.2E-16.
+The chi-square test statistic is shown below the table and is X2 = 221.6 on 3 df (chi2(3)) which gives a p-value of Pr \<2.2E-16.
 
-The p value of the chi-square test is highly significant (p<0.001), suggesting that we can reject the null hypothesis that there is no difference in true fatal CVD prevalence across different age groups. While we can observe in the row percentages that fatal CVD prevalence is the highest at older ages, and lowest at younger ages, the chi-square test is a **global** test so it just tells us there is a difference somewhere in the table; it does not tell us which groups are different nor does it tell us about the nature of the association (e.g if it is positive or negative).
+The p value of the chi-square test is highly significant (p\<0.001), suggesting that we can reject the null hypothesis that there is no difference in true fatal CVD prevalence across different age groups. While we can observe in the row percentages that fatal CVD prevalence is the highest at older ages, and lowest at younger ages, the chi-square test is a **global** test so it just tells us there is a difference somewhere in the table; it does not tell us which groups are different nor does it tell us about the nature of the association (e.g if it is positive or negative).
 
 ## Test for Linear Trend {#sec-linear}
 
-- We have been discussing 2x2 contigency table see @tbl-first and @tbl-second. This time if we are interested in seeing if higher levels of BMI increase our risk of death.
-- We can recode our binary variable into four categories to better explore the relationship between BMI and risk of death.
+-   We have been discussing 2x2 contigency table see @tbl-first and @tbl-second. This time if we are interested in seeing if higher levels of BMI increase our risk of death.
+-   We can recode our binary variable into four categories to better explore the relationship between BMI and risk of death.
 
 #### 4x2 Table
 
-|                   |              |DEATH      |DEATH     |       |
-|:-----------------:|:------------:|:---------:|:--------:|:-----:|
-|                   |              |**Yes**    |**No**    |Total  |
-|**BMI Categories** |<18.5 kg/m2   |169 (0.11) |822 (0.30)|991    |
-|**BMI Categories** |18.5-<25 kg/m2|190 (0.13) |601(0.22) |791    |
-|**BMI Categories** |25-<30 Kg/m2  |230 (0.15) |522 (0.19)|752    |
-|**BMI Categories** |≥30 kg/m2     |916 (0.61) |816 (0.3) | 1732  |
-|                   |Total         |1505       |2761      |4266   |
-
+|                    |                 |   DEATH    |   DEATH    |       |
+|:------------------:|:---------------:|:----------:|:----------:|:-----:|
+|                    |                 |  **Yes**   |   **No**   | Total |
+| **BMI Categories** |  \<18.5 kg/m2   | 169 (0.11) | 822 (0.30) |  991  |
+| **BMI Categories** | 18.5-\<25 kg/m2 | 190 (0.13) | 601(0.22)  |  791  |
+| **BMI Categories** |  25-\<30 Kg/m2  | 230 (0.15) | 522 (0.19) |  752  |
+| **BMI Categories** |    ≥30 kg/m2    | 916 (0.61) | 816 (0.3)  | 1732  |
+|                    |      Total      |    1505    |    2761    | 4266  |
 
 : BMI X RISK OF DEATH{#tbl-second}
 
@@ -2823,20 +2820,20 @@ If we take a look at the proportions in the table, it would appears that there i
 
 And we can see here that it seems that those with the highest level of BMI have 61% risk of death. However, this is just an observation, and we would need to use some statistical test to determine if this observation is true.
 
-- The chi-square test for linear trend (Cochran-Armitage) is used to test for trend in proportions
+-   The chi-square test for linear trend (Cochran-Armitage) is used to test for trend in proportions
 
-- Typically used between a binary variable and an ordinal variable with k categories
+-   Typically used between a binary variable and an ordinal variable with k categories
 
 Ho: there is no trend in the proportion of death across BMI categories
 
-Ha: There. is trend in the proportion of death across BMI categories  
+Ha: There. is trend in the proportion of death across BMI categories
 
 The chi-square test for linear trend (also called the Cochran-Armitage test for linear trend) is obtained using the `prop.trend.test()` command. The setup of this command is: `prop.trend.test(x, n)`
 
 where:
 
-- x is the number of events per group, and
-- n is the total sample size per group
+-   x is the number of events per group, and
+-   n is the total sample size per group
 
 ```{r}
 death_BMI4cat <- c(169, 190, 230, 916) 
@@ -2850,8 +2847,7 @@ prop.trend.test( x=death_BMI4cat, n=total_BMI4cat)
 
 *If, we plot a line graph that depicts the relationship of risk of death against Categories of BMI, it will showed that those at the lower levels of BMI have about 15% risk of death as compare to 60% for those in the highest levels of BMI.*
 
-
-#### Question C1.2b.i: 
+#### Question C1.2b.i:
 
 Obtain the prevalence of prior diabetes in the different groups of BMI. What happens to diabetes prevalence as the BMI group increases?
 
@@ -2863,7 +2859,7 @@ prop.table(table(whitehall$bmi_grp41, whitehall$prior_t2dm), 1)
 
 **The prevalence of diabetes increases from 8% (underweight) to 5% (normal weight) to 8.8% in the group with obesity.**
 
-#### Question C1.2b.ii: 
+#### Question C1.2b.ii:
 
 Perform a chi-square test of linear trend. What is the null hypothesis and what do the results of this test suggest?
 
@@ -2880,8 +2876,8 @@ total_bmig <- c(50, 1793, 2091, 376)
 
 prop.trend.test(x = t2dm_bmig , n = total_bmig)
 ```
-*The chi-square test for linear trend is obtained using the `prop.trend.test()` command.  The chi-square value (for 1 degree of freedom) is 5.8 and the p-value=0.02.  There is evidence of a significant linear trend, and we can reject the null hypothesis that there is no association between diabetes status and BMI group.*
 
+*The chi-square test for linear trend is obtained using the `prop.trend.test()` command. The chi-square value (for 1 degree of freedom) is 5.8 and the p-value=0.02. There is evidence of a significant linear trend, and we can reject the null hypothesis that there is no association between diabetes status and BMI group.*
 
 ## C1.3 Univariable Logistic Regression {#sec-C1.3}
 
@@ -2890,11 +2886,11 @@ prop.trend.test(x = t2dm_bmig , n = total_bmig)
 
 By the end of this section, students will be able to:
 
-- Calculate and interpret a logistic regression for a binary exposure variable
+-   Calculate and interpret a logistic regression for a binary exposure variable
 
-- Calculate and interpret a logistic regression for a categorical exposure variable
+-   Calculate and interpret a logistic regression for a categorical exposure variable
 
-- Calculate and interpret a logistic regression for a continuous exposure variable
+-   Calculate and interpret a logistic regression for a continuous exposure variable
 :::
 
 You can download a copy of the slides here: [C1.3a Univariable Logistic Regression](https://1drv.ms/p/s!AtvH6PgKXPEDgm_KjLNhJ6sxFAos?e=hnVcsy){target="_blank"}
@@ -2903,48 +2899,50 @@ You can download a copy of the slides here: [C1.3a Univariable Logistic Regressi
 
 #### Review: Regression Models
 
-- **Describe:** relationship between 2 or more variables, where one of these is the "outcome".
-- **Predict** the value of the outcome for a given value of the "explanatory, exposure" variable.
+-   **Describe:** relationship between 2 or more variables, where one of these is the "outcome".
+-   **Predict** the value of the outcome for a given value of the "explanatory, exposure" variable.
 
 ![](Picture3.jpg){#fig-Picture3}
 
-- The scatterplot (@fig-Picture3) describe linear relationship using the following formula: $y = \alpha + \beta x$.
+-   The scatterplot (@fig-Picture3) describe linear relationship using the following formula: $y = \alpha + \beta x$.
 
-- Linear relationship between SBP and BMI: $\text{SBP} = \alpha + \beta\text{BMI}$. $\text{SBP} = 119.1 + 0.46\text{ BMI }$ : Means SBP of 119.1 mmHg when the BMI is 0 and the $\beta$ coefficient for BMI as per 1 unit increase in BMI, SBP increases by 0.46 mmHg.
+-   Linear relationship between SBP and BMI: $\text{SBP} = \alpha + \beta\text{BMI}$. $\text{SBP} = 119.1 + 0.46\text{ BMI }$ : Means SBP of 119.1 mmHg when the BMI is 0 and the $\beta$ coefficient for BMI as per 1 unit increase in BMI, SBP increases by 0.46 mmHg.
 
 ![](Picture4.jpg){#fig-Picture4}
 
-- But a linear regression may not be appropriate when the SBP(outcome) is binary (high SBP $\geq$ 120 mmHg and low SBP $<$ 120 mmHg), as seen in @fig-Picture4.
+-   But a linear regression may not be appropriate when the SBP(outcome) is binary (high SBP $\geq$ 120 mmHg and low SBP $<$ 120 mmHg), as seen in @fig-Picture4.
 
 ![](Picture6.jpg){#fig-Picture6}
 
-- When the outcome and exposure and **binary** there are only `4 possible values` in the scatterplot @fig-Picture6 between SBP (1 ≥ 120 mmHg  and 0 < 120 mmHg)  and BMI (1 ≥ 25 kg/m2 and 
-0 if < 25 kg/m2). So a `2x2 table` may be more appropriate.
+-   When the outcome and exposure and **binary** there are only `4 possible values` in the scatterplot @fig-Picture6 between SBP (1 ≥ 120 mmHg and 0 \< 120 mmHg) and BMI (1 ≥ 25 kg/m2 and 0 if \< 25 kg/m2). So a `2x2 table` may be more appropriate.
 
-|        |         |SBP        |SBP       |       
-|:------:|:-------:|:---------:|:--------:|
-|        |         |<120 mmHg  |≥120 mmHg |
-|**BMI** |<25 kg/m2|543 (0.30) |1277 (0.70)|
-|**BMI** |≥25 kg/m2|613 (0.25) |1833 (0.75)|
+|         |            |    SBP     |     SBP     |
+|:-------:|:----------:|:----------:|:-----------:|
+|         |            | \<120 mmHg |  ≥120 mmHg  |
+| **BMI** | \<25 kg/m2 | 543 (0.30) | 1277 (0.70) |
+| **BMI** | ≥25 kg/m2  | 613 (0.25) | 1833 (0.75) |
 
-- Statistical models based on proportions can be problematic because the proportions are constrained to lie between 0 and 1.
+-   Statistical models based on proportions can be problematic because the proportions are constrained to lie between 0 and 1.
 
-#### Possible Ways to Model a Binary Outcome 
+#### Possible Ways to Model a Binary Outcome
 
-1. **Proportion** of the outcome in exposed and unexposed `but constrained` to 0 to 1, which posed problematic.
+1.  **Proportion** of the outcome in exposed and unexposed `but constrained` to 0 to 1, which posed problematic.
 
-2. Odds of the outcome in exposed and unexposed `but constrained` from 0 to $\infty$, which is also problematic.
+2.  Odds of the outcome in exposed and unexposed `but constrained` from 0 to $\infty$, which is also problematic.
 
-3. Log odds of the outcome in exposed and unexposed are unconstrained, also spanned from $-\infty$ to $\infty$. Best to use rather than above methods.
+3.  Log odds of the outcome in exposed and unexposed are unconstrained, also spanned from $-\infty$ to $\infty$. Best to use rather than above methods.
 
 $\text{log(odds)} = \alpha + \beta\text{x}$
 
-- y = log odd of disease
-- $\alpha$ = true intercept (value of y when x = 0)
-- $\beta$ = true slope (the increase in log odds per unit increase in x)
+-   y = log odd of disease
 
-- Smoking (Binary exposure): 1= current and 0 = never 
-- Death (Binary outcome):  1= died and 0 = alive
+-   $\alpha$ = true intercept (value of y when x = 0)
+
+-   $\beta$ = true slope (the increase in log odds per unit increase in x)
+
+-   Smoking (Binary exposure): 1= current and 0 = never
+
+-   Death (Binary outcome): 1= died and 0 = alive
 
 $\text{log(odds of death)} = \alpha + \beta\text{smoking }$
 
@@ -2954,15 +2952,15 @@ $\text{log of disease in the current smokers (exposed)} = \alpha + \beta(1) = \a
 
 Refer back to @tbl-first, @fig-Picture2 and @sec-BMI.
 
-- This time, we are interested in quantifying the strength of association between BMI and the risk of death, as well as the directional effect. 
+-   This time, we are interested in quantifying the strength of association between BMI and the risk of death, as well as the directional effect.
 
-- To run a logistic regression in R, we use the `glm()` command. The set up of the command is: `glm(formula, family, data)`
+-   To run a logistic regression in R, we use the `glm()` command. The set up of the command is: `glm(formula, family, data)`
 
 where:
 
-- formula has the format `outcome ~ exposure`,
-- family is `binomial(link = “logit”)` for logistic regression, and
-- data corresponds to the dataframe including our data.
+-   formula has the format `outcome ~ exposure`,
+-   family is `binomial(link = “logit”)` for logistic regression, and
+-   data corresponds to the dataframe including our data.
 
 To use this command, you need to confirm that your outcome variable is coded as a factor variable. You can find more details on glm() command in [this help file](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/glm.html){target="_blank"}.
 
@@ -3008,27 +3006,28 @@ model4 <- glm(Death ~ BMI, data = df_long, family = binomial, weights = Count)
 # Display the summary of the model
 summary(model4)
 ```
-- **The intercept can be explained as the risk of death or the log risk of death in those with BMI of less than 25 kg/m^2 and the BMI coefficient, we can estimate that as the log odds ratio of death for those with a BMI of** $\geq$. 
 
-- **The Second column showed the standard error for the test.**
+-   **The intercept can be explained as the risk of death or the log risk of death in those with BMI of less than 25 kg/m\^2 and the BMI coefficient, we can estimate that as the log odds ratio of death for those with a BMI of** $\geq$.
 
-- **The third and fourth column show the Z statistic for the wald test of the parameter estimates and their corresponding p-values.**
+-   **The Second column showed the standard error for the test.**
 
-- **The Z statistic in this model tests the null hypothesis that the true parameter or coefficient equals 0.**
+-   **The third and fourth column show the Z statistic for the wald test of the parameter estimates and their corresponding p-values.**
 
-- **In this test, the null hypothesis is that the $\beta$ for BMI is 0. However, given the Z statistic for wald test for BMI and the p-value for BMI, we can sufficiently reject the null hypothesis and conclude that the estimates for BMI is significantly different from 1, given that the p-value is 2e-16.**
+-   **The Z statistic in this model tests the null hypothesis that the true parameter or coefficient equals 0.**
 
-- **However, the results given for R for the logistic regression are given on the log scale, which are terribly meaningful.**
+-   **In this test, the null hypothesis is that the** $\beta$ for BMI is 0. However, given the Z statistic for wald test for BMI and the p-value for BMI, we can sufficiently reject the null hypothesis and conclude that the estimates for BMI is significantly different from 1, given that the p-value is 2e-16.
 
-- **Hence, we have to take the exponent of those estimates to get the odds ratio for BMI.**
+-   **However, the results given for R for the logistic regression are given on the log scale, which are terribly meaningful.**
+
+-   **Hence, we have to take the exponent of those estimates to get the odds ratio for BMI.**
 
 ```{r}
 exp(cbind(coef(model4), confint(model4)))
 ```
-**The odds of death in those with BMI of < 25 kg/m^2 is 30%. The odds of dying is 3.71 times higher in those with a BMI of $\geq$ 25 kg/m2 vs a BMI of < 25 kg/m2.**
 
+**The odds of death in those with BMI of \< 25 kg/m\^2 is 30%. The odds of dying is 3.71 times higher in those with a BMI of** $\geq$ 25 kg/m2 vs a BMI of \< 25 kg/m2.
 
-#### Question C1.3a: 
+#### Question C1.3a:
 
 **Dichotomise the variable ‘sbp’ into below 140 mmHg and greater than or equal to 140 mmHg. Call this variable “hyperten” to indicate “hypertensive”. Use logistic regression to examine the association of hypertensive on your odds of having prior CVD (‘prior_cvd’). Interpret the output**
 
@@ -3049,19 +3048,20 @@ model <- glm(prior_cvd ~ hyperten, family = binomial(link = "logit"), data = whi
 
 summary(model)
 ```
+
 The lnOR (Estimate) and its standard error (Std. Error) are printed, and we estimate the OR and the 95% confidence intervals by exponentiating:
 
 ```{r, warning=FALSE}
 exp(cbind(coef(model), confint(model)))
 ```
-**The odds of having prior CVD are 1.60 times greater for someone that was hypertensive compared to those who were not (95% CI: 1.38-1.86). This effect is significant (p<0.001), which means that we can reject the null hypothesis that there is no association between hypertension and prior CVD, and that the odds ratio is equal to 1.**
 
+**The odds of having prior CVD are 1.60 times greater for someone that was hypertensive compared to those who were not (95% CI: 1.38-1.86). This effect is significant (p\<0.001), which means that we can reject the null hypothesis that there is no association between hypertension and prior CVD, and that the odds ratio is equal to 1.**
 
 ### Logistic regression with a categorical exposure
 
 You can download a copy of the slides here: [C1.3b Univariable Logistic Regression](https://1drv.ms/p/s!AtvH6PgKXPEDgm77cgI8m1uaES9R?e=9poXuT){target="_blank"}
 
-We may use the `glm()` command to obtain odds ratios for a categorical variable such as BMI group. By default, the category with the lowest numerical value is treated as reference category. 
+We may use the `glm()` command to obtain odds ratios for a categorical variable such as BMI group. By default, the category with the lowest numerical value is treated as reference category.
 
 #### Research Question
 
@@ -3091,7 +3091,8 @@ model5 <- glm(Death ~ BMI, data = df_long1, family = binomial, weights = Count)
 # Display the model summary
 summary(model5)
 ```
-**Unlike the previous example, where we fit BMI as a binary variable. We have 3 variables in the model that relate to BMI. So these BMI variables are known as INDICATOR variables, and they are coded as 0 and 1. And each of these variables are comparing the log odds ratio of death to the reference group of BMI, which is the BMI < 18.5 kg/m2.**
+
+**Unlike the previous example, where we fit BMI as a binary variable. We have 3 variables in the model that relate to BMI. So these BMI variables are known as INDICATOR variables, and they are coded as 0 and 1. And each of these variables are comparing the log odds ratio of death to the reference group of BMI, which is the BMI \< 18.5 kg/m2.**
 
 **The intercept is the log odds of death in the unexposed group, so that would be the log odds of death in those with BMI category of 0, which is the reference group for the 4 levels variable of BMI.**
 
@@ -3100,15 +3101,17 @@ The next code will help analyze the results in a form of odds ratio rather than 
 ```{r}
 exp(cbind(coef(model5), confint(model5)))
 ```
+
 **HOW DO WE INTERPRET THESE ODDS RATIO ?**
 
-For instance, those with a BMI of 25-<30 kg/m2, they have a 2.14 times higher odds of death than those with a BMI of < 18.5 kg/m2. Those with the BMI of $\geq$ 30 kg/m2 have a 5.5 times higher odds of death than those with a BMI of < 18.5 kg/m2.
+For instance, those with a BMI of 25-\<30 kg/m2, they have a 2.14 times higher odds of death than those with a BMI of \< 18.5 kg/m2. Those with the BMI of $\geq$ 30 kg/m2 have a 5.5 times higher odds of death than those with a BMI of \< 18.5 kg/m2.
 
 ```{r}
 model6 <- glm(prior_cvd ~ bmi_grp41, family = binomial(link = "logit"), data = whitehall)
 
 summary(model6)
 ```
+
 Odd ratios in a logistic regression with a categorical variable are interpreted as the odds of the outcome in the specified level compared with a baseline level. The constant refers to the odds of the outcome in the baseline category. We estimate the OR and the 95% confidence intervals by exponentiating:
 
 ```{r}
@@ -3121,7 +3124,7 @@ Here, the odds of having prior CVD are 36% higher if a participant has obesity c
 
 We can use the logistic command to obtain an odds ratio and a linear trend test for an ordered categorical variable such as BMI group. For this reason, we should tell R that our exposure variable is to be treated as a continuous variable rather than as a categorical variable. We achieve that using the `as.numeric()` command in the formula.
 
-#### Research Question 
+#### Research Question
 
 Are higher levels of BMI (ordered categorical exposure) associated with the risk of death (outcome) ?
 
@@ -3129,17 +3132,13 @@ Refer back to the table @tbl-second used for test for linear trend section @sec-
 
 This is similar to the linear trend test @sec-linear, we want to assess whether there is a linear association between BMI categories with the risk of death. We will be using logistic regression model.
 
-
 $$
 \text{log odds}=\alpha+\beta\text{BMI4cat}
 $$
 
 $\beta\text{BMI4cat}$ = log OR per unit increase in BMI categories.
 
-A unit increase is given by:
-< 18.5 (1, ref) vs 18.5-<25 kg/m2 (2), or
-18.5-<25(2) vs 25-<30 kg/m2 (3), or
-25-<30 (3) vs >= 30 kg/m2 (4)
+A unit increase is given by: \< 18.5 (1, ref) vs 18.5-\<25 kg/m2 (2), or 18.5-\<25(2) vs 25-\<30 kg/m2 (3), or 25-\<30 (3) vs \>= 30 kg/m2 (4)
 
 We can perform logistic regression treating our categorical BMI variable as continuous.
 
@@ -3167,6 +3166,7 @@ model7 <- glm(Death ~ BMI_ordinal, data = df_long1, family = binomial(link = "lo
 # Summary of the model
 summary(model7)
 ```
+
 We can see that per 1 unit increase across the categorical variables, the log OR is 0.59.
 
 We need to convert the log OR to odds ratio.
@@ -3174,11 +3174,10 @@ We need to convert the log OR to odds ratio.
 ```{r}
 exp(cbind(coef(model7), confint(model7)))
 ```
+
 **How do we interpret an OR of 1.80 for BMI?**
 
-OR=1.80 for 18.5-<25 versus < 18.5 kg/m2
-OR=1.80 for 25-<30 versus 18.5-<25 kg/m2 
-OR=1.80 for >= 30 versus 25-<30 kg/m2
+OR=1.80 for 18.5-\<25 versus \< 18.5 kg/m2 OR=1.80 for 25-\<30 versus 18.5-\<25 kg/m2 OR=1.80 for \>= 30 versus 25-\<30 kg/m2
 
 It can be interpreted as Per one unit increase in BMI categories, the OR for death is 1.80.
 
@@ -3196,9 +3195,9 @@ model8 <- glm(prior_cvd ~ as.numeric(bmi_grp41), family = binomial(link = "logit
 summary(model8)
 ```
 
-Note that the Wald test here is equivalent to the chi-square test for linear trend @sec-linear.  The null hypothesis is that there is no association between BMI group and prior CVD (i.e. that the linear trend OR equals 1), and the alternative hypothesis is that there is a linear increasing or decreasing trend. Here, the p-value (p=0.07) indicates that there is not evidence against the null hypothesis (although this is a borderline significant p-value) and we conclude that there is not a statistically significant increasing trend in log odds of prior CVD across groups of BMI.
+Note that the Wald test here is equivalent to the chi-square test for linear trend @sec-linear. The null hypothesis is that there is no association between BMI group and prior CVD (i.e. that the linear trend OR equals 1), and the alternative hypothesis is that there is a linear increasing or decreasing trend. Here, the p-value (p=0.07) indicates that there is not evidence against the null hypothesis (although this is a borderline significant p-value) and we conclude that there is not a statistically significant increasing trend in log odds of prior CVD across groups of BMI.
 
-#### Question C1.3bi.: 
+#### Question C1.3bi.:
 
 Use logistic regression to obtain odds ratios for the association of BMI group on prior diabetes. Try fitting this variable both as a categorical variable and as a linear trend.
 
@@ -3219,9 +3218,9 @@ exp(cbind(coef(model9), confint(model9)))
 
 The odds ratio of prior diabetes for underweight vs normal weight (as BMI group 2 is the reference group) is 1.63 (95% CI: 0.50-4.11). The z-statistic for this odds ratio is 0.91 and p=0.360 so this odds ratio is not significantly different to 1.
 
-The odds ratio for overweight vs normal weight is 1.23 (95% CI: 0.93-1.62).  The z-statistic for this odds ratio is 1.47 and p=0.142 so this odds ratio is not significantly different to 1.
+The odds ratio for overweight vs normal weight is 1.23 (95% CI: 0.93-1.62). The z-statistic for this odds ratio is 1.47 and p=0.142 so this odds ratio is not significantly different to 1.
 
-Finally, the odds ratio for obese vs normal weight is 1.80 (95% CI: 1.17-2.70).  The z-statistic for this odds ratio is 2.78 and p=0.006 so this odds ratio is significantly different to 1.
+Finally, the odds ratio for obese vs normal weight is 1.80 (95% CI: 1.17-2.70). The z-statistic for this odds ratio is 2.78 and p=0.006 so this odds ratio is significantly different to 1.
 
 ### Logistic regression with a continuous exposure
 
@@ -3232,16 +3231,18 @@ model10 <- glm(prior_cvd ~ hdlc, family = binomial(link = "logit"), data = white
 
 summary(model10)
 ```
+
 We estimate the OR and the 95% confidence intervals by exponentiating:
 
 ```{r}
 exp(cbind(coef(model10), confint(model10)))
 ```
+
 **The odds of having prior CVD were 51% lower for each 1 unit increase in HDL-C (OR: 0.49, 95%CI: 0.40-0.59). This association was statistically significant.**
 
-#### Question C1.3b.ii: 
+#### Question C1.3b.ii:
 
-**Use logistic regression to assess the association between ‘prior_t2dm’ and the continuous exposure variable ‘hdlc’. How would you interpret this output?** 
+**Use logistic regression to assess the association between ‘prior_t2dm’ and the continuous exposure variable ‘hdlc’. How would you interpret this output?**
 
 ```{r}
 model11 <- glm(prior_t2dm ~ hdlc, family = binomial(link = "logit"), data = whitehall)
@@ -3252,23 +3253,23 @@ summary(model11)
 ```{r}
 exp(cbind(coef(model11), confint(model11)))
 ```
-**For every 1 unit increase in HDL-C, the odds of having prior diabetes were 54% lower (OR: 0.46 95% CI: 0.32-0.67). This association is statistically significant (p<0.001) so we can reject the null hypothesis that there is no association of HDL-C with prior diabetes.**
+
+**For every 1 unit increase in HDL-C, the odds of having prior diabetes were 54% lower (OR: 0.46 95% CI: 0.32-0.67). This association is statistically significant (p\<0.001) so we can reject the null hypothesis that there is no association of HDL-C with prior diabetes.**
 
 ## C1.4 Multivariable Logistic Regression {#sec-C1.4}
-
 
 ::: {.callout-important icon="false"}
 ## Learning Outcomes
 
 By the end of this section, students will be able to:
 
-- Understand the concepts of confounding
+-   Understand the concepts of confounding
 
-- Use logistic regression to assess for confounding.
+-   Use logistic regression to assess for confounding.
 
-- Perform a Wald test on an adjusted odds ratio.
+-   Perform a Wald test on an adjusted odds ratio.
 
-- Control the association of an exposure for additional variables in a logistic regression model.
+-   Control the association of an exposure for additional variables in a logistic regression model.
 :::
 
 You can download a copy of the slides here: [C1.4 Multivariable Logistic Regression](https://1drv.ms/p/s!AtvH6PgKXPEDgmzjse6l7obGm4t7?e=YHLEib){target="_blank"}
@@ -3281,12 +3282,12 @@ You can download a copy of the slides here: [C1.4 Multivariable Logistic Regress
 
 #### Effect of Alcohol on Heart Disease {#sec-Alcohol}
 
-|               |         |Heart Disease|Heart Disease|       |
-|:-------------:|:-------:|:-----------:|:-----------:|:-----:|
-|               |         |**No**       |**Yes**      |Total  |
-|**Alcohol Use**|No       |815          |83           |898    |
-|**Alcohol Use**|Yes      |1664         |328          |1972   |
-|               |Total    |2479         |411          |2870   |
+|                 |       | Heart Disease | Heart Disease |       |
+|:---------------:|:-----:|:-------------:|:-------------:|:-----:|
+|                 |       |    **No**     |    **Yes**    | Total |
+| **Alcohol Use** |  No   |      815      |      83       |  898  |
+| **Alcohol Use** |  Yes  |     1664      |      328      | 1972  |
+|                 | Total |     2479      |      411      | 2870  |
 
 : Alcohol Use X Heart Disease {#tbl-third}
 
@@ -3322,37 +3323,41 @@ m1 <- glm(Heart_Disease ~ Alcohol_Use, data = df_expanded, family = binomial)
 # Display the summary of the model
 summary(m1)
 ```
+
 **So overall, we can see from the results of this logistic regression that alcohol is significantly associated with heart disease. However, this estimates are on a log scale. So let us take the exponent so we can get the odds ratio**
 
 ```{r}
 exp(cbind(coef(m1), confint(m1)))
 ```
+
 **We can see that the odds of the heart disease is nearly twice as high (OR = 1.94, 95% CI: 1.51-2.51) in those who consume alcohol versus those who do not consume alcohol**
 
 **ARE THERE POSSIBLE EXPLANATIONS FOR THIS FINDINGS ?**
 
-#### Possible Explanations 
+#### Possible Explanations
 
-1. **Chance** - the z test value of 5.17 gives p<0.001, so chance is very unlikely.  
+1.  **Chance** - the z test value of 5.17 gives p\<0.001, so chance is very unlikely.
 
-2. **Bias** - e.g. reporting bias if people with heart disease are more likely to remember risk behaviours.
+2.  **Bias** - e.g. reporting bias if people with heart disease are more likely to remember risk behaviours.
 
-3. **Confounding** – that this association is wholly/partly due to another risk factor for heart disease. People who consume alcohol may also be more likely to smoke. 
+3.  **Confounding** – that this association is wholly/partly due to another risk factor for heart disease. People who consume alcohol may also be more likely to smoke.
 
-4. The association between alcohol use and heart disease is **real**
+4.  The association between alcohol use and heart disease is **real**
 
 #### Confounders
 
-- A Confounder is a variable that distorts the apparent magnitude of the  relationship between an exposure and an outcome.  
+-   A Confounder is a variable that distorts the apparent magnitude of the relationship between an exposure and an outcome.
 
-- For a variable to be a confounder, it needs to be:
-  + a risk factor for the outcome, and 
-  + associated with the exposure and
-  + not on causal pathway between exposure and outcome. 
+-   For a variable to be a confounder, it needs to be:
 
-- Smoking is a potential confounder of this association if it is:
-  + a risk factor for heart disease and 
-  + associated with alcohol consumption. 
+    -   a risk factor for the outcome, and
+    -   associated with the exposure and
+    -   not on causal pathway between exposure and outcome.
+
+-   Smoking is a potential confounder of this association if it is:
+
+    -   a risk factor for heart disease and
+    -   associated with alcohol consumption.
 
 #### Effect of Smoking on Heart Disease
 
@@ -3387,12 +3392,12 @@ summary(m2)
 
 Next, we want to see whether smoking is associated with alcohol consumption and this can be achieved by creating 2 x 2 table and perfoming a chi-squared test.
 
-|               |         |Smoking      |Smoking      |       |
-|:-------------:|:-------:|:-----------:|:-----------:|:-----:|
-|               |         |**No**       |**Yes**      |Total  |
-|**Alcohol Use**|No       |650          |83           |898    |
-|**Alcohol Use**|Yes      |838          |1134         |1972   |
-|               |Total    |1488         |1382         |2870   |
+|                 |       | Smoking | Smoking |       |
+|:---------------:|:-----:|:-------:|:-------:|:-----:|
+|                 |       | **No**  | **Yes** | Total |
+| **Alcohol Use** |  No   |   650   |   83    |  898  |
+| **Alcohol Use** |  Yes  |   838   |  1134   | 1972  |
+|                 | Total |  1488   |  1382   | 2870  |
 
 ```{r}
 # Define the raw counts in a data frame
@@ -3417,31 +3422,33 @@ chisq.test(df_exp2$Alcohol_Use,  df_exp2$Smoking,
 
 **So since these assumptions have been meet, then, smoking is a potential confounder**
 
-- So we need to take account of smoking as a confounder:
+-   So we need to take account of smoking as a confounder:
 
-1. Either at the study design stage: 
-  + Randomisation
-  + Restriction
-  + Matching 
+1.  Either at the study design stage:
 
-2. Or the analysis stage: 
-  + Stratification
-  + Regression modelling
+-   Randomisation
+-   Restriction
+-   Matching
 
-3. Failure to account for a confounder means that ORs may be biased
+2.  Or the analysis stage:
+
+-   Stratification
+-   Regression modelling
+
+3.  Failure to account for a confounder means that ORs may be biased
 
 **In order to control for confounding, we have to use multivariable logistic regression**
 
-- Logistic regression models can be extended to include >1 explanatory variable.  
+-   Logistic regression models can be extended to include \>1 explanatory variable.
 
-- By including 2+ explanatory variables in the same model, we are fitting a model in which each explanatory variable is controlled for the other
+-   By including 2+ explanatory variables in the same model, we are fitting a model in which each explanatory variable is controlled for the other
 
-- We may fit multivariable models which include:
-  + *>2 variables*
-  + *Binary, categorical & continuous (quantitative) variables*
-  
+-   We may fit multivariable models which include:
 
-#### Effect of Alcohol on Heart Disease - Adjusted for Smoking 
+    -   *\>2 variables*
+    -   *Binary, categorical & continuous (quantitative) variables*
+
+#### Effect of Alcohol on Heart Disease - Adjusted for Smoking
 
 ```{r}
 # Create a data frame with counts for alcohol use, smoking, and heart disease
@@ -3466,10 +3473,12 @@ m3 <- glm(heart_disease ~ alcohol + smoke, data = df_exp3, family = binomial)
 # Display the summary of the model
 summary(m3)
 ```
+
 ```{r}
 exp(cbind(coef(m3), confint(m3)))
 ```
-**After taking the exponents of the** $\beta$ **coefficients from our logistic regression model, we can see that the odds ratio for alcohol use is about 1.40. This odds ratio is much smaller than the crude or unadjusted odds ratio (1.94) we had before we add smoking to the model** 
+
+**After taking the exponents of the** $\beta$ **coefficients from our logistic regression model, we can see that the odds ratio for alcohol use is about 1.40. This odds ratio is much smaller than the crude or unadjusted odds ratio (1.94) we had before we add smoking to the model**
 
 **So we can interpret this odds ratio for alcohol use after adjusting for smoking, the effect of alcohol use on heart disease is similar with an adjusted odds ratio of about 1.40 in the 95% CI: 1.19 - 1.60. And this is statistically significant**
 
@@ -3479,7 +3488,7 @@ Now use the `glm()` command to obtain the odds ratio for prior CVD with hyperten
 
 Note that the output gives us the odds ratio for ‘hyperten’ adjusted for ‘hdlc’ but it also gives us the odds ratios for ‘hdlc’ adjusted for ‘hyperten’.
 
-#### Question C1.4b: 
+#### Question C1.4b:
 
 **What are the odds of having prior CVD if a participant is hypertensive, once you have adjusted for their levels of HDL-C?**
 
@@ -3504,27 +3513,27 @@ exp(cbind(coef(m4), confint(m4)))
 
 By the end of this section, students will be able to:
 
-- Understand what **survival data** are
+-   Understand what **survival data** are
 
-- Understand the notion of **event, time to event** and **censoring** (informative and non-informative)
+-   Understand the notion of **event, time to event** and **censoring** (informative and non-informative)
 
-- Understand **assumptions underpinning censoring** in survival data.
+-   Understand **assumptions underpinning censoring** in survival data.
 
-- Definition of **Survival function** and **hazard function**.
+-   Definition of **Survival function** and **hazard function**.
 :::
 
 ### Characteristics of Survival Data
 
 Survival data are **time-to-event:**
 
-- Cohort study on heart disease - time to first heart disease event.
-- Breast cancer trial time to first recurrence of cancer.
-- IVF study - time to pregnancy.
+-   Cohort study on heart disease - time to first heart disease event.
+-   Breast cancer trial time to first recurrence of cancer.
+-   IVF study - time to pregnancy.
 
 Special features are **time** and **censoring**
 
-- **time** to occurrence of the event of interest.
-- time to event may not be observed within the timeframe we have, it is therefore **censored**
+-   **time** to occurrence of the event of interest.
+-   time to event may not be observed within the timeframe we have, it is therefore **censored**
 
 Summarized by the **survival function (and hazard function)**
 
@@ -3532,18 +3541,16 @@ Summarized by the **survival function (and hazard function)**
 
 ### Defining time-to event
 
-- **Event:**
-  + e.g. death, recurrence, failure of prosthesis, success of implantation.
-  + Usually a well-defined binary variable for the outcome (e.g, Event: Death- 1=yes, 0=no)
+-   **Event:**
+    -   e.g. death, recurrence, failure of prosthesis, success of implantation.
+    -   Usually a well-defined binary variable for the outcome (e.g, Event: Death- 1=yes, 0=no)
+-   **Time:** Depends on:
+    -   **Origin:** Time when risk of event begins.
+    -   **entry:** Time when follow-up begins (often origin=entry)
+    -   **exit:** Time of event or censoring.
+    -   **Scale:** Units of time e.g Scale days to years by specifying 365.25 as scale if time is measured in days.
 
-- **Time:**
-Depends on:
-  + **Origin:** Time when risk of event begins.
-  + **entry:**  Time when follow-up begins (often origin=entry)
-  + **exit:**  Time of event or censoring.
-  + **Scale:** Units of time e.g Scale days to years by specifying 365.25 as scale if time is measured in days.
-  
-Measured in person-time, the sum of observation time contributed by all individuals in the study [$=(\frac{\text{time/origin}}{scale})$]
+Measured in person-time, the sum of observation time contributed by all individuals in the study \[$=(\frac{\text{time/origin}}{scale})$\]
 
 ### Censoring
 
@@ -3551,13 +3558,13 @@ Subjects censored at some time t are ignored at all future times.
 
 #### Assumptions of censoring
 
-- They carry no information about the survival function after t.
-- If distribution of event-times is similar for censored vs non-censored subjects at a given time, then censoring is "non-informative"
+-   They carry no information about the survival function after t.
+-   If distribution of event-times is similar for censored vs non-censored subjects at a given time, then censoring is "non-informative"
 
 #### Non-informative Censoring
 
-- Censoring at fixed times e.g pre-assigned end of study.
-- Competing events e.g accidental deaths in a study of death due to MI
+-   Censoring at fixed times e.g pre-assigned end of study.
+-   Competing events e.g accidental deaths in a study of death due to MI
 
 Loss to follow-up may be informative, e.g if subjects are too ill to continue study - this may be problematic.
 
@@ -3565,35 +3572,35 @@ Informative censoring usually problematic - carefully check distribution of cens
 
 ### Possible Observations of an individual being followed up for time-to-event
 
-1. They may `experience` the outcome event - "failure"
-2. They may not `experience` the outcome event - "survival"
-3. Their event status may `not be observed` - "censoring"
+1.  They may `experience` the outcome event - "failure"
+2.  They may not `experience` the outcome event - "survival"
+3.  Their event status may `not be observed` - "censoring"
 
 Examples:
 
-- had other event e.g died
-- loss to follow-up
-- overextend to the end of the study and no events was observed for this individual.
+-   had other event e.g died
+-   loss to follow-up
+-   overextend to the end of the study and no events was observed for this individual.
 
 ### How Censoring may arise
 
-- Left censoring: First observation occurs after individual has experienced the outcome, but exact time of outcome is unknown.
-- Right censoring: The study ends before they experience the event.
-- Interval censoring: Individual experiences outcome between two observations, but exact time of event is unknown.
+-   Left censoring: First observation occurs after individual has experienced the outcome, but exact time of outcome is unknown.
+-   Right censoring: The study ends before they experience the event.
+-   Interval censoring: Individual experiences outcome between two observations, but exact time of event is unknown.
 
 ### Survival and Hazard functions
 
-- Two functions are very important in survival analysis, and these are the `Survival function` and `Hazard function`
+-   Two functions are very important in survival analysis, and these are the `Survival function` and `Hazard function`
 
-- `Survival function:s(t)`
-  + It is the probability that an individual is event-free beyond time (t) also written as $s(t) = P(T\geq t)$
-  
+-   `Survival function:s(t)`
+
+    -   It is the probability that an individual is event-free beyond time (t) also written as $s(t) = P(T\geq t)$
+
 Where: T is the time to event, t = time of event
 
-- `Hazard function (hazard rate):`
+-   `Hazard function (hazard rate):`
 
-The hazard function, denoted as $h(t)$, represents the instantaneous risk of an event occurring
-after time $t$, given that the individual is event-free up to time $t$. In other word, What is the probability that the event will happen between $T$ and the next fraction of time. The formula is:
+The hazard function, denoted as $h(t)$, represents the instantaneous risk of an event occurring after time $t$, given that the individual is event-free up to time $t$. In other word, What is the probability that the event will happen between $T$ and the next fraction of time. The formula is:
 
 $$
 h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t \mid T \geq t)}{\Delta t}
@@ -3601,9 +3608,9 @@ $$
 
 where:
 
-- $h(t)$: Hazard function at time $t$
-- $T$: Random variable representing the time to event
-- $\Delta t$: Infinitesimally small time interval
+-   $h(t)$: Hazard function at time $t$
+-   $T$: Random variable representing the time to event
+-   $\Delta t$: Infinitesimally small time interval
 
 Alternatively, the hazard function can also be expressed in terms of the probability density function $f(t)$ and the survival function $S(t)$ as:
 
@@ -3613,25 +3620,23 @@ $$
 
 where:
 
-- $f(t)$: Probability density function of time to event
-- $S(t) = P(T > t)$: Survival function
+-   $f(t)$: Probability density function of time to event
+-   $S(t) = P(T > t)$: Survival function
 
 In contrast to the survival function, which focuses on not having an event, the hazard function focuses on the event occurring.
 
 ### Why we estimate the Survival function ?
 
-- `Risk(proportion) or odds of events at the end of follow-up`
-  + Ignore differences in follow-up times across individuals.
-  + Does not deal with censoring appropriately.
+-   `Risk(proportion) or odds of events at the end of follow-up`
+    -   Ignore differences in follow-up times across individuals.
+    -   Does not deal with censoring appropriately.
+-   `Average time-to-event:`
+    -   Event rates may not be constant during follow-up, an 'average' would be misleading.
+    -   Times-to-event may not follow a know distribution (useful for parametric analysis).
 
-- `Average time-to-event:`
-  + Event rates may not be constant during follow-up, an 'average' would be misleading.
-  + Times-to-event may not follow a know distribution (useful for parametric analysis).
-  
 `The Survival function can overcome these limitations`
 
-
-The command `Surv` is used to create a survival object, which sets up a time to event data structure. When we have only one time period, like in this study, we specify in the form `Surv(follow up time, event indicator)`. 
+The command `Surv` is used to create a survival object, which sets up a time to event data structure. When we have only one time period, like in this study, we specify in the form `Surv(follow up time, event indicator)`.
 
 Since we want to look at the event of “death”, and we have followed participants for several years, the following command is used:
 
@@ -3639,9 +3644,9 @@ Since we want to look at the event of “death”, and we have followed particip
 
 The output from R is a matrix with two columns – the first is the survival time, and the second an indicator for death or not.
 
-### Question C2.1a:  
+### Question C2.1a:
 
-**How many events occurred during the follow up period? **
+**How many events occurred during the follow up period?**
 
 ```{r}
 # Calculate the number of death events during the follow-up period
@@ -3650,6 +3655,7 @@ number_of_deaths <- sum(whitehall$death)
 number_of_deaths
 
 ```
+
 **1,526 deaths**
 
 ## C2.2 Kaplan-Meier Survival Function & the Log Rank Test {#sec-C2.2}
@@ -3659,9 +3665,9 @@ number_of_deaths
 
 By the end of this section, students will be able to:
 
-- Produce a Kaplan-Meier survival curve and interpret it.
+-   Produce a Kaplan-Meier survival curve and interpret it.
 
-- Test for differences in survival by using a log-rank test.
+-   Test for differences in survival by using a log-rank test.
 :::
 
 ### C2.2.1 Kaplan-Meier Survival Function {#sec-C2.2.1}
@@ -3671,17 +3677,17 @@ By the end of this section, students will be able to:
 
 By the end of this section, students will be able to:
 
-- Estimate the survival function using Kaplan-Meier method. 
+-   Estimate the survival function using Kaplan-Meier method.
 
-- Plot the estimated survival function.
+-   Plot the estimated survival function.
 :::
 
 #### Kaplan-Meier (K-M) method
 
-- Consider $n$ individuals with observed survival times $t_{1}, t_{2},....,t_{n}$ and suppose there are $r$ events of interest, in our case, we call them deaths.
-- If we rearrange the death in ascending order $j=1,2,...,r$
+-   Consider $n$ individuals with observed survival times $t_{1}, t_{2},....,t_{n}$ and suppose there are $r$ events of interest, in our case, we call them deaths.
+-   If we rearrange the death in ascending order $j=1,2,...,r$
 
-The $\text{estimated survival function}$ is 
+The $\text{estimated survival function}$ is
 
 The Kaplan-Meier estimator, denoted as $\hat{S}(t)$, estimates the survival function as:
 
@@ -3691,10 +3697,10 @@ $$
 
 where:
 
-- $P_{j} = 1 - \frac{d_j}{n_j} = \frac{n_{j} - d_{j}}{n_{j}}$
-- $t_j$: Distinct time points at which events occur
-- $d_j$: Number of events (deaths) at time $t_j$
-- $n_j$: Number of individuals at risk just before time $t_j$
+-   $P_{j} = 1 - \frac{d_j}{n_j} = \frac{n_{j} - d_{j}}{n_{j}}$
+-   $t_j$: Distinct time points at which events occur
+-   $d_j$: Number of events (deaths) at time $t_j$
+-   $n_j$: Number of individuals at risk just before time $t_j$
 
 The *estimated survival function* is *constant between events*, so the graph is a *step function*
 
@@ -3712,7 +3718,7 @@ To produce a Kaplan-Meier curve for the total population we run the following co
 
 To get the risk table at prespecified times, we used the summary() command with the times option: `summary(model, times)`
 
-##### Question C2.2a.i: 
+##### Question C2.2a.i:
 
 Use the `survfit()` and `summary()` commands and the times option `seq(0.5, 9, 0.5)` to see what time since re-survey corresponds to 75% survival.
 
@@ -3728,7 +3734,7 @@ summary(m5, times = seq(0.5, 9, 0.5))
 
 *75% survival occurs at around 6 years, and this agrees with report from stsum below.*
 
-##### Question C2.2a.ii: 
+##### Question C2.2a.ii:
 
 Use the `ggsurvplot()` command to plot the cumulative survival, and use the appropriate option to estimate how many participants were at risk going into the 8th year of follow-up.
 
@@ -3738,17 +3744,17 @@ ggsurvplot(m5, risk.table = T)
 
 *The graph shows that 1458 participants were at risk going into the 8th year of follow-up.*
 
-::: {.callout-note}
-- Time intervals constructed so that each contains 1 event time, which is taken to occur at the start of the interval. 
-- No interval begins at censoring time 
-- $\hat{S}(t) = \text{Survival probability * Survival Probability at previous time (t) interval}$
-- The survival function plot is a step function, with sudden changes in the estimated probability corresponding to times at which an event was observed.
-- There are vertical lines, which correspond to the times the data were censored, while the horizontal parts correspond to the survival function.
+::: callout-note
+-   Time intervals constructed so that each contains 1 event time, which is taken to occur at the start of the interval.
+-   No interval begins at censoring time
+-   $\hat{S}(t) = \text{Survival probability * Survival Probability at previous time (t) interval}$
+-   The survival function plot is a step function, with sudden changes in the estimated probability corresponding to times at which an event was observed.
+-   There are vertical lines, which correspond to the times the data were censored, while the horizontal parts correspond to the survival function.
 :::
 
 ### Confidence Interval for Survival function
 
-- Variance for $\hat{S(t)}$ is usually calculated using **Greenwood's formula**
+-   Variance for $\hat{S(t)}$ is usually calculated using **Greenwood's formula**
 
 #### No Censoring
 
@@ -3760,7 +3766,6 @@ $$
 \text{Var}(\hat{S}(t)) = \frac{\hat{S}(t)[1 - \hat{S}(t)]}{n}
 $$
 
-
 #### With Censoring
 
 The variance of the Kaplan-Meier survival estimate with censoring, using Greenwood's formula, is:
@@ -3771,10 +3776,9 @@ $$
 
 where:
 
-- $\hat{S}(t)$ is the Kaplan-Meier survival estimate at time $t$,
-- $d_i$ is the number of observed events at time $t_i$,
-- $n_i$ is the number of individuals at risk just before $t_i$.
-
+-   $\hat{S}(t)$ is the Kaplan-Meier survival estimate at time $t$,
+-   $d_i$ is the number of observed events at time $t_i$,
+-   $n_i$ is the number of individuals at risk just before $t_i$.
 
 #### Confidence Interval for the Kaplan-Meier Survival Estimate (Using Variance)
 
@@ -3786,20 +3790,20 @@ $$
 
 where:
 
-- $\hat{S}(t)$ is the Kaplan-Meier survival estimate at time $t$,
-- $z$ is the z-score for the desired confidence level (e.g., $z = 1.96$ for a 95% confidence interval),
-- $\text{Var}(\hat{S}(t))$ is the variance of the survival estimate at time $t$.
+-   $\hat{S}(t)$ is the Kaplan-Meier survival estimate at time $t$,
+-   $z$ is the z-score for the desired confidence level (e.g., $z = 1.96$ for a 95% confidence interval),
+-   $\text{Var}(\hat{S}(t))$ is the variance of the survival estimate at time $t$.
 
 This formula provides a confidence interval around the survival estimate by directly using the variance, giving an interval centered on $\hat{S}(t)$ with width determined by the variance.
 
 ::: {.callout-tip icon="false"}
 ## Greenwood formula:
 
-- Only asymptomatically correct: It underestimates variance when few subjects remain at risk
-- Can give CIs outside the range 0 to 1; solution to this problems include:
-  + Truncation
-  + Log-transformation
-  + Log-log transformation.
+-   Only asymptomatically correct: It underestimates variance when few subjects remain at risk
+-   Can give CIs outside the range 0 to 1; solution to this problems include:
+    -   Truncation
+    -   Log-transformation
+    -   Log-log transformation.
 :::
 
 #### Confidence Interval for the Kaplan-Meier Survival Estimate (With log-log tranformation)
@@ -3812,9 +3816,9 @@ $$
 
 where:
 
-- $\hat{S}(t)$ is the Kaplan-Meier survival estimate at time $t$,
-- $z$ is the z-score for the confidence level (e.g., $z = 1.96$ for 95% confidence),
-- $\text{SE}(\log(-\log(\hat{S}(t))))$ is the standard error of the log-log transformed survival probability.
+-   $\hat{S}(t)$ is the Kaplan-Meier survival estimate at time $t$,
+-   $z$ is the z-score for the confidence level (e.g., $z = 1.96$ for 95% confidence),
+-   $\text{SE}(\log(-\log(\hat{S}(t))))$ is the standard error of the log-log transformed survival probability.
 
 This formula gives a confidence interval for the survival probability at each time point, accounting for the variability in the estimate.
 
@@ -3827,39 +3831,37 @@ This formula provides an estimate of the variance in survival probability at eac
 
 By the end of this section, students will be able to:
 
-- Understand the log-rank test for comparing the equality of survival functions across groups
+-   Understand the log-rank test for comparing the equality of survival functions across groups
 :::
 
-#### Comparing Survival in Two or More Grroups 
+#### Comparing Survival in Two or More Grroups
 
 ##### Log-rank test (Test the equality of the survival functions in k groups)
 
-- Generally, principles of the log-rank test is that their survival function across the key group is the same.
-- The issue now is that we have certain number of times in which we are looking at this observed events and expected events. And also we not only have the number of times, but we also look at this observed events and expected events across groups.
-- For example, if we take the case of 2 groups of patients, are there observed events at a particular time $t$ in a group k or we indicated this with $O_{jk}$ when the time is equal to j and then we have expected events at time j for group k and we indicate this with $E_{JK}$.
-- If we take the sum of all the observed events across all the times that we have for a particular group, and we take the sum of all expected event across the times that we have in a particular group. And we take the difference of these 2 quantities, and then we take the square. If we divide this by the sum across all the possible times that we have of the various $j$ and we do the same across all the groups that we have, then it can be shown that this test statistics, is distributed as a Chi-Squared distribution with 1 degree of freedom.
+-   Generally, principles of the log-rank test is that their survival function across the key group is the same.
+-   The issue now is that we have certain number of times in which we are looking at this observed events and expected events. And also we not only have the number of times, but we also look at this observed events and expected events across groups.
+-   For example, if we take the case of 2 groups of patients, are there observed events at a particular time $t$ in a group k or we indicated this with $O_{jk}$ when the time is equal to j and then we have expected events at time j for group k and we indicate this with $E_{JK}$.
+-   If we take the sum of all the observed events across all the times that we have for a particular group, and we take the sum of all expected event across the times that we have in a particular group. And we take the difference of these 2 quantities, and then we take the square. If we divide this by the sum across all the possible times that we have of the various $j$ and we do the same across all the groups that we have, then it can be shown that this test statistics, is distributed as a Chi-Squared distribution with 1 degree of freedom.
 
 In the case of **two groups** the formula is:
-
 
 $$
 \sum_{k=1}^2\frac{\left( \sum_{j=1}^{t} O_{jk} - \sum_{j=1}^{t} E_{jk}\right)^2}{\sum_{j=1}^{t} V_j} - \chi_{1}^2
 $$
 
-- If we have more than two groups, then it is still distributed as a Chi-Squared distribution, but in this case, the degrees of freedom becomes $k-1$.
-- We have to be careful because the log-rank test is just a test of significance, so it doesn't gives us an estimate of the difference of the groups or it doesn't provide us with a confidence interval.
+-   If we have more than two groups, then it is still distributed as a Chi-Squared distribution, but in this case, the degrees of freedom becomes $k-1$.
+-   We have to be careful because the log-rank test is just a test of significance, so it doesn't gives us an estimate of the difference of the groups or it doesn't provide us with a confidence interval.
 
- 
-|               |         |$k=1$          |$K=2$          |Total        |
-|:-------------:|:-------:|:-------------:|:-------------:|:-----------:|
-|**Event at t** |Yes      |$d_{t1}$       |$d_{t2}$       |$d_t$        |
-|**Event at t** |No       |$n_{t1}-d_{t1}$|$n_{t2}-d_{t2}$|$n_{t}-d_{t}$|
-|               |Total    |$n_{t1}$       |$n_{t2}$       |$n_t$        |
+|                |       |      $k=1$      |      $K=2$      |     Total     |
+|:--------------:|:-----:|:---------------:|:---------------:|:-------------:|
+| **Event at t** |  Yes  |    $d_{t1}$     |    $d_{t2}$     |     $d_t$     |
+| **Event at t** |  No   | $n_{t1}-d_{t1}$ | $n_{t2}-d_{t2}$ | $n_{t}-d_{t}$ |
+|                | Total |    $n_{t1}$     |    $n_{t2}$     |     $n_t$     |
 
 Where:
 
-- $d_{t1}$ = Observed events for group 1 this will be $O_{t1}$, i.e, death at time t for group 1
-- $d_{t2}$ = Observed events for group 2 this will be $O_{t2}$, i.e, death at time t for group 2
+-   $d_{t1}$ = Observed events for group 1 this will be $O_{t1}$, i.e, death at time t for group 1
+-   $d_{t2}$ = Observed events for group 2 this will be $O_{t2}$, i.e, death at time t for group 2
 
 *There will be need to calculates the expected events* $E_{t1}$ *for group 1,* $E_{t2}$ *for group 2 and variance* ($V_t$)
 
@@ -3871,7 +3873,7 @@ $$
 
 First, we will divide the variable vitd at the median (nb: there are several methods you can use to code this correctly in R). We will show a recoding approach based on tidyverse R package. We can use a combination of the `mutate()` command and `case_when()` command as follows: `df <- df %>% mutate(vitd_med = case_when(vitd <= summary(df$vitd)[3] ~ 0, vitd > summary(df$vitd)[3] ~ 1))`
 
-::: {.callout-note}
+::: callout-note
 We use the `summary()` command to estimate the descriptive statistics (i.e., minimum value, 1st quartile, median, mean, 3rd quartile, and maximum value) of the `vitd` variable. The 3rd element in the output of the `summary()`command is the median which is used to dichotomise the `vitd` variable.
 :::
 
@@ -3879,7 +3881,7 @@ The `survdiff()` command compares the survival distrubutions of an exposure vari
 
 The `survdiff()` command uses as a dependent variable a survival object which is produced by the `Surv()` command. To create a survival object, we should define the follow up time `(time)` and the outcome status `(event)` in the `Surv()` command.
 
-##### Question C2.2b: 
+##### Question C2.2b:
 
 Using the `survdiff()` command, compare the survival distributions for the two categories of VitD. Is there a significant difference in the survival of participants below and above the median of vitamin D concentration?
 
@@ -3900,7 +3902,8 @@ whitehall <- whitehall %>%
 
 survdiff(Surv(fu_years, death) ~ vitd_med, data = whitehall)
 ```
-*The log-rank test indicates that we can reject the null hypothesis that the survival distributions for the two categories are the same, as the chi(1)=120 , p<2e-16. There is a statistically significant difference in survival for participants above and below the median of vitamin D concentrations. Looking at the KM plot of the survival functions, we can see that participants with vitamin D above the median tend to survive longer.*
+
+*The log-rank test indicates that we can reject the null hypothesis that the survival distributions for the two categories are the same, as the chi(1)=120 , p\<2e-16. There is a statistically significant difference in survival for participants above and below the median of vitamin D concentrations. Looking at the KM plot of the survival functions, we can see that participants with vitamin D above the median tend to survive longer.*
 
 ## C2.3 Cox Proportional Hazards Regression
 
@@ -3909,14 +3912,14 @@ survdiff(Surv(fu_years, death) ~ vitd_med, data = whitehall)
 
 By the end of this section, students will be able to:
 
-- Understand the theory of proportional hazards models (modelling equation)
-- Calculate and interpret the results of a Cox proportional hazards regression model
-- Test the assumptions underlying a Cox regression (proportional hazards) model
+-   Understand the theory of proportional hazards models (modelling equation)
+-   Calculate and interpret the results of a Cox proportional hazards regression model
+-   Test the assumptions underlying a Cox regression (proportional hazards) model
 :::
 
 ### Cox Model (Cox 1972)
 
-- It models the hazard function $h(t)$ as
+-   It models the hazard function $h(t)$ as
 
 $$
 h(t | X) = h_0(t) \exp(\beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p) 
@@ -3924,9 +3927,9 @@ $$
 
 where:
 
-- $h(t | X)$ is the hazard function at time $t$ for an individual with covariates $X$,
-- $h_0(t)$ is the baseline hazard function at time $t$,
-- $\beta_1, \beta_2, \dots, \beta_p$ are the coefficients for the covariates $X_1, X_2, \dots, X_p$.
+-   $h(t | X)$ is the hazard function at time $t$ for an individual with covariates $X$,
+-   $h_0(t)$ is the baseline hazard function at time $t$,
+-   $\beta_1, \beta_2, \dots, \beta_p$ are the coefficients for the covariates $X_1, X_2, \dots, X_p$.
 
 This model assumes that the effect of covariates on the hazard is multiplicative and proportional over time.
 
@@ -3938,42 +3941,42 @@ $$
 
 where:
 
-- $\log(h(t | X))$ is the log hazard function at time $t$ for an individual with covariates $X$,
-- $\log(h_0(t))$ is the log of the baseline hazard function at time $t$,
-- $\beta_1, \beta_2, \dots, \beta_p$ are the coefficients for the covariates $X_1, X_2, \dots, X_p$.
+-   $\log(h(t | X))$ is the log hazard function at time $t$ for an individual with covariates $X$,
+-   $\log(h_0(t))$ is the log of the baseline hazard function at time $t$,
+-   $\beta_1, \beta_2, \dots, \beta_p$ are the coefficients for the covariates $X_1, X_2, \dots, X_p$.
 
 This equation shows that the covariates $X$ have a linear effect on the log of the hazard function, a key assumption in the Cox model.
 
 ##### Characteristics of the Cox Model
 
-- It is a `Semi-parametric model` because there are no assumptions about the shape of the baseline hazard function and because there is a `Non-Parametric` part, i.e, the one with log and `parametric part` that is given by the exponential part of the coefficient.
-- The coefficients $\beta_1, \beta_2, \dots, \beta_p$ can be estimated by maximizing the partial likelihood.
-- Confidence intervals and test of hypothesis can be obtained.
-- There is no assumption needed for the baseline $(h_0(t))$ as a function. This is a very strong point because essentially we are able to estimate the coefficient of the model without imposing any shape or constraint on the baseline as a function.
+-   It is a `Semi-parametric model` because there are no assumptions about the shape of the baseline hazard function and because there is a `Non-Parametric` part, i.e, the one with log and `parametric part` that is given by the exponential part of the coefficient.
+-   The coefficients $\beta_1, \beta_2, \dots, \beta_p$ can be estimated by maximizing the partial likelihood.
+-   Confidence intervals and test of hypothesis can be obtained.
+-   There is no assumption needed for the baseline $(h_0(t))$ as a function. This is a very strong point because essentially we are able to estimate the coefficient of the model without imposing any shape or constraint on the baseline as a function.
 
 Suppose now we have estimated our coefficients intermodal, so we want to see how we can interpret this coefficient $\beta_1 \text{ to } \beta_p$.
 
-1. If the first covariate $X_1$ corresponds to an indicator variable representing assignment to a treatment group (drug) or a control group (placebo), then the coefficient $\beta_1$ represents the $log-hazards-ratio$ between the two groups after adjusting for other covariates $X_2,\dots,X_p.$
-2. In this case, $\text{the Hazard Ratio(HR) is} \exp(\beta_1)$
+1.  If the first covariate $X_1$ corresponds to an indicator variable representing assignment to a treatment group (drug) or a control group (placebo), then the coefficient $\beta_1$ represents the $log-hazards-ratio$ between the two groups after adjusting for other covariates $X_2,\dots,X_p.$
+2.  In this case, $\text{the Hazard Ratio(HR) is} \exp(\beta_1)$
 
 ##### Prortional Hazards Assumption
 
-- The Cox model is also called the Cox proportional hazards model because there is a very strong and important assumption that the needs to be satisfied, if we want to use this model, and this assumption is called the **Proportional hazards assumption**
-- If we take a group of individuals that are in an exposed group and we take the ratio as a function of this group of exposed individuals with respect to their hazard function, to an unexposed group of individuals, the ratio needs to be constant over time.
+-   The Cox model is also called the Cox proportional hazards model because there is a very strong and important assumption that the needs to be satisfied, if we want to use this model, and this assumption is called the **Proportional hazards assumption**
+-   If we take a group of individuals that are in an exposed group and we take the ratio as a function of this group of exposed individuals with respect to their hazard function, to an unexposed group of individuals, the ratio needs to be constant over time.
 
 $$
 \text{Proportional hazards assumption:} \frac{h(t)_{exposed}}{h(t)_{unexposed}} \text{ is constant over time.} 
 $$
 
-- Suppose that a group of cancer patients on an experimental treatment for 10 years.
-- If the hazard of dying for the $\text{non-treated group}$ is twice the rate as that of the $\text{treated group(HR=2.0)}$, the proportional-hazards assumption implies that this ratio is the same at 1 year, at 2 years, or at any point on the time scale.
-- Because the Cox model, by definition, is constrained to follow this assumption, it is important to evaluate its validity.
-- If there is *violation* of the Cox proportional hazard assumption, this implies that there are *time-varying coefficients* in the model, or valid for a particular certain time points but not for all time points in the study.
-- It is important not to confuse *time dependent coefficients* with time *dependent covariates*. They are two different concepts.
+-   Suppose that a group of cancer patients on an experimental treatment for 10 years.
+-   If the hazard of dying for the $\text{non-treated group}$ is twice the rate as that of the $\text{treated group(HR=2.0)}$, the proportional-hazards assumption implies that this ratio is the same at 1 year, at 2 years, or at any point on the time scale.
+-   Because the Cox model, by definition, is constrained to follow this assumption, it is important to evaluate its validity.
+-   If there is *violation* of the Cox proportional hazard assumption, this implies that there are *time-varying coefficients* in the model, or valid for a particular certain time points but not for all time points in the study.
+-   It is important not to confuse *time dependent coefficients* with time *dependent covariates*. They are two different concepts.
 
 #### Unadjusted Cox regression
 
-The `coxph()` command is used to run a Cox proportional hazards regression model in R.  The simplified syntax of the `coxph()` command is the following: `coxph(formula, data)`
+The `coxph()` command is used to run a Cox proportional hazards regression model in R. The simplified syntax of the `coxph()` command is the following: `coxph(formula, data)`
 
 The formula used in the `coxph()` command needs a survival object as dependent variable which is created using the `Surv()` command. The syntax of the `Surv()` command is the following: `Surv(time, event)`
 
@@ -3991,9 +3994,10 @@ m6 <- coxph(Surv(fu_years, death) ~ frailty, data = whitehall)
 
 summary(m6)
 ```
+
 *Looking at the output, you can see that the hazard of dying is nearly 6 times greater for participants in frailty level 5 compared with frailty level 1 (HR 5.7, 95% CI:4.8-6.8). This is statistically significant.*
 
-##### Question C2.3a.i: 
+##### Question C2.3a.i:
 
 What is association of vitamin D (using the variable coded above and below the median) with the risk (hazard) of dying?
 
@@ -4007,6 +4011,7 @@ m7 <- coxph(Surv(fu_years, death) ~ vitd_med, data = whitehall)
 
 summary(m7)
 ```
+
 *Participants that have vitamin D concentrations above the median have a 43% lower hazard (or risk) of dying, and this is statistically significant (HR 0.57, 95% CI: 0.51-0.63).*
 
 ### Test the Proportional Hazards Assumption (PHA)
@@ -4016,21 +4021,21 @@ summary(m7)
 
 By the end of this section, students will be able to:
 
-- Test Proportionality Hazards Assumption
-- Learn some solutions in case of violations of proportionality hazards assumption.
+-   Test Proportionality Hazards Assumption
+-   Learn some solutions in case of violations of proportionality hazards assumption.
 :::
 
 #### Dealing with violation of PHA
 
-- Violation implies that there are time-varying coefficients in the model. To deal with this:
+-   Violation implies that there are time-varying coefficients in the model. To deal with this:
 
 Two solutions:
 
-1. **Stratify** by the offending variable- fit separate models across the levels of the variable (Strata option)
+1.  **Stratify** by the offending variable- fit separate models across the levels of the variable (Strata option)
 
 or
 
-2. **model** the offending variable as the **time-varying coefficient(s).**
+2.  **model** the offending variable as the **time-varying coefficient(s).**
 
 There are many similarities between Cox regression and linear and logistic regression. We have seen that you can adjust for additional variables in the same way. You can also fit interactions using the same commands. However, the one key difference between a Cox regression and other regression models is the *proportional hazards assumption*.
 
@@ -4069,6 +4074,7 @@ fit <- survfit(m9)
 
 ggsurvplot(fit, data = whitehall, fun = "cloglog")
 ```
+
 *When we inspect a log-log plot, we want to see that the curves in the main portion of the plot (i.e. not the tails of the plot, where there are few events) are generally parallel over time. If the curves touch or cross, this indicates there is a violation of the PH assumption.*
 
 *Looking at the curves for each level of age group above, they appear to be generally parallel with similar slopes over time. This looks acceptable and does not indicate a meaningful violation of the PH assumption. This may contradict the results of the tt() command above as statistical tests will often be significant for small deviations if you have a lot of power (e.g. if you have a large dataset). For this reason, we often prefer to visually inspect the data for obvious violations of the PH assumption.*
@@ -4094,7 +4100,7 @@ cox.zph(m10)
 
 *We observe that both frailty and age_grp variables violate the PH assumption.*
 
-##### Question C2.3b:  
+##### Question C2.3b:
 
 Interpret a log-log plot for frailty (adjusted for age group) and assess if it violates the PH assumption.
 
@@ -4108,6 +4114,7 @@ fit7 <- survfit(m11)
 
 ggsurvplot(fit7, data = whitehall, fun = "cloglog")
 ```
+
 *In this log-log plot, we see the curves for the different levels of frailty (levels 1-4) criss-cross and touch each other at several points over time. This is a clearer violation of the PH assumption.*
 
 #### Fixing violations in the PH assumption
@@ -4124,6 +4131,7 @@ m12 <- coxph(formula = Surv(fu_years, death) ~ strata(frailty) + age_grp, data =
 
 summary(m12)
 ```
+
 *Notice that you do not get any output regarding the variable ‘frailty’ that you stratified on, although R indicates in the formula that you have used this variable in the strata. You would still interpret the HR of age_grp as having been adjusted for frailty, though. So you would say that the hazard of dying was 4.3 times greater in the 81-95 age group compared to the 60-70 age group, once it was adjusted for frailty (as stratifying on a variable is another way to adjust for its association).*
 
 ## C2.4 Poisson Regression
@@ -4133,26 +4141,25 @@ summary(m12)
 
 By the end of this section, students will be able to:
 
-- Open datasets in their chosen statistical software programme
-- Explore datasets and understand what data they have
-- Use basic commands to edit their data
+-   Open datasets in their chosen statistical software programme
+-   Explore datasets and understand what data they have
+-   Use basic commands to edit their data
 :::
 
 #### Use of Poisson Regression
 
 There are several situations where Poisson regression can be useful. It can be use to:
 
-- Obtain rates and their rtios from **Cohort studies or RCTs** in which person-time varies across individuals.
-  + It is important to obtain a **value for rates** as well as rate ratios (See Cox regression, in which rates are not estimates).
-  + It is reasonable to assume that **rates are constant** over time, or within time bands.
-  
-- Poisson regression can also be used for analysis of count e.g number of admissions per day in a hospital.
- 
+-   Obtain rates and their rtios from **Cohort studies or RCTs** in which person-time varies across individuals.
+    -   It is important to obtain a **value for rates** as well as rate ratios (See Cox regression, in which rates are not estimates).
+    -   It is reasonable to assume that **rates are constant** over time, or within time bands.
+-   Poisson regression can also be used for analysis of count e.g number of admissions per day in a hospital.
+
 Here, we show a Poisson regression modelling the log(rate of disease) as the outcome.
 
 In R, we can use the `glm()` command to fit a Poisson regression model as follows: `glm(formula, data, family = poisson(link = “log”))`
 
-The command `glm()` is the same command that was used to fit a logistic regression model in the previous module. The only difference is that in Poisson regression we use the family `poisson(link = “log”)`, whereas in logistic regression we use the family `binomial(link = “logit”)`. Note that we use the offset(time) when we specify the formula of the Poisson regression to specify follow-up time. If you do not use the `offset(time)` to specify the period of follow-up time, then you will be analysing a log(count) [rather than rate].
+The command `glm()` is the same command that was used to fit a logistic regression model in the previous module. The only difference is that in Poisson regression we use the family `poisson(link = “log”)`, whereas in logistic regression we use the family `binomial(link = “logit”)`. Note that we use the offset(time) when we specify the formula of the Poisson regression to specify follow-up time. If you do not use the `offset(time)` to specify the period of follow-up time, then you will be analysing a log(count) \[rather than rate\].
 
 #### For example
 
@@ -4165,6 +4172,7 @@ summary(model12)
 
 exp(cbind(coef(model12), confint(model12)))
 ```
+
 *The estimate in the row for ‘currsmoker’ is the rate ratio of death for current smokers compared to non-smokers. This output shows that the rate of death is 18% higher in current smokers compared to non-smokers (RR 1.18, 95% CI: 1.03-1.37). This association is statistically significant (p=0.02).*
 
 #### Assumptions of Poisson regression
@@ -4173,14 +4181,14 @@ There are some assumptions that needs to be satisfied in order to use a Poisson 
 
 We can use the Poisson model when:
 
-- Events (counts) follows a poisson distribution.
-- Events (counts) are independent of one another.
-- Rates in different groups are proportional (See also Cox regression).
-- Also, Poisson regression requires that within an exposure group such as smokers or non-smokers, the rate of the event of interest (such as death) stays constant over time, a very strong assumption. A cohort study often involves follow-up over many years and it is unrealistic, because of changes in age, to assume that the rate stays unchanged over follow-up.
+-   Events (counts) follows a poisson distribution.
+-   Events (counts) are independent of one another.
+-   Rates in different groups are proportional (See also Cox regression).
+-   Also, Poisson regression requires that within an exposure group such as smokers or non-smokers, the rate of the event of interest (such as death) stays constant over time, a very strong assumption. A cohort study often involves follow-up over many years and it is unrealistic, because of changes in age, to assume that the rate stays unchanged over follow-up.
 
 #### Poisson Regression Model
 
-- In Poisson regression, we model the log(rate of disease) as the outcome:
+-   In Poisson regression, we model the log(rate of disease) as the outcome:
 
 $$
 log(\text{rate of disease}) = \beta_o + \beta_1X_1
@@ -4212,7 +4220,7 @@ $$
 log(events) = \beta_o + \beta_1X_1 + \beta_2X_2+\dots + log (time)
 $$
 
-##### Question C2.4: 
+##### Question C2.4:
 
 Use a Poisson regression to assess if current smoking associated with the rate of death, once adjusted for age group and frailty?
 
@@ -4228,75 +4236,78 @@ exp(cbind(coef(m13), confint(m13)))
 
 The detailed explanation each section of the output from a Poisson regression model is as follows:
 
-1. Model Call
+1.  Model Call
 
-- The model is a Poisson regression using death as the outcome variable, with the log link function.
-- Predictors include:
-  + **offset(log(fu_years))**: An offset term that adjusts for follow-up time (`fu_years`) in log scale, effectively modeling rates instead of simple counts.
-  + **currsmoker**: Indicator for current smoking status.
-  + **age_grp**: Categorical variable indicating age groups, with several levels (`age_grp2`, `age_grp3`, `age_grp4`) comparing each age group to the reference (likely the youngest age group).
-  + **frailty**: Categorical variable indicating frailty levels, with levels (`frailty2`, `frailty3`, etc.) compared to a reference group (likely the lowest frailty level).
+-   The model is a Poisson regression using death as the outcome variable, with the log link function.
+-   Predictors include:
+    -   **offset(log(fu_years))**: An offset term that adjusts for follow-up time (`fu_years`) in log scale, effectively modeling rates instead of simple counts.
+    -   **currsmoker**: Indicator for current smoking status.
+    -   **age_grp**: Categorical variable indicating age groups, with several levels (`age_grp2`, `age_grp3`, `age_grp4`) comparing each age group to the reference (likely the youngest age group).
+    -   **frailty**: Categorical variable indicating frailty levels, with levels (`frailty2`, `frailty3`, etc.) compared to a reference group (likely the lowest frailty level).
 
-2. Deviance Residuals
+2.  Deviance Residuals
 
-- These show the distribution of residuals from the model:
-  + Residuals range from -2.0348 to 3.2916, with a median near zero, indicating a reasonable but not perfect fit for most observations.
-  + Deviance residuals closer to zero indicate better fit for individual data points.
+-   These show the distribution of residuals from the model:
+    -   Residuals range from -2.0348 to 3.2916, with a median near zero, indicating a reasonable but not perfect fit for most observations.
+    -   Deviance residuals closer to zero indicate better fit for individual data points.
 
-3. Coefficients Table
+3.  Coefficients Table
 
-- Each predictor has an **Estimate**, **Standard Error**, **z value**, and **Pr(>|z|)** (p-value).
+-   Each predictor has an **Estimate**, **Standard Error**, **z value**, and **Pr(\>\|z\|)** (p-value).
 
-- Here’s what each of these columns represents:
-  + **Estimate**: The log-rate ratio associated with each predictor.
-  + **Std. Error**: The standard error of each estimate.
-  + **z value**: The test statistic for each coefficient $(Estimate/Std.Error)$.
-  + **Pr(>|z|)**: The p-value indicating statistical significance.*
+-   Here’s what each of these columns represents:
+
+    -   **Estimate**: The log-rate ratio associated with each predictor.
+    -   **Std. Error**: The standard error of each estimate.
+    -   **z value**: The test statistic for each coefficient $(Estimate/Std.Error)$.
+    -   **Pr(\>\|z\|)**: The p-value indicating statistical significance.\*
 
 **Interpretation of Key Predictors**:
 
-- **(Intercept)**: The intercept is -4.35993. Exponentiating this (`exp(-4.35993) ≈ 0.0128`) gives the baseline event rate for individuals in the reference categories of `currsmoker`, `age_grp`, and `frailty`.
+-   **(Intercept)**: The intercept is -4.35993. Exponentiating this (`exp(-4.35993) ≈ 0.0128`) gives the baseline event rate for individuals in the reference categories of `currsmoker`, `age_grp`, and `frailty`.
 
-- **currsmoker**: The estimate for currsmoker is 0.22259, indicating that current smokers have a higher death rate compared to non-smokers.
-  + **Exponentiating** gives `exp(0.22259) ≈ 1.25`, so current smokers have a 25% higher death rate than non-smokers.
-  + The p-value (0.00239) indicates this effect is statistically significant at the 0.01 level.
+-   **currsmoker**: The estimate for currsmoker is 0.22259, indicating that current smokers have a higher death rate compared to non-smokers.
 
-- **age_grp**: The coefficients for `age_grp2`, `age_grp3`, and `age_grp4` indicate that death rates increase with age:
-  + **age_grp2** (second age group) has a log-rate ratio of 0.5499, or about 73% higher death rate than the reference age group `(exp(0.5499) ≈ 1.73)`.
-  + **age_grp3** has a rate ratio of `exp(0.94373) ≈ 2.57`, or a 157% higher death rate.
-  + **age_grp4** has a rate ratio of `exp(1.38579) ≈ 4.00`, or a 300% higher death rate.
-  + All age groups have highly significant p-values, showing that increased age is strongly associated with higher death rates.
+    -   **Exponentiating** gives `exp(0.22259) ≈ 1.25`, so current smokers have a 25% higher death rate than non-smokers.
+    -   The p-value (0.00239) indicates this effect is statistically significant at the 0.01 level.
 
-- **frailty**: The coefficients for `frailty2`, `frailty3`, etc., indicate that higher frailty levels are associated with increasing death rates compared to the reference frailty level:
+-   **age_grp**: The coefficients for `age_grp2`, `age_grp3`, and `age_grp4` indicate that death rates increase with age:
 
-  + **frailty2** has a rate ratio of `exp(0.26967) ≈ 1.31`, or a 31% higher death rate.
-  + **frailty3** has a rate ratio of `exp(0.46882) ≈ 1.60`.
-  + **frailty4** has a rate ratio of `exp(0.76742) ≈ 2.15`.
-  + **frailty5** has the highest rate ratio, `exp(1.33908) ≈ 3.82`, or a 282% higher death rate.
-  + These coefficients are significant, indicating that as frailty increases, so does the risk of death.
+    -   **age_grp2** (second age group) has a log-rate ratio of 0.5499, or about 73% higher death rate than the reference age group `(exp(0.5499) ≈ 1.73)`.
+    -   **age_grp3** has a rate ratio of `exp(0.94373) ≈ 2.57`, or a 157% higher death rate.
+    -   **age_grp4** has a rate ratio of `exp(1.38579) ≈ 4.00`, or a 300% higher death rate.
+    -   All age groups have highly significant p-values, showing that increased age is strongly associated with higher death rates.
 
-4. Significance Codes
+-   **frailty**: The coefficients for `frailty2`, `frailty3`, etc., indicate that higher frailty levels are associated with increasing death rates compared to the reference frailty level:
 
-- The stars next to the p-values indicate the level of significance:
-  + *** for p < 0.001, ** for p < 0.01, * for p < 0.05.
+    -   **frailty2** has a rate ratio of `exp(0.26967) ≈ 1.31`, or a 31% higher death rate.
+    -   **frailty3** has a rate ratio of `exp(0.46882) ≈ 1.60`.
+    -   **frailty4** has a rate ratio of `exp(0.76742) ≈ 2.15`.
+    -   **frailty5** has the highest rate ratio, `exp(1.33908) ≈ 3.82`, or a 282% higher death rate.
+    -   These coefficients are significant, indicating that as frailty increases, so does the risk of death.
 
-5. Deviance and AIC
+4.  Significance Codes
 
-- **Null deviance**: 5138.5 on 4320 degrees of freedom, representing the deviance for a model with only an intercept.
-- **Residual deviance**: 4352.0 on 4312 degrees of freedom, showing the deviance for the fitted model with all predictors.
-- A large drop in deviance (from 5138.5 to 4352.0) indicates a substantial improvement in model fit over the null model.
-- **AIC**: 7412, a measure of model quality, with lower values indicating a better fit after accounting for model complexity.
+-   The stars next to the p-values indicate the level of significance:
+    -   \*\*\* for p \< 0.001, \*\* for p \< 0.01, \* for p \< 0.05.
 
-6. Fisher Scoring Iterations
+5.  Deviance and AIC
 
-- The model took 6 iterations to converge, suggesting that the fitting process was stable.
+-   **Null deviance**: 5138.5 on 4320 degrees of freedom, representing the deviance for a model with only an intercept.
+-   **Residual deviance**: 4352.0 on 4312 degrees of freedom, showing the deviance for the fitted model with all predictors.
+-   A large drop in deviance (from 5138.5 to 4352.0) indicates a substantial improvement in model fit over the null model.
+-   **AIC**: 7412, a measure of model quality, with lower values indicating a better fit after accounting for model complexity.
+
+6.  Fisher Scoring Iterations
+
+-   The model took 6 iterations to converge, suggesting that the fitting process was stable.
 
 ###### Summary Interpretation
 
-- The model suggests that current smoking status, age group, and frailty level are all significant predictors of the death rate.
-- Current smokers, older age groups, and individuals with higher frailty levels have significantly higher death rates, even after accounting for follow-up time.
-- The model fit (as indicated by the decrease in deviance and the AIC) is much improved over the null model, showing that these predictors are valuable for explaining variations in death rates.
+-   The model suggests that current smoking status, age group, and frailty level are all significant predictors of the death rate.
+-   Current smokers, older age groups, and individuals with higher frailty levels have significantly higher death rates, even after accounting for follow-up time.
+-   The model fit (as indicated by the decrease in deviance and the AIC) is much improved over the null model, showing that these predictors are valuable for explaining variations in death rates.
 
 # Reference
 
-- Fundamentals of Statistical Software & Analysis by Oxford Population Health, University of Oxford Medical Sciences Division. 
+-   Fundamentals of Statistical Software & Analysis by Oxford Population Health, University of Oxford Medical Sciences Division.
