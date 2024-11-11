@@ -1,0 +1,4302 @@
+---
+title: "Fundamentals of Statistical Software & Analysis"
+title-block-banner: SKYBLUE1.jpeg
+author: 
+  - name: "OXFORD POPULATION HEALTH"
+    affiliation: "UNIVERSITY OF OXFORD MEDICAL SCIENCES DIVISION"
+date: "2024-11-10"
+toc: true
+number-sections: true
+highlight-style: pygments
+format: 
+  html:
+    code-fold: true
+    code-tools: true
+execute:
+  warning: false
+  echo: true   
+  eval: true  
+  output: true 
+  error: false 
+editor: visual
+---
+
+![](images%20(10).jpeg)
+
+**Welcome to [Fundamentals of Statistical Software and Analysis]{.underline}, or FoSSA for short!** The course comprises of 7 modules:
+
+**A1**: Introduction to Statistics using R, Stata & SPSS
+
+**A2**: Power and Sample Size Calculations
+
+**B1**: Linear Regression
+
+**B2**: Multiple Comparisons and Repeated Measures
+
+**B3**: Non-Parametric Measures
+
+**C1**: Binary Data and Logistic Regression
+
+**C2**: Survival Data
+
+Each module contains short videos to introduce and explain the statistical concepts and tests, along with practical exercises to work through.
+
+The practicals are provided in three different statistical software packages, Stata, R, and SPSS. You can follow through the course using any one of these three packages. If you are unsure which package you would like to use, you may want to work through the introductions to each of them in Module A1 before making your decision.
+
+[**End of Module Quiz**]{.underline} At the end of each module there is a short multiple choice quiz. If you wish to receive a certificate for the course you must visit every page and complete all of the quizzes with an average (mean) mark of 50% or greater. The FoSSA admin team will check quiz completions on a monthly basis and send certificates to any new completers.
+
+[**Proceeding through the Course**]{.underline} You should study all of Module A1 before moving on to the other modules to make sure you have a firm grasp of the key concepts. Before you start on the first module, take a look at the Course Information section. Here you will find the data sets you will need for your practicals and other useful information to support you in your studies.
+
+# Course Dataset 1
+
+The Whitehall FoSSA Study is a simulated cohort study similar to the original Whitehall Study of Civil Servants, set up in the 1960s, which followed London-based male civil servants with a view to investigating cardiovascular disease and mortality. Participants from the original Whitehall cohort in the 1960s were flagged for mortality at the Office for National Statistics, which provided the date and cause of all deaths occurring until the end of September 2005. The (simulated) Whitehall FoSSA Study was conducted in 1997 to assess risk factors for cardiac and all-cause mortality in a subset of the original cohort that was still being followed. The Whitehall FoSSA Study contains information on 4,327 individuals that were followed-up from 1997 until 2005, and the variables are summarised in the table below. See Clarke et al. (2007), Arch Intern Med, 167(13) for more details on the real data that inspired this dataset.
+
+| Variable name | Description | Type of measure | Coding |
+|------------------|------------------|-------------------|------------------|
+| whl1_id | Participant ID number | Continuous |  |
+| age_grp | Age group (years) | Categorical | 1=60-70; 2=71-75; 3=76-80; 4=81-95 |
+| prior_cvd | Prior CVD | Binary | 0=No; 1=Yes |
+| prior_t2dm | Prior Type 2 Diabetes | Binary | 0=No; 1=Yes |
+| prior_cancer | Prior Cancer | Binary | 0=No; 1=Yes |
+| sbp | Systolic Blood Pressure (mmHg) | Continuous | 86-230 mmHg |
+| bmi | Body Mass Index (BMI; kg/m2) | Continuous | 15-44 kg/m2 |
+| bmi_grp4 | BMI, grouped | Categorical | 1=Underweight; 2=Normal; 3=Overweight; 4=Obese |
+| hdlc | HDL cholesterol (mmol/L) | Continuous | 0.5-3.07 mmol/L |
+| ldlc | LDL cholesterol (mmol/L) | Continuous | 1.05-6.81 mmol/L |
+| chol | Total cholesterol (mmol/L) | Continuous | 2.24-10.77 mmol/L |
+| currsmoker | Current smoker | Binary | 0= Not a current smoker, 1= Current smoker |
+| frailty | Summary frailty score | Categorical | 1= least frail quintile; 5= most frail quintile |
+| vitd | Vitamin D \[25(OH)D\] |  |  |
+| nmol/L | Continuous | 18.92-419.89 nmol/L |  |
+| cvd_death | Fatal CVD | Binary | 0=No; 1=Yes |
+| death | Death | Binary | 0=No; 1=Yes |
+| fu_years | Years of follow-up | Continuous | 0.03-8.5 years |
+
+As this is simulated data, some of the associations you may find between variables are not real, nor do they reflect what the current science suggests about risk factors for cardiovascular disease and mortality. Please do not use this dataset for anything beyond the training material in this course.
+
+**Stata Dataset**
+
+[Whitehall_fossa.dta](https://1drv.ms/u/s!AtvH6PgKXPEDgwP2lAgifbZkgIPY?e=aNbXz3){target="_blank"}
+
+**CSV Dataset**
+
+[Whitehall_fossa(in).csv](https://1drv.ms/u/s!AtvH6PgKXPEDgwJyVUbrcv6Mvhrs?e=tv5mtd){target="_blank"}
+
+# Course Dataset 2
+
+The FoSSA Mouse dataset is a simulated set of health check data of a group of 60 mice throughout a fictional study. The data consist of weights in grams and body condition scores on a 5 point ordinal scale, each taken at three points throughout the trial.
+
+Weights are quite self explanatory, but if you would like a frame of reference for the body condition scores (BCS) then you can see how these are assigned here- [Body Condition Score Mice.pdf](https://1drv.ms/b/s!AtvH6PgKXPEDgwS--ub-UbRhAYGa?e=qF1kL3){target="_blank"}
+
+| Variable name | Description | Type of measure | Coding |
+|------------------|------------------|------------------|------------------|
+| Strain | Names of the three strains of mice in the trial, use for reference purposes | Categorical | Names |
+| Strain_group | Numerical groupings of the three mouse strains | Categorical |  |
+| 1= Wild type, 2= Cdkn1a knockout, 3= NRAS knockout |  |  |  |
+| Weight_baseline | Weight measured at the beginning of the study | Continuous | Value in grams |
+| BCS_baseline | Body condition score assessed at the beginning of the study | Ordinal | 1= lowest body condition (very underweight), 5= highest body condition (obese) |
+| Weight_mid | Weight measured at the mid point of the study | Continuous | Value in grams |
+| BCS_mid | Body condition score assessed at the mid point of the study | Ordinal | 1= lowest body condition (very underweight), 5= highest body condition (obese) |
+| Weight_end | Weight measured at the end of the study | Continuous | Value in grams |
+| BCS_end | Body condition score assessed at the end of the study | Ordinal | 1= lowest body condition (very underweight), 5= highest body condition (obese) |
+
+**CSV Dataset**
+
+[FoSSA mouse data.csv](https://1drv.ms/u/s!AtvH6PgKXPEDgwAYD3AGm-u5pqz0?e=dKTNR6){target="_blank"}
+
+**Stata Dataset**
+
+[mouse_data.dta](https://1drv.ms/u/s!AtvH6PgKXPEDgwHxCHLZQsUdBIoP?e=wDNy3D){target="_blank"}
+
+# A1.1 What is Statistics?
+
+This course uses three different options for statistical analysis software for the practical exercises. The next lesson @sec-A1.2 is broken up into three subsections. You only need to complete the one for the software you are planning to use throughout the course. These sessions will help you to familiarise yourself with your chosen software, and set up the course datasets. After the initial set up, there will be one lesson for each topic, but then you will have the choice of which statistical software you would like to use for the practical.
+
+# A1.2: Introduction to R, SPSS and Stata {#sec-A1.2}
+
+[Click here](https://thegraphcourses.org/courses/fossa/topics/a1-2-2b-introduction-to-r/){target="_blank"} to go to the introduction to R
+
+[Click here](https://thegraphcourses.org/courses/fossa/topics/a1-2-1a-introduction-to-stata/){target="_blank"} to go to the introduction to Stata
+
+[Click here](https://thegraphcourses.org/courses/fossa/topics/a1-2-2c-introduction-to-spss/) to go to the introduction to SPSS
+
+# Load dataset
+
+```{r}
+whitehall <- read.csv("Whitehall_fossa(in).csv")
+```
+
+# A1.3: Descriptive Statistics {#sec-A1.3}
+
+::: {.callout-important icon="false"}
+## Learning Outcomes
+
+By the end of this session, students will be able to:
+
+-   Continue practicing basic software commands
+-   Learn how to explore the dataset, identifying the different types of variable stored
+-   Calculate the different measures of location and spread
+-   Plot frequency distributions and histograms
+:::
+
+You can download a copy of the slides here: 1.3: [Descriptive Statistics](https://1drv.ms/f/s!AtvH6PgKXPEDgnWvKjMfvpOKM02i?e=AfGZuY){target="_blank"}
+
+There are many different ways to generate basic descriptive statistics for your dataset in R, some of which have already been covered.
+
+Here, we will cover several basic functions. Remember that there is always more information to be found online, and many good resources exist only a Google search away!
+
+## Summary
+
+The summary function can be used to generate a minimum, 1st quartile, median, median, 3rd quartile , maximum, and number of NA datapoints for all numeric variables within a dataset. See the following:
+
+```         
+summary(object.name)
+```
+
+```{r}
+summary(whitehall)
+```
+
+Note that this produces summary statistics for the entire dataset. To focus in on a specific column variable, we can use the \$ operator as previously:
+
+```{r}
+summary(whitehall$bmi)
+```
+
+It is useful here to check that your minimum, maximum and mean are reasonable values. Try to generate some summary statistics for systolic blood pressure (SBP). Are these figures reasonable?
+
+You can also obtain summary statistics that are differentiated by another variable, such as `age group`, using the `by` function, as follows:
+
+```         
+by(object.name, object.name$variable, summary)
+```
+
+```{r}
+by(whitehall, whitehall$age_grp, summary)
+```
+
+*Does this generate any interesting information, or do any differences become immediately apparent?*
+
+## Measures of Central Tendency
+
+### a) Mean
+
+To calculate the mean, we use the following function.
+
+```         
+mean(object.name$variable)
+```
+
+```{r}
+mean(whitehall$sbp)
+```
+
+The above function may seem complete. We note, from our previous investigation, that there are some NA values within this dataset. Resultantly, we must remember to tell RStudio to calculate the mean without these values, using `na.rm = TRUE` . You can double check the values to see the difference.
+
+```         
+mean(object.name$variable, na.rm = TRUE)
+```
+
+```{r}
+mean(whitehall$sbp, na.rm= TRUE)
+```
+
+### b) Median
+
+We can compute median using a similar function:
+
+```         
+median(object.name$variable, na.rm = TRUE)
+```
+
+```{r}
+median(whitehall$sbp, na.rm=TRUE)
+```
+
+### c) Mode
+
+```         
+install.packages("DescTools")
+
+library(DescTools)
+
+Mode(x, na.rm = FALSE) 
+
+# if there are missing values you can to make “na.rm = TRUE”
+```
+
+```{r}
+library(DescTools)
+
+Mode(whitehall$bmi_grp4, na.rm=TRUE)
+```
+
+**The most common category of BMI group is ‘3’, with N=2091.**
+
+### d) Quantiles
+
+The quantile function can be used to calculate the median, and first and third quartiles, by using a second argument to define the percentage range ‘probs’ as a decimal figure between 0 and 1.
+
+Remember that the first quartile = 25% of values, and the third = 75%. In this way, we can also use the quantile function to compute any percentile cut-off for our data.
+
+```         
+quantile(object.name$variable, probs = , na.rm=TRUE)
+```
+
+```{r}
+quantile(whitehall$sbp, probs=0.25, na.rm=TRUE)
+```
+
+### e) IQR
+
+To calculate IQR, we can simply use the following: \# Standard Error
+
+### Exercise
+
+```         
+IQR(object.name$variable)
+```
+
+```{r}
+IQR(whitehall$sbp, na.rm = TRUE)
+```
+
+See if you can figure out how to calculate IQR using the quantile function!
+
+```{r}
+quantile(whitehall$sbp, probs=0.75, na.rm=TRUE) - quantile(whitehall$sbp, probs=0.25, na.rm=TRUE)
+```
+
+Calculate the Sample size, remember to exclude missing values!
+
+### f) Range
+
+To calculate range, we simply subtract the maximum from minimum values, as shown:
+
+```         
+max(object.name$variable) – min(object.name$variable)
+```
+
+```{r}
+max(whitehall$sbp) - min(whitehall$sbp)
+```
+
+### g) SD and Variance
+
+To calculate standard deviation and variance, you can use the following simple functions:
+
+```         
+sd(object.name$variable)
+
+var(object.name$variable)
+```
+
+#### Question A1.3a.i:
+
+**After completing the steps above, can you classify the following variables as Categorical, Binary, Ordinal, Continuous?**
+
+-   Prior CVD
+-   SBP
+-   Frailty
+-   Death
+
+#### Answer A1.3a.i:
+
+-   Prior CV: binary
+-   SBP: continuous
+-   Frailty: ordinal
+-   Death: binary
+
+#### Question A1.3a.ii:
+
+**What are the measures of central tendency (mean, median and mode) and the measures of spread (range, interquartile range and standard deviation) for the measured cholesterol of participants in our dataset (using the chol variable)?**
+
+### Bar charts and histograms
+
+R offers several powerful tools to make easily customisable visualisations of data.
+
+#### Bar Charts
+
+To make a simple barplot, we can use the `barplot()` function, and then input code in order to represent the data in different ways. The first step is to load several useful packages which will assist with our graphing. We then load these libraries. These open-source packages contain several additional tools that we can use.
+
+```         
+install.packages("tidyverse")
+
+install.packages("RColorBrewer")
+
+library(tidyverse)
+
+library(RColorBrewer)
+```
+
+We then generate a table, which we will assign as the object `bmi.counts`. It is this object we ask R to generate a barplot for.
+
+```{r}
+bmi.counts <- table(whitehall$bmi)
+```
+
+Within the barplot function, we can label the X and Y axis using `xlab=` and `ylab=`, title the graph using `main=`, and change the colour of the bars using `col=`. Here, the package `RColorBrewer` allows us to generate a vector of (20) contiguous colours.
+
+```{r}
+barplot(bmi.counts, xlab = "BMI", ylab = "Number of People", main = "BMI of Whitehall Participants", col=heat.colors(20))
+```
+
+There is also opportunity to create stacked bar graphs in R. We can change the orientation by using the argument ‘horiz = TRUE’
+
+### Histograms
+
+We can make a simple histogram using the `hist()` function in R. This function takes in a vector of values for which the histogram will be plotted. As with before, we will modify the histogram to add axis labels and a title.
+
+```{r}
+hist(whitehall$bmi, xlab = "BMI", ylab = "Number of People", main = "BMI of Whitehall Participants", col=heat.colors(12), density=100)
+```
+
+### Grouping Continuous Data
+
+Grouping continuous data is simply an extension of the skills we used to earlier create our binary variable. There are many reasons why you would want to categorise a continuous variable, and cut-offs need to be defined for different categories. `BMI` is a skewed variable and different parts of the distribution of BMI may have different relationships with diseases that we investigate.
+
+Our first step is to create a new, empty column, which we will title `bmi.grouped`:
+
+```{r}
+whitehall$bmi.grouped <- NA
+```
+
+Our subsequent code will act to populate this new column we’ve created in our data frame.
+
+Our goal is to get R to assign values to this new column, which will be drawn from the existing BMI data recorded for those rows. Remember that each row is a collection (vector) of data that represents a different individual.
+
+We will define `BMI` of less than 18.5 as 0, between 18 – 25 as 1,between 25-30 as 2, and greater than or equal to 30 as 3. This will be then coded in. This can be achieved with the below simple operators:
+
+```{r}
+whitehall$bmi.grouped [whitehall$bmi<18.5]<-0
+
+whitehall$bmi.grouped [whitehall$bmi >=18.5 & whitehall$bmi<25]<-1
+
+whitehall$bmi.grouped [whitehall$bmi >=25 & whitehall$bmi <30]<-2
+
+whitehall$bmi.grouped [whitehall$bmi >=30]<-3
+```
+
+It is important to also check that this variable is in the right format, using `class()`.
+
+class(whitehall.data\$bmi.grouped)
+
+\[1\] “numeric”
+
+R views our new variable as ‘numeric’. Clearly, however, it is an ordered categorical variable. Therefore, we have to ensure that R views the variable as a Factor. Simultaneously, while completing this task, we can also label our groups using the `labels=c()` function, remembering to use “” to denote different category titles. This can be completed as follows:
+
+```{r}
+whitehall$bmi.grouped <- factor (whitehall$bmi.grouped, labels=c("<18.5", "18.5-24.9", "25-29.9", ">30"))
+```
+
+####Question A1.3b.i:
+
+**Which type of variable can you plot with a bar chart? When should you use a histogram?**
+
+#### Question A1.3b.ii:
+
+**Plot the bar chart that counts the number of participants in each BMI group and save it. Can you give this graph a title? Can you label the y axis and change the colour of the bars in the chart?**
+
+#### Question A1.3b.iii:
+
+**Plot a histogram of SBP and describe the distribution.**
+
+#### Question A1.3b.iv:
+
+**Regroup SBP in a different way, and decide which grouping best represents the data.**
+
+#### Question A1.3b.v:
+
+**Can you change the number of bins used to plot the histogram of SBP? What is the effect of changing the number of bins?**
+
+#### Answer A1.3b.i:
+
+**Categorical variables (such as our newly created BMI categories) can be visually represented using a bar graph.**
+
+**Histograms should be employed for continuous numerical variables. In our current dataset, variables that could be appropriately represented using a histogram include systolic blood pressure, blood cholesterol, and LDL levels.**
+
+#### Answer A1.3b.ii:
+
+**To generate this bar graph, we will follow the same process as we did before we had grouped BMI into the new variable. Note that we’ve changed the number of colours on our contiguous spectrum to 4, to reflect the new number of categories.**
+
+```{r}
+bmi.grouped.graph <- table(whitehall$bmi.grouped)
+
+barplot(bmi.grouped.graph, horiz = FALSE, xlab = "BMI", ylab = "Number of People", main = "BMI of Whitehall Participants", col=heat.colors(4))
+```
+
+#### Answer A1.3b.iii:
+
+As above, the code for this histogram is as follows:
+
+```{r}
+hist(whitehall$sbp, xlab = "SBP", ylab = "Number of People", main = "Histogram of SBP of Whitehall Participants", col=heat.colors(12), density=100)
+```
+
+**There appears to be a small right skew (positive skew) to this distribution but it is approximately normally distributed.**
+
+#### Answer A1.3b.iv:
+
+We will group SBP according to the American College of Cardiology/American Heart Association guidelines for hypertension management, which classes blood pressure according to the following categories. The process for coding this new variable is near identical to the BMI categorisation — have a go yourself!
+
+| Blood Pressure Caterogory | Systolic Blood Pressure |
+|---------------------------|-------------------------|
+| Normal                    | \<120 mmHg              |
+| Elevated                  | 120-129 mmHg            |
+| Hypertension              |                         |
+| Stage 1                   | 130-139 mmHg            |
+| Stage 2                   | \>=140 mmHg             |
+
+```{r}
+whitehall$sbp.grouped<- NA
+
+whitehall$sbp.grouped [whitehall$sbp<120]<-1
+
+whitehall$sbp.grouped [whitehall$sbp >=120 & whitehall$sbp <130]<-2
+
+whitehall$sbp.grouped [whitehall$sbp >=130 & whitehall$sbp <140]<-3
+
+whitehall$sbp.grouped [whitehall$sbp >=140]<-4
+
+class(whitehall$sbp.grouped)
+
+whitehall$sbp.grouped <- factor(whitehall$sbp.grouped, labels=c("Normotensive", "Elevated", "Stage 1 Hypertension", "Stage 2 Hypertension"))
+```
+
+#### Answer A1.3b.v:
+
+Normally, R automatically calculates the size of each bin of the histogram. We may not find, however, that the default bins offer an appropriate or sufficient visualisation of the data. We can change the number of bins by adding an additional argument to our `hist()` code, `breaks=()`
+
+```{r}
+hist(whitehall$sbp, xlab = "SBP", ylab = "Number of People", main = "Histogram of SBP of Whitehall Participants", col=heat.colors(12), density=100, breaks = 1000)
+```
+
+If we try two extremes, we end up with two different graphs — and the distribution and skew is easier to assess.
+
+We could say that this appears to be a more ‘normal’ distribution — even though the underlying data hasn’t changed!
+
+```{r}
+hist(whitehall$sbp, xlab = "SBP", ylab = "Number of People", main = "Histogram of SBP of Whitehall Participants", col=heat.colors(12), density=100, breaks = 10)
+```
+
+When represented with larger bins, however, the distribution does not seem to be quite as normally distributed. Some of the information at lower levels of SBP and in the far right tail is obscured.
+
+# A1.4: Estimates and Confidence Intervals
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this session, students will be able to:
+
+-   Understand the concepts of statistical inference and sampling distributions
+
+-   Calculate standard error and confidence intervals by hand
+
+-   Calculate standard error and confidence intervals using statistical software
+
+-   Interpret confidence intervals for a difference in means
+:::
+
+You can download the slides here: [1.4: Estimates and Confidence Intervals](https://1drv.ms/f/s!AtvH6PgKXPEDgnY0BpwEnf5fdwSy?e=mUsXfF){target="_blank"}
+
+**Standard error (SE)** can be defined as the standard deviation of the sampling distribution. The standard error is calculated using the formula: $SE = \frac{\sigma}{\sqrt{n}}$.
+
+**OR**
+
+Standard Deviation (SD) and sample size (n) can be used to calculate SE as per the following formula:
+
+$$
+SE = \frac{SD}{\sqrt{n}}
+$$
+
+To calculate SE in R, we will need to first calculate both the SD and n and define these calculations as objects. We will then input these calculations into a formula in order to calculate SE. Let’s calculate the SE for SBP, as an example. Remember to name your objects properly and tell R to exclude missing values!
+
+1)  To calculate n, we will use the `sum` function.
+
+```{r}
+SBP.n <- sum(!is.na(whitehall$sbp))
+
+SBP.n
+```
+
+### Exercise
+
+Calculate SD, noting again that we are rounding to 3 significant figures and excluding NA values.
+
+```{r}
+SBP.sd <- sd(whitehall$sbp, na.rm=T)
+
+round(SBP.sd, digits=3)
+```
+
+### Calculate SE
+
+To calculate SE using the formula we derived above, and have further simplified our digits instructions.
+
+```{r}
+SBP.se <- SBP.sd/sqrt(SBP.n)
+
+round (SBP.se, 3)
+```
+
+# 95% confidence interval
+
+The 95% confidence interval is given by the formula: $CI = \bar{x} \pm Z \cdot \frac{\sigma}{\sqrt{n}}$.
+
+The formula for the 95% confidence interval is:
+
+$$
+CI = \bar{x} \pm Z \cdot \frac{\sigma}{\sqrt{n}}
+$$
+
+Z0.975 is the 97.5% percentile of the standard normal distribution (\~1.96 SD from the mean). We can determine this precisely in R using qnorm(0.975), which equals to `r qnorm(0.975)`, as previously demonstrated.
+
+```{r}
+Za <- qnorm(0.975)
+
+SBP.mean <- mean(whitehall$sbp, na.rm=TRUE)
+
+ci.Z_SBP <- c((SBP.mean - (SBP.se*Za)), (SBP.mean + (SBP.se*Za))) 
+
+ci.Z_SBP
+```
+
+**We can interpret this is as that ‘we are 95% confident that the true mean SBP for this population lies between 130.2276 mmHg and 131.2754 mmHg.**
+
+Notice how `LDLC.sd/sqrt(LDLC.n)` is effectively $\frac{\sigma}{\sqrt{n}}$ which is the SE. The implication of this is that the larger n is (i.e., the sample size), the smaller SE and the narrower the CI will be (i.e., there will be less uncertainty around the estimated mean). We can also plot a histogram, using our knowledge from previous sections, in order to check whether this variable is approximately normally distributed.
+
+#### Question A1.4.i:
+
+Calculate a 95% confidence interval for mean BMI. How would you interpret this interval?
+
+### Calculate the Sample Size
+
+```{r}
+BMI.n <- sum(!is.na(whitehall$bmi))
+```
+
+### Calculate the SD
+
+```{r}
+BMI.sd <- sd(whitehall$bmi, na.rm = T)
+
+round(BMI.sd, 3)
+```
+
+### Calculate the SE
+
+```{r}
+
+BMI.se <- BMI.sd/sqrt(BMI.n)
+
+round(BMI.se, 3)
+```
+
+### Calculate the mean BMI
+
+```{r}
+BMI.mean <- mean(whitehall$bmi, na.rm = T)
+```
+
+### Calculate the SE
+
+```{r}
+Za <- qnorm(0.975)
+
+ci.z_BMI <- c((BMI.mean - (BMI.se*Za)), (BMI.mean + (BMI.se*Za))) 
+
+ci.z_BMI
+```
+
+**95% of sample means for BMI lie between 25.12 and 25.31**
+
+### Calculate 99% CI for BMI
+
+```{r}
+ZA <- qnorm (0.995)
+
+ci.z99_BMI <- c((BMI.mean - (BMI.se*ZA)), (BMI.mean + (BMI.se*ZA))) 
+
+ci.z99_BMI
+```
+
+**The 99% CI is wider. This is because only 1% of your sample means will fall outside this range. Therefore, to be more certain, the range of values will increase to allow for this.**
+
+# A1.5: Hypothesis Testing
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this session, students will be able to:
+
+-   Interpret p-values
+
+-   Describe type I and type II errors
+
+-   Calculate and interpret t-tests for a difference in means
+:::
+
+You can download a copy of the slides here: [1.5: Hypothesis Testing](https://1drv.ms/f/s!AtvH6PgKXPEDgnfMu293w_0JDjiV?e=FHsi8c){target="_blank"}
+
+A t-test is an inferential statistic that can be calculated in order to determine the relationship and significance of the difference between the mean values of two separate population variables. There are several assumptions that we take to be true when performing a t-test:
+
+-   The data are continuous
+
+-   The sample data have been randomly sampled from a population
+
+-   There is homogeneity of variance (i.e. the variability of the data in each group is similar)
+
+-   The distribution is approximately normal
+
+The t-statistic $t$ is given by:
+
+$$
+t = \frac{\bar{X}_1 - \bar{X}_2}{\sqrt{s_p^2 \left( \frac{1}{n_1} + \frac{1}{n_2} \right)}}
+$$
+
+Where:
+
+-   $\bar{X}_1$ and $\bar{X}_2$ are the sample means of the two groups,
+-   $n_1$ and $n_2$ are the sample sizes of the two groups,
+-   $s_p^2$ is the pooled variance, calculated as:
+
+$$
+s_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}
+$$
+
+-   $s_1^2$ and $s_2^2$ are the variances of the two groups.
+
+A one-sample t-test (or student’s t-test) is used on a continuous measurement to decide whether a population mean is equal to a specific value — i.e. is the systolic blood pressure of our population 120, or not. In R, to complete a one-sample t-test, the syntax is:
+
+```         
+t.test(x, conf.level=0.95 , …[options] )
+```
+
+For a two-sample t-test (independent samples t-test), the following code should be used:
+
+```         
+t.test(x[group==1], x[group==2] , conf.level=0.95 , …[options] )
+```
+
+For a two-sample test, x specifies the variable on which to perform the t-test, while the group variable defines the groups to be compared. An alternative formulation for the two sample t.test is:
+
+```         
+t.test(x~group, data=)
+```
+
+See `?t.test` for details of the other options within the native R help files.
+
+#### Question A1.5a:
+
+**Recode BMI into a binary variable so that one group has a BMI below 25, and the other group has a BMI of 25 and above. Perform a t-test to compare the mean SBP in those with BMI\<25 and those with BMI≥. Answer the questions:**
+
+```{r}
+whitehall$bmi_grp4 <- NA
+whitehall$bmi_grp4[whitehall$bmi < 25] <- 1
+whitehall$bmi_grp4[whitehall$bmi >= 25] <- 2
+
+table(whitehall$bmi_grp4)
+```
+
+I. \*\*What is the mean SBP where BMI \<25 ($\overline{x_1}$)?
+
+```{r}
+x1 <- aggregate(sbp~bmi_grp4, mean, subset = bmi_grp4 == 1, data = whitehall) 
+
+x1
+```
+
+I. 129.49mmHg
+
+II. \*\*What is the mean SBP where BMI ≥25 ($\overline{x_2}$)?
+
+```{r}
+x2 <- aggregate(sbp~bmi_grp4, mean, subset = bmi_grp4 == 2, data = whitehall) 
+
+x2
+```
+
+II. 131.65mmHg
+
+III. \*\*What is the mean difference ($\overline{x_2}-\overline{x_1}$)?
+
+```{r}
+mean_diff <- x1 - x2 
+
+mean_diff
+```
+
+III. Using basic arithmetic in R:131.6524-129.4905 = 2.1619
+
+IV. **What is the test statistic t ?**
+
+```{r}
+t <- t.test(sbp~bmi_grp4, data = whitehall) 
+
+t
+```
+
+IV. The t-statistic is the ratio of the departure of the estimated value of a parameter from its hypothesized value to its standard error. It can be utilised to tell us about whether we should support or reject the null hypothesis.t = -4.0068
+
+V. **What is 95% CI for the mean difference?**
+
+**95 percent confidence interval: -3.22, -1.10That is to say, we are 95% confident that the difference in the mean systolic blood pressure between those with BMI \<25 and BMI 25 lies between 1.10 and 3.22 mmHg.**
+
+VI. **What is the p-value for this t-test and what does it mean?**
+
+**The p-value is 6.267e-05 = 0.00006267. Remember that p-values provide us with the probability of getting the mean difference we saw here, or one greater, if the null hypothesis was actually true. In this case, that probability is extremely low.Here, our p-value tells us that there is very strong evidence against the null hypothesis (which would be that there is no difference in SBP between our two BMI groups).Therefore, we can say that there is a significant difference in the mean SBP measures in people who are overweight and those who are not.**
+
+#### Question A1.5b:
+
+**If a clinician has decided that a difference of at least 5 mmHg is considered a clinically worthwhile difference in blood pressure with regard to morbidity associated with high blood pressure, do you consider the result in A1.5a to be clinically significant?**
+
+**Answer A1.5b:**
+
+**No. Note here the difference between clinical and statistical significance. Whilst there is a statistically significant difference between the 2 mean SBP measures, with a mean difference of 2.16 mmHg, the result is not clinically significant.**
+
+# A1.6: Transforming Variables
+
+In @sec-A1.3 you learnt about data types and data distributions. Many of the tests that we use for continuous variables assume that the data follow a Gaussian or normal distribution. You have learnt how to create a histogram and use this to assess if the data follow the appropriate distribution. But what do we do if they don’t?
+
+In these situations it is often acceptable to ‘transform’ your variable. This means to apply a mathematical function to each observed value, and then analyse the transformed values. This is a perfectly valid and widely accepted approach to dealing with skewed data. You just need to take care to use it appropriately. For example, you must ensure that if you are comparing means between two or more groups, that you perform the same transformation on all groups in the analysis so that the means are still comparable. Also, you must make sure that you interpret the results of any statistical tests on transformed data appropriately. It is often best to transform any means and mean differences back into the original units.
+
+The table below shows the most useful transformations to deal with different deviations from the normal distribution.
+
+| Form of data            | Transformation      |
+|-------------------------|---------------------|
+| Slightly right-skewed   | Square root         |
+| Moderately right-skewed | Logarithmic         |
+| Very right-skewed       | Reciprocal          |
+| Left-skewed             | Square              |
+| Counts                  | Square root         |
+| Proportions             | Arcsine square root |
+
+If you have decided to use a transformation it is best to plot your raw data (histogram or Q-Q plot depending on your preference), create a new variable with the transformed data, and then plot the transformed variable in the same way to check that the transformation has had the desired effect.
+
+Sometimes variable transformations do not help. For example, if the measures of central tendency are all at the very extreme values of a variable then it is unlikely that any transformation will be useful. In these cases, non-parametric tests may be preferred. We will cover when and how to use non-parametric tests in Module B3.
+
+The natural log is the log to the base of the constant e (also known as Euler’s number), which is approximately 2.718281828459.
+
+If you are interested in why this number is so important, a quick Google of the term Euler’s number should suffice, but you do not need to know why we use this value in order to run this analysis. (NB: Euler’s number is not to be confused with Euler’s constant, which is a different thing entirely!)
+
+Firstly, plot and inspect a histogram of the variable hdlc. Adding a normal curve might help to see what we are looking at.
+
+To do this in R you write:
+
+```         
+data$variable_log <- log(data$variable)
+```
+
+**Use this function to log transform the ‘hdlc’ variable. Now create a new histogram of your transformed variable. How does this compare to your original? Does this transformation help your data? What might you do differently?**
+
+```{r}
+whitehall$hdlc.log <- log(whitehall$hdlc)
+```
+
+Then to look at the histogram we write:
+
+```{r}
+
+hist(whitehall$hdlc.log, breaks = 20)
+```
+
+You can see that the data are closer to following the normal curve in this histogram compared to the previous. In the first histogram the most common values (taller bars) are slightly outside of the normal curve to the left of the mean, and there is a more gradual slope on the right-hand side of the mean (peak of the normal curve). This means there are more values in the bins to the right of the mean than to the left of the mean. This is a (very) slight right skew.
+
+In the histogram of the transformed data the highest points are closer to the mean, so this could be classed as a slight improvement, but we are more seeing some of the most common values slightly to the right of the mean, and a more gradual slop off to the left, so a very minimal left skew. This wouldn’t worry us if we saw a skew this slight in the raw data, but in transformed data this is an ‘over-correction’ and indicates that the log transformation might not be the best option for this variable. Referring back to the table at the top of the page, we would select the square root transformation here instead.
+
+In reality, the original hdlc variable was quite close to normality, and a sufficiently large sample size that we would not be worried, but it is a good candidate to experiment on.
+
+## Custom function to find the mode
+
+```{r}
+get_mode <- function(v){ 
+  uniq_vals <- unique(v) # Get unique values 
+  uniq_vals[which.max(tabulate(match(v, uniq_vals)))] # Find the most frequent value
+  } 
+
+x <- c(25, 24, 31, 38, 18, 14, 16, 25, 22, 25, 24, 27, 42, 30, 32)
+
+# Calculate mode
+
+mode_value <- get_mode(x) 
+
+mode_value
+```
+
+# A2.1 Introduction to Power and Sample Size Calculation {#sec-A2.1}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this session, students will be able to:
+
+-   Continue practicing basic software commands
+
+-   Learn how to explore the dataset, identifying the different types of variable stored
+
+-   Calculate the different measures of location and spread
+
+-   Plot frequency distributions and histograms
+:::
+
+You can download a copy of the slides here: [A2.1 Key Concepts](https://1drv.ms/p/s!AtvH6PgKXPEDgklIx_PHxzZ6DWAA?e=Zb8cS1){target="_blank"}
+
+The power package
+
+We can estimate sample size and power using the R package ‘pwr’. First you need to install the package and load the library:
+
+```         
+install.packages("pwr")
+
+library(pwr)
+```
+
+```{r, include=FALSE}
+ library(pwr)
+```
+
+Once this package is installed, we can start calculating our needed sample size to test hypotheses or we can estimate the amount of power a study had to detect a difference is one existed. The next sections will show you how to do this.
+
+**Look at the help file for the function pwr.t.test. What is the default value for significance level?**
+
+**What information do you need to conduct a sample size estimate for difference between means?**
+
+The default value for significance level (denoted as ‘sig.level‘) in the function is 0.05. This is indicated by sig.level=0.05, and can be changed by specifying a different number in the function. So you can work out the sample size you would need for different significance levels.
+
+To conduct a sample size estimate between means you need the power and alpha values you have decided on, the estimated mean of each group in the population, or the estimated difference between groups in the population, and the estimated population standard deviation.
+
+# A2.2 Power calculations for a difference in means {#sec-A2.2}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this session, students will be able to:
+
+-   Explain the key concept of power and what impacts it
+
+-   Estimate the power of a given study
+
+-   Estimate the sample size needed to test hypotheses in different study designs
+:::
+
+You can download a copy of the slides here: [A2.2 Power calculations for a difference in means](https://1drv.ms/p/s!AtvH6PgKXPEDgko9OFv6whK6t7Mf?e=10INKQ){target="_blank"}
+
+## Power calculations for two means
+
+Here is an example:
+
+Estimate the sample size needed to compare the mean systolic blood pressure (SBP) in two populations. From a pilot study, you think that the group with lower blood pressure will have a mean SBP of 120 mm Hg, and the standard deviation (SD) of both groups will be 15 mm Hg. You have decided that you are interested in a minimum difference of 5 mm Hg, and you want 90% power, and a 5% significance level.
+
+In R, we need to calculate two statistics to estimate sample size: delta (i.e. the expected difference between groups) and sigma (variance, which in this case is the pooled standard deviation). Once we have delta and sigma, we can calculate the effect size we expect to see, which is Cohen’s d. We can guess delta and sigma from looking at past studies or by running a pilot study. Cohen’s d is estimated by dividing the delta by the sigma.
+
+**Cohen's d**
+
+```{r}
+d <- 5/15
+d
+```
+
+**Use the ‘pwr.t.test’ command to assess the sample size needed to detect this effect size.**
+
+```{r}
+power1 <-pwr.t.test(d=d, power=0.9, sig.level =0.05 ) 
+
+power1
+```
+
+You need approximately 190 participants in each group, and 380 participants overall.
+
+::: callout-note
+n is number in *each* group
+:::
+
+**If we want to estimate the power of a given sample size, we omit the ‘power’ option, and instead use the ‘n=’ option:**
+
+```{r}
+power2 <-pwr.t.test(n=190, d=d, sig.level =0.05 ) 
+
+power2
+```
+
+We can see here that recruiting 190 participants in each blood pressure group would enable our study to have 90% power.
+
+### Question A2.2:
+
+how much power would we have ended up with in our study if we only managed to recruit 150 participants in each group, but the variance of our study sample was smaller than what we anticipated (so SD=12) ?
+
+```{r}
+d1 <- 5/12 
+
+d1
+
+power3 <- pwr.t.test(n=150, d=d1, sig.level = 0.05) 
+
+power3
+```
+
+**We recruited fewer participants, which would decrease our power, but since our variance was lower our power actually increased overall to 95%**
+
+#A2.3 Power calculations for two proportions {#sec-A2.3}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain the key concept of power and what impacts it
+
+-   Estimate the power of a given study
+
+-   Estimate the sample size needed to test hypotheses in different study designs
+:::
+
+You can download a copy of the slides here: [A2.3 Power calculations for a difference in proportions](https://1drv.ms/p/s!AtvH6PgKXPEDgkscJs5h1Z49wtOt?e=Zp3dNL){target="_blank"}
+
+Here is an example:
+
+Estimate the sample size needed to compare the proportion of people who smoke in two populations. From previous work, you think that 10% of the people in population A smoke, and that an absolute increase of 5% in population B (compared to population A) would be clinically significant. You want 90% power, and a 5% significance level.
+
+-   In this scenario we use the `pwr.2p.test` command in the power package.
+
+-   alpha = sig.level option and is equal to 0.05
+
+-   power = 0.90
+
+-   p1 = 0.10
+
+-   p2 = 0.15
+
+```{r}
+power4 <-pwr.2p.test(h=ES.h(p1=0.1, p2=0.15), sig.level=0.05, power=0.9) 
+
+power4
+```
+
+**You estimate that you need 911 participants from each population, with a total sample of around 1,821.**
+
+-   If you wanted different sample sizes in each group, you would use the command `pwr.2p2n.test` instead.
+
+-   If we type `plot(power4)` we can see how the power level changes with varying sample sizes:
+
+```{r}
+plot(power4)
+```
+
+#### Question A2.3:
+
+Unfortunately, the funding body has informed you, you only have enough resources to recruit a fixed number of people. Can you estimate the power of a study if you only had 500 people in total (with even numbers in each group)?
+
+```{r}
+power5 <- pwr.2p.test(h=ES.h(p1=0.1, p2=0.15), n = 250, sig.level = 0.05) 
+
+power5
+
+```
+
+**In this scenario, the power of the study would be only 0.40. Most people would regard such a study as under-powered as there is only a 40% chance that the effect will be detected if one truly exists.**
+
+# A2.4 Sample Size Calculation for RCTs {#sec-A2.4}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain the key concept of power and what impacts it
+
+-   Estimate the power of a given study
+
+-   **Estimate the sample size needed to test hypotheses in different study designs**
+:::
+
+You can download a copy of the slides here: [A2.4: Sample Size Calculations for RCTs](https://1drv.ms/p/s!AtvH6PgKXPEDgk0-hp9s4sp7vf9n?e=saaL89){target="_blank"}
+
+**Sample size calculation for testing a hypothesis (Clinical trials or clinical interventional studies)**
+
+The sample size $n$ for each group in an RCT with continuous outcomes is given by:
+
+$$
+n = \frac{{2 \sigma^2 (Z_{\alpha/2} + Z_{\beta})^2}}{{\Delta^2}}
+$$
+
+Where:
+
+-   $n$ is the sample size required in each group,
+-   $\sigma^2$ is the population variance (or an estimate based on prior studies or pilot data),
+-   $Z_{\alpha/2}$ is the critical value of the standard normal distribution at significance level $\alpha$,(e.g., 95% confidence corresponds to $Z_{\alpha/2} \approx 1.96$).
+-   $Z_{\beta}$ is the critical value for power $1 - \beta$,(e.g., 80% power corresponds to $Z_{\beta} \approx 0.84$)
+-   $\Delta$ is the effect size (the minimum detectable difference between groups).
+
+*This formula is used to ensure the study has enough power to detect a clinically meaningful difference.*
+
+Here is an example:
+
+In a parallel RCT, 25% of the subjects on the standard therapy had a successful outcome. It is only of clinical relevance if a 40% absolute improvement is observed in the new therapy. How many subjects are required in order to detect this difference with 80% power at the 5% level of significance?
+
+In this case we need to assess a difference in proportions again, this time with an effect size that has a 0.40 difference between the groups:
+
+```{r}
+power6<-pwr.2p.test(h=ES.h(p1=0.25, p2=0.65), power=0.8, sig.level=0.05)
+
+power6
+```
+
+23 subjects per group and 46 subjects are required in total.
+
+## Estimating sample size for a hypothesis in a cross-sectional study
+
+#### Question A2.4:
+
+In the same parallel trial as described in the example above, we still observe that 25% of the subjects on the standard therapy had a successful outcome, but this time it is only of clinical relevance if a 40% relative improvement is observed in the new therapy. How many subjects are required in order to detect this difference with 80% power at the 5% level of significance?
+
+#### Answer A2.4:
+
+First you need to work out what a 40% relative increase on 25% is: `0.25*1.40=35%` of subjects would need to have a successful outcome for there to be clinical relevance.
+
+```{r}
+power7<-pwr.2p.test(h=ES.h(p1=0.25, p2=0.35), power=0.8, sig.level=0.05)
+
+power7
+```
+
+We need many more patients than in the example above due to the small effect size that we now wish to detect.
+
+# A2.5 Sample size calculations for cross-sectional studies (or surveys) {#sec-A2.5}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain the key concept of power and what impacts it
+
+-   Estimate the power of a given study
+
+-   **Estimate the sample size needed to test hypotheses in different study designs**
+:::
+
+You can download a copy of the slides here: [A2.5: Sample size calculations for cross-sectional studies (or surveys)](https://1drv.ms/p/s!AtvH6PgKXPEDgkzY9gcUKlV9CwAA?e=deJFls){target="_blank"}
+
+To determine the sample size $n$ for estimating a population proportion in a cross-sectional study, use the following formula:
+
+$$
+n = \frac{{Z_{\alpha/2}^2 \cdot p \cdot (1 - p)}}{{d^2}}
+$$
+
+Where:
+
+-   $n$ is the required sample size,
+-   $Z_{\alpha/2}$ is the critical value for the desired confidence level (e.g., for 95% confidence, $Z_{\alpha/2} \approx 1.96$),
+-   $p$ is the estimated population proportion (e.g., based on prior data or a pilot study),
+-   $d$ is the desired margin of error or precision (the maximum allowable difference between the sample estimate and population proportion).
+
+*This formula helps ensure that the sample size is large enough to accurately estimate the population proportion with a specified confidence level and precision.*
+
+**Example of estimating sample size for a hypothesis in a cross-sectional study**
+
+You have been asked to help with a power calculation for a cross-sectional study, to estimate the point prevalence of obesity within a population. A study five years ago in this population found that 30% of people were obese, but the government thinks this has increased by 10% (to a point prevalence of 40%). Estimate the sample size needed for this study, assuming that the previous point prevalence of 30% is your 'null hypothesis'. You want 80% power.
+
+-   You are calculating a sample size for one proportion here.
+
+```{r}
+power8 <-pwr.p.test(h=ES.h(p1=0.3, p2=0.4), power=0.8, sig.level=0.05) 
+
+power8
+```
+
+**You need about 178 participants in your study to estimate this prevalence.**
+
+#### Question A2.5:
+
+One researcher has suggested that the proportion of the population who is obese may actually have decreased by 10% in the last five years (i.e. to 20%). How would this change your estimate for the sample size needed?
+
+```{r}
+power9 <-pwr.p.test(h=ES.h(p1=0.3, p2=0.2), power=0.8, sig.level=0.05) 
+
+power9
+```
+
+**The estimated sample size has now reduced slightly, to 146.**
+
+**Based the outputs above, we can conclude that more data are needed to detect a change in proportion from 0.3 to 0.4 than from 0.3 to 0.2. For a fixed absolute difference (here the absolute difference in proportions is 0.1), larger sample sizes are needed to obtain a given level of power as the proportions approach 0.5.**
+
+Recall that the standard error (se) of the sampling distribution of p is $SE = \sqrt{\frac{p(1 - p)}{n}}$.
+
+Where: - ( p ) is the sample proportion, - ( n ) is the sample size.
+
+As p gets closer to 0.5, the amount of variability increases (se is largest when p=0.5) and, therefore, more data are needed to detect a change in proportions of 0.1.
+
+# A2.6 Sample size calculations for case-control studies {#sec-A2.6}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain the key concept of power and what impacts it
+
+-   Estimate the power of a given study
+
+-   **Estimate the sample size needed to test hypotheses in different study designs**
+:::
+
+You can download a copy of the slides here: [A2.6: Sample size calculations for case-control studies](https://1drv.ms/p/s!AtvH6PgKXPEDgk4r89kfykscn_0P?e=XnJyGw){target="_blank"}
+
+To calculate the sample size $n$ for each group (cases and controls) in a case-control study, use the following formula:
+
+$$
+n = \frac{(Z_{\alpha/2} + Z_{\beta})^2 \cdot [p_1 (1 - p_1) + p_2 (1 - p_2)]}{(p_1 - p_2)^2}
+$$
+
+Where:
+
+-   $n$ is the sample size required in each group (cases and controls),
+-   $Z_{\alpha/2}$ is the critical value for the desired significance level (e.g., for 95% confidence, $Z_{\alpha/2} \approx 1.96$),
+-   $Z_{\beta}$ is the critical value for the desired power (e.g., for 80% power, $Z_{\beta} \approx 0.84$),
+-   $p_1$ is the proportion of cases exposed to the risk factor,
+-   $p_2$ is the proportion of controls exposed to the risk factor,
+-   $(p_1 - p_2)$ represents the minimum detectable difference between the proportions of exposure in cases and controls.
+
+This formula ensures sufficient power to detect a statistically significant difference in exposure between cases and controls.
+
+**Estimating sample size for case-control studies**
+
+You have now been asked to help another research group with their power calculations. They want to conduct a case-control study of sterilization (tubal ligation) and ovarian cancer. You could use parameters from a recent paper (reference below). Parameters of interest might include the proportion of cases or controls with tubal ligation, and the odds ratio.
+
+Tubal ligation, hysterectomy and epithelial ovarian cancer in the New England Case-Control Study. Rice MS, Murphy MA, Vitonis AF, Cramer DW, Titus LJ, Tworoger SS, Terry KL. Int J Cancer. 2013 Nov 15;133(10):2415-21. doi: 10.1002/ijc.28249. Epub 2013 Jul 9.
+
+Looking at the paper, you could extract the following relevant information needed to estimate your sample size:
+
+-   Proportion of controls with tubal ligation: 18.5%.
+
+-   Proportion of cases with tubal ligation: 12.8%.
+
+-   Odds ratio for the association between tubal ligation and ovarian cancer: 0.82.
+
+-   This study used 2,265 cases and 2,333 controls.
+
+::: callout-note
+You probably won’t need to use all of these parameters.
+:::
+
+If you want to use a test of proportions to assess how large your sample needs to be for an expected odds ratio of the association between tubal ligation and ovarian cancer, you need to have two proportions for the command. Above we assume that 18% of controls have had tubal ligation, so we then can use this formula to work background from an expected odds ratio to see the other proportion:
+
+$$p2 = {\frac{(OR*p1)}{(1+p1(OR-1))}}$$
+
+**Example 2.6**
+
+**how many people do you need to recruit into your study if your odds ratio is less than 0.8 and you want to have power of at least 80% ?**
+
+```{r}
+power10 <-pwr.p.test(h=ES.h(p1=0.9, p2=0.8), power=0.8, sig.level=0.05)
+
+power10 
+```
+
+#### Question A2.6a:
+
+**Looking at the plot, how many people do you need to recruit into your study if your odds ratio is less than 0.8 and you want to have power of at least 80%?**
+
+#### Answer A2.6a:
+
+**If the odds ratio in this scenario is ≤ 0.8, (i.e. an effect size of 20% -40%) then you can reach a power ≥ 0.8 with a sample size of around 5000 people. If the true odds ratio is closer to 0.9 (i.e. a 10% effect size), then you would require a much larger sample size.**
+
+#### Answer A2.6b:
+
+We substitute a proportion of 18% and an OR of 0.85 into the formula:
+
+$$p2 = {\frac{(OR*p1)}{(1+p1(OR-1))}}$$
+
+p2= (0.85\*0.18)/(1+0.18(0.85-1)
+
+Using R like a calculator, we get:
+
+```{r}
+(0.85*0.18)/(1+0.18*(0.85-1))
+
+power11 <-pwr.2p.test(h=ES.h(p1=0.18, p2=0.1572), power=0.9, sig.level=0.05)
+
+power11
+```
+
+**You need 5661 cases and 5661 controls, so about 11,322 participants in total, to obtain 90% power if your OR of tubal ligation with ovarian cancer is 0.85.**
+
+```{r}
+power12 <- power.t.test(delta = 6.0 - 5.5, sd = 1, power = 0.9, sig.level = 0.05, type = "two.sample", alternative = "two.sided") 
+
+power12
+```
+
+# B1.1: Correlation and Scatterplots {#sec-B1.1}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   **Explore the data with correlations and scatterplots.**
+
+-   Use an ANOVA to test for a difference in means across a categorical variable.
+
+-   Conduct univariable and multivariable linear regression
+
+-   Check the regression diagnostics of a linear model.
+:::
+
+You can download a copy of the slides here: [B1.1 Correlation and Scatterplots](https://1drv.ms/p/s!AtvH6PgKXPEDgmDgs-JMcoXm3eiT?e=JK9ZN2){target="_blank"}
+
+In this section we will use correlations and scatter plots to examine the relationship between two continuous variables.
+
+### Exercise
+
+Let us now assess if there is a relationship between BMI and SBP. A scatterplot is a quick way to have a first impression on how variables may relate to each other.There are several ways to create a scatterplot in R. The basic function is `plot()`, used as plot(x,y) where x and y denote the (x,y) points to plot.
+
+```{r}
+plot(whitehall$bmi, whitehall$sbp, xlab="BMI (kg/m2)",ylab="Systolic blood pressure (mm Hg)", cex=0.8)
+```
+
+**If we look at the plot we can see some vertical lines as BMI was collected at discrete values and each vertical line represent individuals with the same BMI. Also there does not appear to be an obvious relationship between the two variables as the dots all appear in a big clump in the middle, without any direction to them.**
+
+**Correlations**
+
+We can also assess if there is any relationship between age and SBP by looking at their correlation. In R, you can use `cor()` to obtain correlations. Also `cor.test()` can be used if a test of association is needed.
+
+In the presence of missing values it is important to set the argument ‘use‘ to specify the method for computing correlations otherwise `cor()` will not work. If ‘use‘ is set to `use=”complete.obs“` then the correlation is computed after casewise deletion of missing values. If ‘use‘ is set to `use=”pairwise.complete.obs”` then the correlation between each pair of variables is computed using all complete pairs of observations on those variables.
+
+#### Question B1.1b:
+
+**Interpret the correlation coefficient between SBP and BMI.**
+
+```{r}
+corrbp_bmi <- cor(whitehall[, 6:7], use="complete.obs") 
+
+round(corrbp_bmi, 2)
+```
+
+**The correlation between SBP and BMI is 0.09 and it is a weak positive correlation.**
+
+# B1.2: Differences Between Means (ANOVA 1) {#sec-B1.2}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explore the data with correlations and scatterplots.
+
+-   **Use an ANOVA to test for a difference in means across a categorical variable.**
+
+-   Conduct univariable and multivariable linear regression
+
+-   Check the regression diagnostics of a linear model.
+:::
+
+You can download a copy of the slides here: [B1.2 Differences Between Means (ANOVA I)](https://1drv.ms/p/s!AtvH6PgKXPEDgmRgQCCQzpD8K_il?e=lfjuje){target="_blank"}
+
+The ANOVA procedure allows us to establish whether there is evidence that the mean SBP values across the BMI groups are not all equal. You use an ANOVA to test for differences in means across levels of a categorical variable (not a continuous one).
+
+We use `aov()` to perform ANOVA, and we get a summary of the ANOVA table using `summary()`. aov() can be used in two ways as follows:
+
+```         
+fit3 <- aov(y ~ x, data=my.data)
+
+fit3 <- aov(my.data$y ~ my.data$x)
+```
+
+#### Question B1.2:
+
+We are going to use this to test for a significant difference in mean SBP across the BMI groups.
+
+```{r}
+whitehall$bmi_fact<-factor(whitehall$bmi_grp4)
+
+fit3 <- aov(sbp~bmi_fact, data=whitehall) 
+summary(fit3)
+```
+
+**The result indicates there are differences in SBP across the four categories of BMI as the p-value of 0.0001 is highly significant.**
+
+**However, an ANOVA a global test and does not tell us which BMI groups are significantly different from each other. You will learn how to produce comparisons of all possible pairings of the BMI groups, as well as many other aspects of the ANOVA test in Module B2.**
+
+# B1.3: Univariable Linear Regression {#sec-B1.3}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explore the data with correlations and scatterplots.
+
+-   Use an ANOVA to test for a difference in means across a categorical variable.
+
+-   **Conduct univariable and multivariable linear regression.**
+
+-   Check the regression diagnostics of a linear model.
+:::
+
+## B1.3a: Linear regression with continuous exposure {#sec-B1.3a}
+
+You can download a copy of the slides here: [B1.3a Univariable Linear Regression](https://1drv.ms/p/s!AtvH6PgKXPEDgl8msjztdiIBftCe?e=FozZzE){target="_blank"}
+
+In section @sec-B1.1 we examined the association between two continuous variables (SBP and BMI \[continuous\]) using scatterplots and correlations. We can also assess the relationship between two continuous variables by using linear regression. In comparison with the regression using a categorical exposure, if we have a continuous variable we interpret the beta coefficient as the “average increase in \[outcome\] for a 1 unit change in \[exposure\]’.
+
+We can fit a simple linear regression model to the data using the `lm()` function as `lm(formula, data)` and the fitted model can be saved to an object for further analysis. For example `my.fit <- lm(Y ~ X, data = my.data)` performs a linear regression of Y (response variable) versus X (explanatory variable) by taking them from the dataset my.data. The result is stored on an object called `my.fit`.
+
+Other different functional forms for the relationship can be specified via `formula`. The data argument is used to tell R where to look for the variables used in the formula.
+
+When the model is saved in an object we can use the `summary()` function to extract information about the linear model (estimates of parameters, standard errors, residuals, etc). The function `confint()` can be used to compute confidence intervals of the estimates in the fitted model.
+
+### Question 1.3a
+
+Fit a linear model of SBP versus BMI (continuous) in the Whitehall data and interpret your findings.
+
+```{r}
+fit1 <- lm(sbp ~ bmi, data=whitehall)
+
+summary(fit1)
+
+confint(fit1)
+```
+
+**For every 1 unit higher BMI, SBP on average increases 0.46 mmHg (95% CI: 0.30-0.62), and this association is statistically significant (p\<0.001)**
+
+## B1.3b: Linear regression with categorical exposure {#sec-B1.3b}
+
+You can download a copy of the slides here: [B1.3 Univariable Linear Regression](https://1drv.ms/p/s!AtvH6PgKXPEDgmH0936YIHab0I-m?e=HOF3bz){target="_blank"}
+
+Instead of conducting multiple pairwise comparisons in an ANOVA, we could run a linear regression to compare the mean difference in each age group compared to a reference category.
+
+First, we need to reclassify our exposure, `bmi_grp4` and tell R to treat our exposure as a categorical variable:
+
+```{r}
+whitehall$bmi_grp4 <- NA
+whitehall$bmi_grp4[whitehall$bmi < 18.5] <- 1
+whitehall$bmi_grp4[whitehall$bmi >= 18.5 & whitehall$bmi < 25] <- 2
+whitehall$bmi_grp4[whitehall$bmi >= 25 & whitehall$bmi < 30] <- 3
+whitehall$bmi_grp4[whitehall$bmi >= 30] <- 4
+
+```
+
+```{r}
+whitehall$bmi_fact <- factor(whitehall$bmi_grp4)
+```
+
+We can use `is.factor()` to check that the new created variable is indeed a factor variable.
+
+```{r}
+is.factor(whitehall$bmi_fact)
+```
+
+Then, we use `table()` to count the number of participants in each BMI category.
+
+```{r}
+table(whitehall$bmi_fact)
+```
+
+We can use `aggregate()` to compute summary statistics for SBP by BMI.
+
+```{r}
+aggregate(whitehall$sbp, list(whitehall$bmi_fact), FUN=mean, na.rm=TRUE)
+```
+
+**The results indicate that there are mean SBP increases across the four categories of BMI.**
+
+Now we fit a linear regression model called `fit2` with SBP as our response and BMI groups as our explanatory variable.
+
+```{r}
+fit2 <- lm(sbp ~ bmi_fact, data=whitehall)
+
+summary(fit2)
+```
+
+If we want confidence intervals, we could then type:
+
+```{r}
+confint(fit2, level=0.95)
+```
+
+By default R will use the lowest category of `bmi_fact` as the reference in a regression. But this category is the smallest and hence it is not a good reference category as all comparisons with it will have large confidence intervals. We can change the reference category using the ‘relevel’ function:
+
+```{r}
+whitehall <- within(whitehall, bmi_fact <- relevel(bmi_fact,ref=2))
+```
+
+Then we fit the same linear regression again:
+
+```{r}
+fit2 <- lm(sbp ~ bmi_fact, data=whitehall)
+
+summary(fit2)
+
+confint(fit2, level=0.95)
+```
+
+**Looking at the output above, the average level of SBP increases as BMI groups get higher. For a BMI group 4 (obese) compared to BMI group 2 (normal weight), the average SBP is 3.7 mmHg higher (95% CI: 1.7-5.6, p\<0.001).**
+
+# BI.4: Multiple Linear Regression {#sec-B1.4}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explore the data with correlations and scatterplots.
+
+-   Use an ANOVA to test for a difference in means across a categorical variable.
+
+-   **Conduct univariable and multivariable linear regression.**
+
+-   Check the regression diagnostics of a linear model.
+:::
+
+You can download a copy of the slides here: [B1.4a Multiple Linear Regression](https://1drv.ms/p/s!AtvH6PgKXPEDgmUlCsP5mP3nJGLX?e=5fjJVE){target="_blank"}
+
+How do we fit a model with more than one explanatory variable?
+
+Here, we will include each covariate one at a time into the model, starting with BMI, then adding `age_grp` and lastly adding `currsmoker`. We like to add variables one at time so that we can see how each new additional covariate affects the other variables already in the model- this gives us an idea as to the mechanisms underlying an association.
+
+To build a multivariable model, the command is the same as before:
+
+```         
+my.fit <- lm(Y ~ X+ X2 + X3, data = my.data) 
+```
+
+Therefore, to examine the impact the association of BMI group on SBP, adjusted for LDL-C, we write:
+
+```{r}
+fit3 <- lm(sbp ~ bmi_fact+ldlc, data=whitehall)
+
+summary(fit3)
+```
+
+**Being overweight (BMI group 3) compared with normal weight (group 2) is associated with a 1.91 mmHg higher SBP on average, once adjusted for LDL-C (95% CI: 0.80-3.02, p=0.001). This is a slightly stronger association for the overweight BMI group than before we adjusted for LDL-C.**
+
+**Note that each covariate in the model is adjusted for all other covariates in the model. So BMI group is adjusted for LDL-C, and LDL-C is adjusted for BMI group. In other words, we can see the association of BMI group independent of LDL-C, and vice versa.**
+
+## Question B1.4a:
+
+What is the association of BMI group with SBP, once adjusted for LDL-C and current smoking?
+
+```{r}
+fit4 <- lm(sbp ~ bmi_fact+ldlc+currsmoker, data=whitehall)
+
+summary(fit4)
+```
+
+**On average, being obese is associated with a 3.7 mmHg higher SBP than being normal weight, once adjusted for LDL-C and current smoking (95% CI 1.74-5.63, p\<0.001). This association was not affected by additional adjustment for current smoking.**
+
+**Each covariate in the model can be interpreted as adjusted for the other covariates in the model. So being a current smoker is associated with a -0.56 mmHg lower SBP compared to non-smokers, once adjusted for LDL-C and BMI group. The 95% CI crosses the null value (which is 0 in this case, as we are not working with ratios; -2.15-1.02) so this association is not statistically significant.**
+
+## Working example 1
+
+In the following, we want to investigate the association between body mass index (*kg/m\^2*) and vitamin D (nmol/L) adjusting for HDL cholesterol (mmol/L) in the Whitehall data.
+
+-   Fit a linear regression model with vitamin D as the dependent variable and BMI as the independent variable.
+
+-   Fit a linear regression model with vitamin D as the dependent variable and BMI as the independent variable adjusting for HDL cholesterol.
+
+-   Compare the coefficient of BMI in the two models.
+
+```{r}
+fit5 <- lm(vitd~bmi, data=whitehall)
+
+summary(fit5)
+
+confint(fit5, level=0.95)
+```
+
+```{r}
+fit6 <- lm(vitd~bmi + hdlc, data=whitehall)
+
+summary(fit6)
+
+confint(fit6, level=0.95)
+```
+
+**The association between vitamnin D and BMI was substantially attenuated after adjusting for HDL cholesterol**
+
+# B1.5: Model Selection and F-Tests {#sec-B1.5}
+
+Here we are going to practice using F-tests to help choose the best fitting model for our data.
+
+You can download a copy of the slides here: [B1.5 Testing Regression Coefficients](https://1drv.ms/p/s!AtvH6PgKXPEDgmZJg_qKNBqYAvpr?e=9pstRW){target="_blank"}
+
+**When estimating the effect of a particular exposure, we have seen that it is important to include potential confounding variables in the regression model, and that failure to do so will lead to a biased estimate of the effect.**
+
+To assess if we have included important confounders in our model, we can run a statistical test to see if the extra coefficients are significantly contributing to the model fit. This is helpful for testing the overall inclusion of a categorical variable to a model (where some levels may have a significant association and other levels may not), or testing the addition of multiple variables to the model.
+
+We can do this in R using the ‘linearHypothesis’ function within the package ‘car’
+
+```{r}
+library(car)
+
+linearHypothesis(fit4, c("bmi_fact1=0", "bmi_fact3=0", "bmi_fact4=0"))
+```
+
+**The output reveals that the F-statistic for this joint hypothesis test (that all coefficients of the BMI variable are equal to 0) is about 7.7 and the corresponding p-value is \<0.001.**
+
+**Whilst the main regression output shows that not all levels of BMI group are significantly associated SBP, the F-test shows that overall this variable is significantly explaining variance in the model (F\[3,4265\]=7.74, p\<0.001).**
+
+#### Question B1.5:
+
+**Run an F-test to assess if both LDL-C and current smoking are jointly contributing to model fit (i.e. test both these coefficients at the same time).**
+
+```{r}
+linearHypothesis(fit4, c("ldlc=0", "currsmoker=0"))
+```
+
+**You can see from the output that the null hypothesis is that both variables have a coefficient equal to 0. However, there is evidence to reject this null hypothesis (F\[2,4265\]=4.92, p\<0.01). These variables are significantly contributing to model fit.**
+
+You can download a copy of the slides here: [B1.5b Presentation of Regression Results](https://1drv.ms/p/s!AtvH6PgKXPEDgmg4mzwoUX9L9W6y?e=Rz8lxV){target="\"_blank"}
+
+# B1.6: Regression Diagnostics {#sec-B1.6}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explore the data with correlations and scatterplots.
+
+-   Use an ANOVA to test for a difference in means across a categorical variable.
+
+-   Conduct univariable and multivariable linear regression.
+
+-   **Check the regression diagnostics of a linear model.**
+:::
+
+You can download a copy of the slides here: [B1.6 Regression Diagnostics](https://1drv.ms/p/s!AtvH6PgKXPEDgmmf9sjBWND4KLIF?e=5p0xqb){target="_blank"}
+
+One of the final steps of any linear regression is to check that the model assumptions are met. Satisfying these assumptions allows you to perform statistical hypothesis testing and generate reliable confidence intervals.
+
+Here we are going to practice checking the normality and homoscedasticity of the residuals.
+
+## Checking Normality of Residuals
+
+We need to make sure that our residuals are normally distributed with a mean of 0. This assumption may be checked by looking at a histogram or a Q-Q-Plot.
+
+To look at our residuals, we can use the function `resid()`. This function extracts the model residuals from the fitted model object (for example, in our case we would type `resid(fit1))`.
+
+To check our residuals from the model we fit in B1.4 we would type:
+
+```{r}
+hist(resid(fit4), main="Histogram of the residuals", xlab="Residuals")
+
+sum(resid(fit4))
+```
+
+**It appears that our residuals are normally distributed with zero mean.**
+
+## Checking Homoscedasticity
+
+One of main assumptions of ordinary least squares linear regression is that there is homogeneity of variance (i.e. homoscedasticity) of the residuals. If the variance of our residuals is heteroscedastic then this indicates model misspecification, similar to the reasons discussed before.
+
+To check homogeneity in variance this we plot the values of the residuals against the fitted (predicted) values from the regression model. If the assumptions is satisfied we should see a random scatter of the points with no pattern. If we see a pattern, i.e. the scatterplot gets wider or narrower at a certain range of values, then this indicates heteroscedasticity and we need to re-evaluate our model. To plot the residuals versus the fitted values, we can use `plot(resid(fit5) ~ fitted(fit5), …)`.
+
+```{r}
+plot(resid(fit4) ~ fitted(fit4), 
+     main = "The residuals versus the fitted values", 
+     xlab = "Fitted values", 
+     ylab = "Residuals", 
+     cex = 0.8)
+
+
+abline(0,0, col=2)
+
+```
+
+### Question B1.6:
+
+Examine your residuals from the multivariable regression in B1.4. Does this model appear to violate the assumptions of homoscedasticity?
+
+**There appears to be a random ball of dots, with no pattern. This is what we want. There does not appear to be heteroscedasticity.**
+
+# B2.1: ANOVA Revisited- Post-Hoc Testing {#sec-B2.1}
+
+In the last module we looked at linear regression to analyse the effect of different explanatory variables on the SBP of the participants.
+
+We are going to revisit this here and look at it through the lens of the ANOVA.
+
+Let’s look at the association of mean SBP across BMI groups again. But now we want to use the ANOVA post-estimation options to compute multiple comparisons with Fisher’s least-significant difference (LSD) test, which does not adjust the confidence intervals or p-values.
+
+::: callout-note
+The advantage of this method is that all of the comparisons are shown in one table, so you can inspect any pairing you wish.
+:::
+
+We can use the `LSD.test()` function of the `agricolae` package to perform this test in R.
+
+```{r}
+model1 <- aov(sbp~bmi_fact, data=whitehall)
+
+summary(model1)
+```
+
+```{r}
+# perform Fisher’s LSD
+library(agricolae)
+
+print(LSD.test(model1, "bmi_fact")) 
+```
+
+::: callout-tip
+To interpret this output we look at the section headed '\$groups'. The groups that have different characters listed beside them (i.e. 'a' or 'b') are significantly different.
+:::
+
+## Question B2.1:
+
+Review your output. What do you notice? What can you conclude about the data from these tests? Compare this to your output from the linear regression on the same data.
+
+In this output, we can see that :
+
+-   Group 4 and group 2 have significantly different mean SBP, since group 4 has a value of 'a' and group 2 has a value of 'b'.
+-   Group 4 and group 1 have significantly different mean SBP, since group 4 has a value of ‘a’ and group 1 has a value of 'b'.
+-   Group 4 and group 3 do NOT have significant different mean SBP, since they both have a value of 'a'.
+
+# B2.2a: Correcting For Multiple Comparisons {#sec-B2.2a}
+
+## False Discovery Rate
+
+To use this method, we must first assign a value for q. Whereas α is the proportion of false positive tests we are willing to accept across the whole sample typically 0.05 (5%), q is the proportion of false positives (false ‘discoveries’) that we are willing to accept within the significant results. In this example we will set q to 0.05 (5%) as well.
+
+Here we are going to apply the Benjamini-Hochberg (BH) method to the data from the Fishers LSD test in the previous practical in @sec-B2.1
+
+Firstly, take the P values for each comparison of pairs and put them in ascending numerical order. Then assign a rank number in that order (smallest P value is rank 1, next smallest rank 2 and so on).
+
+| Group A     | Group B    | P       | Rank |
+|-------------|------------|---------|------|
+| Normal      | Obese      | \<0.001 | 1    |
+| Normal      | Overweight | 0.001   | 2    |
+| Underweight | Obese      | 0.013   | 3    |
+| Overweight  | Obese      | 0.056   | 4    |
+| Underweight | Overweight | 0.060   | 5    |
+| Underweight | Normal     | 0.246   | 6    |
+
+Calculate the BH critical value for each P value, using the formula q(i/m), where:
+
+i = the individual p-value’s rank,
+
+m = total number of tests,
+
+q= the false discovery rate you have selected (0.05)
+
+| Group A     | Group B    | P       | Rank | BHcrit | Significant |
+|-------------|------------|---------|------|--------|-------------|
+| Normal      | Obese      | \<0.001 | 1    | 0.008  | Yes         |
+| Normal      | Overweight | 0.001   | 2    | 0.016  | Yes         |
+| Underweight | Obese      | 0.013   | 3    | 0.025  | Yes         |
+| Overweight  | Obese      | 0.056   | 4    | 0.033  | No          |
+| Underweight | Overweight | 0.060   | 5    | 0.042  | No          |
+| Underweight | Normal     | 0.246   | 6    | 0.050  | No          |
+
+P values which are lower than our BH critical values are considered true ‘discoveries’. The first P value which is higher than the BH critical value and all significant P values below that (below in terms of the table, higher rank numbers) would be considered false ‘discoveries’. P values of ≥0.05 are not treated any differently to normal.
+
+From this we can conclude that all three of our statistically significant differences from out pairwise comparisons are in true ‘discoveries’, and none of them should be discounted.
+
+With small numbers of comparisons like this it is easy to use this method by hand, however where the FDR approach is most useful is when we are making very large numbers (hundreds) of comparisons.
+
+```         
+BH(u, alpha = 0.05)
+```
+
+where u is a vector containing all of the P values, and alpha is in fact your specified value for q
+
+There are also online FDR calculator you can use like this one [https://tools.carbocation.com/FDR](https://tools.carbocation.com/FDR){target="_blank"}
+
+In Practical @sec-B2.1, we ran the Fisher’s LSD test to compare systolic blood pressure (SBP) between each possible pairing of groups in the BMI group categorical variable. Now we know a little be more about post hoc tests and correcting for multiple comparisons, we are going to go back and conduct the Bonferroni post hoc and Tukey’s HSD post hoc on the same data.
+
+[Tukey’s test in R]{.underline}
+
+The function is ‘TukeyHSD’ (which comes loaded in R already so you do not need to install any packages). You run this function after you fit the ANOVA as you did in @sec-B2.1 :
+
+```{r}
+TukeyHSD(model1, conf.level = .95)
+```
+
+[**Bonferroni test in R**]{.underline}
+
+To perform a Bonferroni correction, you run the post estimation function `pairwise.t.test(x, g, p.adjust.method =’bonferroni’)`. Here ‘x’ is your response variable, ‘g’ is the grouping variable, and for p.adjust.method you specify ‘bonferroni’.
+
+```{r}
+pairwise.t.test(whitehall$sbp, whitehall$bmi_grp4, p.adjust.method ='bonferroni') 
+```
+
+**Consider the different post hoc tests and the results for each comparison in them. Is one method producing higher or lower p values than the others? Do any previously significant findings become non-significant after correction for multiple comparisons?**
+
+The table below shows the outcome for each of the possible pairs, for each of the three different post hoc tests. These have been ordered from smallest to largest p value for ease of comparison.
+
+| Group A     | Group B    | P value          | P value         | P value        |
+|-------------|------------|------------------|-----------------|----------------|
+|             |            | **Fisher’s LSD** | **Tukey’s HSD** | **Bonferroni** |
+| Normal      | Obese      | \<0.001\*        | 0.001\*         | 0.001\*        |
+| Normal      | Overweight | 0.001\*          | 0.008\*         | 0.009\*        |
+| Underweight | Obese      | 0.013\*          | 0.060           | 0.075          |
+| Overweight  | Obese      | 0.056            | 0.224           | 0.337          |
+| Underweight | Overweight | 0.060            | 0.237           | 0.361          |
+| Underweight | Normal     | 0.246            | 0.652           | 1.000          |
+
+\*= P\<0.05- Reject H0
+
+**You should notice that the p-vales are lowest for each comparison on the LSD test, and highest in the Bonferroni. Once we apply a correction for multiple comparisons in this way the significant difference in SBP between underweight and obese groups disappears and we fail to reject the null hypothesis for this pairing.**
+
+# B2.3 Two-way ANOVA {#sec-B2.3}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain when and how to use post hoc testing
+
+-   Explain the concept of multiple comparisons and be able to correct for it in their analysis
+
+-   **Apply extensions to the basic ANOVA test and interpret their results**
+
+-   Explain when and how to use repeated measures statistics
+:::
+
+You can download a copy of the slides here: [B2.3 Two-way ANOVA](https://1drv.ms/b/s!AtvH6PgKXPEDgz3HJp8wKSQNWAY1?e=eanHFp){target="_blank"}
+
+We can also use the ANOVA to further investigate the effect of different categorical explanatory variables on one dependent variable.
+
+To demonstrate this, we are going to use a two-way ANOVA to examine multiple explanatory variables and interactions between them.
+
+To continue our example, we want to examine if there are significant differences in the mean SBP between BMI groups that also smoke (or not).
+
+For a two-way ANOVA the command is the same as in @sec-B2.1, but with a second variable:
+
+```{r}
+whitehall$smoked<-factor(whitehall$currsmoker)
+
+model2 <- aov(sbp~bmi_fact+smoked, data=whitehall)
+
+summary(model2)
+```
+
+To make this a two-way factorial ANOVA (i.e with an interaction between the independent variables), we substitute an ‘\*’ for the ‘+’ sign:
+
+```{r}
+model3 <- aov(sbp~bmi_fact*smoked, data=whitehall)
+
+summary(model3)
+```
+
+#### Question B2.3a:
+
+**Run the two-way factorial ANOVA and interpret your output. How does this compare to the previous test on these relationships?**
+
+**Answer B2.3a: Test one, including the interaction term, shows a significant relationship between BMI group and SBP but current smoking and the interaction are non-significant. The interaction is adding the least to the model (has the highest P value).**
+
+#### Question B2.3b:
+
+**When we are using interaction terms like this if they do not contribute to the model (i.e. are not significant) we can remove them and see if this makes a difference to the other relationships. Go back and run the test a second time but without the interaction between BMI group and current smoking included. What do you notice?**
+
+When we remove the interaction term we see the BMI grouping is still showing a significant relationship on its own, but that current smoker is not. If you go back to practical @sec-B1.4 you can compare these results to those from the multivariable linear regression which included these two variables plus LDL-C. You can see that ANOVA without the interaction, is very similar to the linear regression. More on this in section @sec-B2.6
+
+[Minimal Adequate Model]{.underline}
+
+As current smoker is also non-significant on its own, so you could choose to remove this as well and see what happens to the model. This is a simplified method of model optimisation known as the **Minimal Adequate Model**, meaning that you remove variables in order from least significant to most significant, until you end up with the simplest model you can. This can be a helpful process if you need to mentally work through your model and understand what each part is contributing. You never want to remove a variable that is significant on its own, or part of a significant interaction, but you can see how removing other non-significant variables can change the overall model. You can do this with any type of General Linear Model.
+
+# B2.4 Repeated Measures and the Paired T-Test {#sec-B2.4}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain when and how to use post hoc testing
+
+-   Explain the concept of multiple comparisons and be able to correct for it in their analysis
+
+-   Apply extensions to the basic ANOVA test and interpret their results
+
+-   **Explain when and how to use repeated measures statistics**
+:::
+
+You can download a copy of the slides here: [B2.4 Repeated Measures and the Paired t-test](https://1drv.ms/b/s!AtvH6PgKXPEDgz6Fz1ErStcsG6ZZ?e=a0OFWL){target="_blank"}
+
+For this test you need a variable that has been measured twice in the same participants, so open the FoSSA Mouse data set.
+
+Most statistical software (as a default) always assumes that each row is a participant, so if you have paired measurements you need to make sure you have stored them as separate variables, and they are matched up correctly so each participants ‘before’ and ‘after’ for example are on the same row in your data set.
+
+Here we are going to do a paired t-test between the mouse weights at the start and end of the trial.
+
+The paired t test command in R is:
+
+```         
+ttest(x, y, paired=TRUE)
+```
+
+Here we write:
+
+```{r}
+mouse <- read.csv("FoSSA mouse data(in).csv")
+```
+
+```{r}
+t.test(mouse$Weight_baseline, mouse$Weight_end, paired=TRUE)
+```
+
+#### Question B2.5:
+
+**Run the test and interpret the output. Is there a significant difference in mouse weight between the beginning and end of the trial?**
+
+Our value for t is very small (0.070), which indicates a very small difference between the variables. Looking at the two tailed p-value (which is the default), there is no significant difference in weight between the start and end of the trial (p=0.94). We fail to reject the null hypothesis.
+
+# B2.5 Repeated Measures ANOVA {#sec-B2.5}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain when and how to use post hoc testing
+
+-   Explain the concept of multiple comparisons and be able to correct for it in their analysis
+
+-   **Apply extensions to the basic ANOVA test and interpret their results**
+
+-   **Explain when and how to use repeated measures statistics**
+:::
+
+You can download a copy of the slides here: [B2.5 Repeated Measures ANOVA.pdf](https://1drv.ms/b/s!AtvH6PgKXPEDgzxwYn7plemWIqYh?e=oKjXNS){target="_blank"}
+
+We can also use the ANOVA structure to test for differences between paired or repeated groups. We are going to use the repeated measures ANOVA to compare the mouse weights taken at the beginning, middle, and end of the trial in the FoSSA Mouse data set.
+
+To do this test, you need to reshape your data so that it is in ‘long’ format, rather than ‘wide’ format (as it currently is). Long format means that all the Weight variables are in one column, with a second column specifying which time they were measured at (beginning, middle or end). We need an ID variable to reshape our data, and we need to make sure the Weight variables have a standardised name with a number at the end.
+
+You will need to install and load the packages tidyverse, dplyr, and rstatix to perform the necessary commands.
+
+To create a subject ID variable, we can use:
+
+```{r}
+library(dplyr)
+
+library(rstatix)
+```
+
+```{r}
+mouse$id <- 1:nrow(mouse)
+```
+
+We then reshape our data to long format:
+
+```{r}
+mice <- mouse %>%
+  gather(key = "time", value = "weight", Weight_baseline, Weight_mid, Weight_end) %>%
+  convert_as_factor(id, time)
+```
+
+Then, to run the repeated measures ANOVA, we will load the ez package and use the function ezANOVA. The help file contains lots of useful information about where to put the relevant variables. We must specify the data, our dependant variable (dv=weight), our subject OD (wid=id) and the within subject factor (within=time):
+
+```{r}
+
+library(ez)
+
+repeat1 <- ezANOVA(data=mice,dv=weight,wid=id,within=time,type=3)
+
+repeat1
+```
+
+The top table provides the results of a one-way repeated measures ANOVA if the assumption of sphericity is not violated. You want to look at the row for ‘time’, which shows that the p=0.42. We fail to reject the null hypothesis for a difference in weight across time.
+
+The middle table indicates whether the assumption of sphericity is violated. As p\<0.05, we reject the null hypothesis of sphericity, and so will use the sphericity corrections table below.
+
+The bottom table which presents three types of corrections. We can see that the results are consistent and that we do not find evidence to reject the null hypothesis.
+
+**Controlling for between-subjects factors**
+
+If we want to run this ANOVA again, but control for ‘strain group’, we must first ensure it is a factor. R currently has coded it as an integer value, so we convert to a factor:
+
+```{r}
+mice$Strain_group <- as.factor(mice$Strain_group)
+```
+
+We can then add the between subject factor into the ezANOVA command, using the between argument as below:
+
+```{r}
+repeat2 <-ezANOVA(data=mice,dv=weight,wid=id,within=time, between = Strain_group,type=3)
+
+repeat2
+```
+
+#### Question B2.6 {#sec-B2.6}
+
+**Run the repeated measures ANOVA for difference in weights across the three time points, but this time add ‘Strain Group’ as a ‘Between-Subjects Factor. What difference does this make?**
+
+#### Answer B2.6:
+
+When we review values for time:strain group we see that there is now a statistically significant difference, which holds when we correct for the violated sphericity assumption. This means that there is a significant different in weight when corrected for strain group. This is something that requires more investigation, but as these sample sizes are small and we have not considered whether the FoSSA Mouse data set meets all of the assumptions of our general linear model method. We will investigate these relationships in more detail in Module B3.
+
+# B3.1 The Parametric Assumptions {#sec-B3.1}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   **Explain the importance of the parametric assumptions and determine if they have been met**
+
+-   Explain the basic principles of rank based non-parametric statistical tests
+
+-   Describe the use of a range of common non-parametric tests
+
+-   Conduct and interpret common non-parametric tests
+:::
+
+You can download a copy of the slides here: [B3.1 The Parametric Assumptions](https://1drv.ms/p/s!AtvH6PgKXPEDgn4tIEAOqYlsk7h9?e=cJd8n5){target="_blank"}
+
+[**Part 1: Normality Testing**]{.underline}
+
+The Shapiro-Wilk test statistic $( W )$ is given by the formula:
+
+$$
+W = \frac{\left( \sum_{i=1}^{n} a_i x_{(i)} \right)^2}{\sum_{i=1}^{n} (x_i - \bar{x})^2}
+$$
+
+Where:
+
+-   $x_{(i)}$ are the ordered sample values (sorted from smallest to largest),
+-   $\bar{x}$ is the sample mean,
+-   $a_i$ are constants that depend on the sample size $n$.
+
+We will need to load the dplyr package for data manipulation, and rstatix for the functions required to perform the tests.
+
+We want to run a **Shapiro-Wilk** Test to examine Normality by each of the strain groups. We must first create a new dataset grouping by Strain, and then use this as the input for our test. To create the dataset, we will run:
+
+```{r}
+mice_g <- group_by(mouse, Strain)
+```
+
+Now, we can test the normality of the three weight variables within each strain group. We specify the dataset, and then the variables we want to test:
+
+```{r}
+shapiro_test(mice_g, Weight_baseline, Weight_mid, Weight_end)
+```
+
+**Two of the weight variables are statistically significant different (p\<0.05) from a Gaussian or normal distribution (The Cdkn1a KO mice and the mid-point, and the n-RAS KO mice at the end of the trial). This would mean we need to use non-parametric tests when analysing these data.**
+
+[**Part 2: Homogeneity of Variances**]{.underline}
+
+In order to test for homogeneity of variance, we must be testing with respect to a factor variable. We wish to test this by strain group, so must convert this variable:
+
+```{r}
+mouse$Strain_group <- as.factor(mouse$Strain_group)
+```
+
+Now we can use the levene_test function to test the homogeneity of the variances of baseline weight among the strain groups. We specify the dataset, then the variables in the form dependent variable \~ grouping variable:
+
+```{r}
+levene_test(mouse, Weight_baseline ~ Strain_group, center = mean)
+```
+
+Levene's test statistic $( F )$ is given by the formula:
+
+$$
+F = \frac{(N - k)}{(k - 1)} \cdot \frac{\sum_{i=1}^{k} N_i (Z_{i\cdot} - Z_{\cdot\cdot})^2}{\sum_{i=1}^{k} \sum_{j=1}^{N_i} (Z_{ij} - Z_{i\cdot})^2}
+$$
+
+Where:
+
+-   $k$ is the number of groups,
+-   $N$ is the total number of observations across all groups,
+-   $N_i$ is the number of observations in the $i$-th group,
+-   $Z_{ij}$ is the transformed value for the $j$-th observation in the $i$-th group,
+-   $Z_{i\cdot}$ is the mean of the transformed values in group $i$,
+-   $Z_{\cdot\cdot}$ is the overall mean of all transformed values.
+
+### Question B3.1b:
+
+From the output in R, what can you conclude about the variance of the baseline weight?
+
+**This tells us that there is no statistically significant difference (p\>0.05) in the variance of the mean baseline weight among the strain groups, so the assumption of homogeneity is met.**
+
+# B3.2 Mann-Whitney U Test {#sec-B3.2}
+
+::: {.callout-note icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain the importance of the parametric assumptions and determine if they have been met
+
+-   **Explain the basic principles of rank based non-parametric statistical tests**
+
+-   **Describe the use of a range of common non-parametric tests**
+
+-   **Conduct and interpret common non-parametric tests**
+:::
+
+You can download a copy of the slides here: [B3.2 Mann-Whitney U Test](https://1drv.ms/p/s!AtvH6PgKXPEDgnuK75Ezaxe_8bPF?e=OLtmJG){target="_blank"}
+
+The Mann-Whitney U test is also sometimes called the Wilcoxon Rank-Sum test.
+
+When first examining your data, you may want to check the distribution of the variables of interest and calculate appropriate summary statistics for them.
+
+The Mann-Whitney U statistic for group $X$ is given by:
+
+$$
+U_X = n_X n_Y + \frac{n_X(n_X + 1)}{2} - R_X
+$$
+
+And for group $Y$:
+
+$$
+U_Y = n_X n_Y + \frac{n_Y(n_Y + 1)}{2} - R_Y
+$$
+
+Where:
+
+-   $n_X$ and $n_Y$ are the sample sizes of groups $X$ and $Y$,
+-   $R_Y$ and $R_Y$ are the sums of ranks for groups $X$ and $Y$, respectively.
+
+Our ultimate Mann-Whitney U value is always lowest value of our two groups.
+
+$U_{cal}$ \> $U_{critical}$ : Fail to reject the $H_o$. **No Significant difference**
+
+$U_{cal}$ \< $U_{critical}$ : Reject the $H_o$. **There is Significant difference**
+
+The Mann-Whitney U statistic is the smaller of ( U_X ) and ( U_Y ).
+
+We will use the wilcox_test command to perform this. We must specify the data, and the variables to be considered in the form dependent variable \~ grouping variable.
+
+We want to use the Mann-Whitney U Test to determine if there is a significant difference in body condition score between the wild type mice and the Cdkn1a knockout mice at the start of the study (BCS_baseline).
+
+This test can only have two groups so we need to use the comparisons argument in the function so that it specifies the two groups being compared:
+
+```{r}
+wilcox_test(mouse, BCS_baseline ~ Strain, comparisons = list(c("KO Cdkn1a", "Wild")))
+```
+
+There is no significant difference (p\>0.05) in body condition score between the wild type mice and the Cdkn1a knockout mice at the baseline.
+
+**We can see that there is no significant difference (p\>0.05) in body condition score between the wild type mice and the Cdkn1a knockout mice at the baseline.**
+
+### Question B3.2:
+
+**Is there a significant difference in body condition score between the two different knockout strain rat the end of the trial?**
+
+```{r}
+wilcox_test(mouse, BCS_.end ~ Strain, comparisons = list(c("KO Cdkn1a", "KO N-ras")))
+```
+
+**We can see that the two knockout strains are significantly different (p\<0.05) in body condition score at the end of the study.**
+
+# B3.3 Kruskal-Wallis Test {#sec-B3.3}
+
+::: {.callout-important icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain the importance of the parametric assumptions and determine if they have been met
+
+-   Explain the basic principles of rank based non-parametric statistical tests
+
+-   **Describe the use of a range of common non-parametric tests**
+
+-   **Conduct and interpret common non-parametric tests**
+:::
+
+You can download a copy of the slides here: [B3.3 Kruskal-Wallis Test](https://1drv.ms/p/s!AtvH6PgKXPEDgnp-KoVxCsssV6wo?e=BvB1z6){target="_blank"}
+
+We can use the kruskal_test command for a comparison between more than two groups. As there is no constraint on the number of groups for the test, we only need to specify the data, followed by the dependent and independent variables in the same was as the previous module @sec-B3.2
+
+The Kruskal-Wallis test statistic $H$ is given by:
+
+$$
+H = \frac{12}{N(N+1)} \sum_{i=1}^{k} \frac{R_i^2}{n_i} - 3(N+1)
+$$
+
+Where:
+
+-   $N$ is the total number of observations across all groups,
+-   $k$ is the number of groups,
+-   $n_i$ is the number of observations in the $i$-th group,
+-   $R_i$ is the sum of ranks for the $i$-th group.
+
+**Explanation:**
+
+-   $\sum_{i=1}^{k} \frac{R_i^2}{n_i}$ is the sum of squared ranks for each group divided by the number of observations in that group.
+-   The factor $\frac{12}{N(N+1)}$ scales the sum of the squared ranks.
+-   The term $-3(N+1)$ adjusts for the overall number of observations.
+
+### Question B3.3:
+
+**Is there a significant difference between all three mouse strains on their BCS_baseline score?**
+
+```{r}
+kruskal_test(mouse, BCS_baseline ~ Strain)
+```
+
+**These results show that there is a significant difference (p\<0.05), reject the null hypothesis** $H_o$ **in the baseline body condition score when comparing all three strains.**
+
+::: {.callout-important icon="false"}
+## Key Points
+
+-   Kruskal Wallis test $W$ starts out same as Mann Whitney U but includes multiple groups.
+
+-   Data ranked and analysis conducted based on ranks.
+
+-   Calculate $H$ which follows Chi-squared distribution (varies with df)
+
+-   Global test- needs post hoc (That means if we find a significant difference in our test, then we need to do post hoc test)
+
+-   $H_calc$ \> $H_critical$: Reject the $H_o$, there is a significant difference. Otherwise for $H_calc$ \< $H_critical$
+:::
+
+# B3.4 Wilcoxon Signed Rank Test {#sec-B3.4}
+
+::: {.callout-tip icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain the importance of the parametric assumptions and determine if they have been met
+
+-   Explain the basic principles of rank based non-parametric statistical tests
+
+-   **Describe the use of a range of common non-parametric tests**
+
+-   **Conduct and interpret common non-parametric tests**
+:::
+
+You can download a copy of the slides here: [B3.4 Wilcoxon Signed Rank Test](https://1drv.ms/p/s!AtvH6PgKXPEDgn0kovet1qdWspcb?e=1HsCI2){target="_blank"}
+
+The Wilcoxon signed-rank test statistic $T$ is given by:
+
+$$
+T= \sum \text{(Ranks of the absolute differences of the non-zero differences)}
+$$
+
+Where:
+
+-   For each pair of observations $(X_i, Y_i)$, compute the difference $D_i = X_i - Y_i$.
+
+-   Rank the absolute differences $|D_i|$, ignoring zeros.
+
+-   Assign positive or negative signs to the ranks based on the sign of $D_i$.
+
+-   $T$ is the sum of the ranks with the appropriate signs.
+
+The alternative z-test for the Wilcoxon signed-rank test is used when the sample size is large (typically $𝑛> 20$ and the test statistic T is approximately normally distributed.
+
+The Alternative z-statistic for the Wilcoxon signed-rank test is given by:
+
+$$
+z = \frac{T - \mu_T}{\sigma_T}
+$$
+
+Where:
+
+-   $T$ is the Wilcoxon signed-rank test statistic,
+-   $\mu_T$ is the expected mean of $T$, calculated as:
+
+$$
+\mu_T = \frac{n(n+1)}{4}
+$$
+
+-   $\sigma_T$ is the standard deviation of $T$, calculated as:
+
+$$
+\sigma_T = \sqrt{\frac{n(n+1)(2n+1)}{24}}
+$$
+
+Where $n$ is the number of non-zero differences between the paired samples. The test evaluates whether the ranks of the positive and negative differences are significantly different, providing evidence of a difference between the paired groups.
+
+We wish to use the Wilcoxon Signed Rank Test to determine if there is a significant difference in body condition score across all mice in the study between the start (BCS_baseline) and end (BCS_end) of the trial.
+
+We use the wilcox.test command to perform this test in R. We specify the two variables, and must use paired=TRUE since the measurements are coming from the same subject:
+
+```{r}
+wilcox.test(mouse$BCS_baseline, mouse$BCS_.end, paired = TRUE, exact = FALSE)
+```
+
+**There is no significant difference (p\>0.05) in body condition score of the mice between the start and the end of the study.**
+
+### Question B3.4:
+
+**Is there a significant difference between weight at the beginning and weight at the end?**
+
+```{r}
+wilcox.test(mouse$Weight_baseline, mouse$Weight_end, paired = TRUE, exact = FALSE)
+```
+
+**From this, we can conclude that there is no significant difference (p\>0.05) in the weight of the mice between the start and the end of the study.**
+
+# B3.5 Friedman Test {#sec-B3.5}
+
+::: {.callout-tip icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain the importance of the parametric assumptions and determine if they have been met
+
+-   Explain the basic principles of rank based non-parametric statistical tests
+
+-   **Describe the use of a range of common non-parametric tests**
+
+-   **Conduct and interpret common non-parametric tests**
+:::
+
+You can download a copy of the slides here: [B3.5 Friedman Test](https://1drv.ms/p/s!AtvH6PgKXPEDgnnz3IqSNK1yuJWe?e=Hiin6X){target="_blank"}
+
+The Friedman test statistic $Q$ is given by:
+
+$$
+Q = \frac{12}{nk(k+1)} \sum_{j=1}^{k} R_j^2 - 3n(k+1)
+$$
+
+Where:
+
+-   $n$ is the number of subjects,
+-   $k$ is the number of treatments (or conditions),
+-   $R_j$ is the sum of ranks for each treatment $j$.
+
+The test assesses whether there are differences between the treatments or conditions across subjects by comparing rank sums.
+
+We want to examine if there is a significant difference in body condition score among the three measures taken during the study for all mice.
+
+As with the repeated measures ANOVA, before we begin using the Friedman test, we must convert our data into long form. We will do this in a similar manner to before, first by creating a subject id variable, and then reshaping the data:
+
+```{r}
+mouse$id <- 1:nrow(mouse)
+
+mice1 <- mouse %>%
+  gather(key = "time", value = "BCS", BCS_baseline, BCS_mid, BCS_.end) %>%
+  convert_as_factor(id, time)
+```
+
+We can now use the friendman.test function – it requires three inputs: the data, the comparison you are doing, and the blocking factor (subject id) and takes the form:
+
+```         
+friendman.test(data = name, dependent variable ~ independent variable | id)
+```
+
+In this case, we will use:
+
+```{r}
+friedman.test(data=mice1, BCS ~ time | id)
+```
+
+**The body condition score did not significantly (p\>0.05) differ between the time points of measurement when consider all the mice.**
+
+Next, we may want to consider the different strains individually. Create a subset containing the N-ras knockout mice only:
+
+```{r}
+mice2 <- mouse[mouse$Strain=="KO N-ras",]
+```
+
+The Friedman test must have all of the id variables in ascending order from 1 to n, so we must remake the id variable in the same manner as before, namely:
+
+```{r}
+mice2$id <- 1:nrow(mice2)
+```
+
+We then reshape our data into long form again. Note that this is exactly the same code as above aside from changing the dataset names, so can be run very quickly.
+
+```{r}
+mice.bcs2 <- mice2 %>%
+  gather(key = "time", value = "BCS", BCS_baseline, BCS_mid, BCS_.end) %>%
+  convert_as_factor(id, time)
+```
+
+We are now able to run the Friedman test on this subset of our data.
+
+```{r}
+friedman.test(data=mice.bcs2, BCS ~ time | id)
+```
+
+**We can see there is a significant difference (p\<0.05) in the body condition score of the N-ras knockout mice between the time points of measurement.**
+
+# B3.6 Spearman’s Rank Order Correlation {#sec-B3.6}
+
+::: {.callout-important icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+-   Explain the importance of the parametric assumptions and determine if they have been met
+
+-   Explain the basic principles of rank based non-parametric statistical tests
+
+-   **Describe the use of a range of common non-parametric tests**
+
+-   **Conduct and interpret common non-parametric tests**
+:::
+
+You can download a copy of the slides here: [B3.6 Spearman’s Rank Order Correlation](https://1drv.ms/p/s!AtvH6PgKXPEDgnxcM_MCm6zgY6Cx?e=WEArfh){target="_blank"}
+
+The Spearman rank correlation coefficient $\rho$ is given by:
+
+$$
+\rho = 1 - \frac{6 \sum d_i^2}{n(n^2 - 1)}
+$$
+
+Where:
+
+-   $d_i$ is the difference between the ranks of each pair of observations,
+-   $n$ is the number of paired observations.
+
+*This formula is used to measure the strength and direction of association between two ranked variables.*
+
+To test the significance of the Spearman rank correlation coefficient $\rho$, the t-statistic can be calculated as:
+
+$$
+t = \frac{\rho \sqrt{n - 2}}{\sqrt{1 - \rho^2}}
+$$
+
+Where:
+
+-   $t$ is the t-statistic,
+-   $\rho$ is the Spearman rank correlation coefficient,
+-   $n$ is the number of paired observations.
+
+The t-statistic follows a t-distribution with $n - 2$ degrees of freedom, allowing you to test whether the Spearman correlation is significantly different from zero.
+
+For the last practical in this module, you are going to perform a test of correlation on non-parametric data using the Spearman’s Rank Order Correlation.
+
+This can be conducted using the cor.test command, which has the structure:
+
+```         
+cor.test(data$variable 1, data$variable 2, method="spearman")
+```
+
+We can specify spearman as the method to conduct a Spearman’s rank test. If the method is not specified, the default is Pearson’s correlation.
+
+### Question B3.6:
+
+**What is the spearman correlation between Weight_end and BCS_end?**
+
+```{r, warning=FALSE}
+cor.test(mouse$Weight_end, mouse$BCS_.end, method = "spearman")
+```
+
+**We can see that there is a significant (p\<0.05) correlation between the body condition score and the weight of the mice at the end of the study and their correlation coefficient is 0.81.**
+
+::: {.callout-note icon="false"}
+## Key Points
+
+-   Spearman's test ranks data, then works out differences between ranks.
+
+-   Take sum of squares of differences.
+
+-   Use this to calculate correlation coefficient ($\rho$)
+
+-   Interpret in same manner as for parametric test of correlation.
+
+-   Use $\rho$ to calculate t.
+
+-   T distribution gives p-value.
+:::
+
+# C1: Binary Data and Logistic Regression
+
+## C1.1 Introduction to Prevalence, Risk, Odds and Rates {#sec-C1.1}
+
+::: {.callout-important icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+- Define and calculate prevalence, risk, odds and rates
+
+- Calculate and interpret risk ratios, odds ratios, rate ratios and their 95% confidence intervals
+:::
+
+You can download a copy of the slides here: [C1.1 Introduction to Prevalence, Risk, Odds and Rates](https://1drv.ms/p/s!AtvH6PgKXPEDgmvzvj557dfR9vVB?e=qDd8VU){target="_blank"}
+
+### Risk
+
+- Risk describes the probability with which an outcome will occur in at risk population. 
+
+- Proportion of new cases of an outcome in an at-risk population 
+
+The formula for risk in epidemiology is given by:
+
+$$
+\text{risk (p)} = \frac{\text{Number of new outcomes (e.g., cases of disease)}}{\text{Total population at risk during a specific time period}}
+$$
+
+**Risk of CVD in the Oxford Study**
+
+- 1000 participants in the Oxford Study
+- 400 develop CVD
+
+- Risk of CVD in the Oxford Study:
+
+$$
+\text{risk (p)} = \frac{\text{Number of cases CVD}}{\text{Number in Oxford Study}} = \frac{400}{1000} = 0.40 \text{ or } 40\%
+$$
+
+**The risk of CVD in the Oxford Study is 40%** 
+
+### Odds
+
+- Odds is another way of presenting probability (or risk) 
+
+The formula for odds in epidemiology is given by:
+
+$$
+\text{Odds} = \frac{\text{Number of events}}{\text{Number of non-events}} = \frac{\text{Number of Outcome}}{\text{Number of No outcome}}
+$$
+
+$\text{         OR          }$
+
+$$
+\frac{\text{Outcome} / \text{Total}}{\text{No Outcome} / \text{Total}} = \frac{\text{Risk (Probability of outcome)}}{\text{1 - Risk (Probability of no outcome)}}
+$$
+
+Or, if you have the probability $p$ of an event, you can express odds in terms of $p$ as:
+
+Alternatively, if $p$ represents the probability of the outcome, the odds can be expressed as:
+
+$$
+\text{Odds} = \frac{p}{1 - p}
+$$
+
+**Odds of CVD in the Oxford Study**
+
+- 1000 participants in the Oxford Study
+- 400 develop CVD
+- Risk of CVD in the Oxford Study $(p)$ = 0.40
+
+$$
+\text{Odds} = \frac{p}{1 - p} = \frac{0.40}{1 - 0.40} = \frac{0.40}{0.60} = 0.667 \text{ or } 67\%
+$$
+
+**The odds of having CVD is 67%**
+
+::: {.callout-note}
+- The difference between risk and odds are small when there are few events, but when there are more events, the odds and risks are different from each other.
+- So it is obvious in our calculations above that odds is slightly higher than risk, because there are more common events, 400 events.
+:::
+
+
+### Rates
+
+$$
+\text{Rate} =  \frac{\text{Number of events}}{\text{Person-time at risk}}
+$$
+
+- Rate is the number of new cases of an outcome to the total time a population is at risk.
+- Longitudinal studies can have variable follow-up time.
+- Rates incorporate time to the event and take account of how long each person was observed for.
+
+**Rate of CVD in the Oxford Study**
+
+- 1000 participants in the Oxford Study
+- 400 develop CVD
+- Follow-up was 10 years (137052 person-years)
+
+$$
+\text{rate} =  \frac{\text{Number of cases of CVD}}{\text{Person - time at risk}} = \frac{400}{137052} = .0029
+$$
+
+$$
+\text{rate} = (0.0029)*1000 = 2.9
+$$
+
+**The rate of CVD in the Oxford Study is 2.9 per 1000 person years**
+
+Calculate the overall risk of death by using a combination of `table()` and `prop.table()` commands:
+
+```
+table(df$death)
+
+prop.table(table(df$death))
+```
+
+Examine the pattern of **risk** of death in relation to increasing age. The margins option in the `prop.table()` command needs to be set to "2" because we want to report the proportions per group. For example, for age and death, this command would be:
+
+```
+table(df$age_grp, df$death)
+
+prop.table(table(df$age_grp, df$death), margins=2)
+```
+
+### Question C1.1a.i: 
+
+**What does your table suggest about the risk of death overall?**
+
+```{r}
+table(whitehall$death)
+```
+
+
+```{r}
+prop.table(table(whitehall$death))
+```
+**For this cohort the overall risk of death is 1526/(2801+1526) = 0.3527 or 35.3% over the years of follow up.**
+
+### Question C1.1a.ii: 
+
+**What does your table suggest about the risk death across levels of age?**
+
+```{r}
+table(whitehall$age_grp, whitehall$death)
+```
+
+```{r}
+prop.table(table(whitehall$age_grp, whitehall$death), 2)
+```
+**The risk of death appears to increase as age increases.**
+
+**The epitools R package**
+
+A good R package to calculate basic epidemiologic analysis is the epitools R package, which includes commands for the design of two-way and multi-way contingency tables and epidemiologic measures, such as risk ratios and odds ratios. You can find more details on the commands included in the epitools R package [here](https://cran.r-project.org/web/packages/epitools/epitools.pdf){target="_blank}.
+
+Install and load the epitools R package with the following commands:
+
+```
+install.packages("epitools")
+
+library(epitools)
+```
+
+**`The epitab() command`**
+
+A good command in R to explore risk and odds ratios is the `epitab()` command from the *epitools* R package. This command is used to produce epidemiological tables with point estimates and CI for risk ratios, and odds ratios.
+
+The syntax for the command is: `epitab(x, y, method)`
+
+where x is the vector of the exposure, y is the vector of the outcome and method can be either “oddsratio” to calculate an odds ratio or “riskratio” to calculate a risk ratio. This command works with either binary or categorical exposures. For categorical exposures, R uses by default the lowest value of the exposure as the reference category.
+
+**Using the epitab() command to calculate a risk ratio**
+
+We want to obtain the risk ratio of mortality for individuals that are current smokers compared to non-smokers. We type the command:
+
+```
+epitab(x = whitehall$currsmoker, y = whitehall$death, method = "riskratio")
+```
+
+Use the [help file](https://cran.r-project.org/web/packages/epitools/epitools.pdf){target="_blank"} for the `epitab()` command to find out how to obtain an odds ratio.
+
+### Question C1.1b.i: 
+
+**What is the risk ratio and 95% CI of death for individuals that are current smokers compared with individuals that are non-smokers?**
+
+```{r}
+library(epitools)
+
+result1 <-  epitab(x = whitehall$currsmoker, y = whitehall$death, method = "riskratio")
+
+print(result1)
+```
+
+
+**The risk ratio for death is 1.16 times higher for current smokers compared to non-smokers. The 95% confidence interval around the risk ratio is 1.04-1.30.**
+
+### Question C1.1b.ii: 
+
+**What is the odds ratio for death in individuals that are current smokers vs non-smokers? State and interpret the 95% confidence interval.**
+
+
+```{r}
+library(epitools)
+
+result2 <- epitab(x = whitehall$currsmoker, y = whitehall$death, method = "oddsratio")
+
+print(result2)
+```
+
+**The odds ratio for death in current smokers compared to non-smokers is 1.27 with a 95% confidence interval of 1.05-1.52. Or, you could say: "The odds of death in current smokers are 1.27 times those of non-smokers."**
+
+::: {.callout-note}
+**The 95% CI states that there is a 95% chance that the interval containing the true population odds ratio lies between 1.05-1.52. Since this interval does not cross 1, it indicates that there are significantly higher odds death for smokers compared to non-smokers.**
+:::
+
+**The ‘ir’ command for rates**
+
+Now let’s have a look at the rate ratio for death in smokers vs non-smokers.  This will require the 'rateratio' method in the `epitab()`  command.
+
+Type the following command to produce the rate and rate ratio:
+
+```{r}
+death_no_smokers <- sum(whitehall$death[whitehall$currsmoker=="0"], na.rm=TRUE)
+
+death_no_smokers 
+```
+
+```{r}
+death_smokers <- sum(whitehall$death[whitehall$currsmoker=="1"], na.rm=TRUE)
+
+death_smokers 
+```
+```{r}
+fup_no_smoker <- sum(whitehall$fu_years[whitehall$currsmoker=="0"], na.rm=T)
+
+fup_no_smoker
+```
+```{r}
+fup_smoker <- sum(whitehall$fu_years[whitehall$currsmoker=="1"], na.rm=T)
+
+fup_smoker
+```
+```{r}
+library(epitools)
+
+result3 <-  epitab(x=c(death_no_smokers, death_smokers), y= c(fup_no_smoker, fup_smoker), method = c("rateratio"))
+
+print(result3)
+```
+
+**The rate ratio of death in current vs non-smokers is 1.18. This means the rate of death in current smokers is 1.18 times that of non-smokers. Alternatively, you could say the rate of death in smokers was 18% higher than in non-smokers. The 95% CI is 1.02-1.37. This CI does not cross the null value so we know the rate of death in current smokers is significantly higher than that of non-smokers.**
+
+
+## C1.2 The Chi-Square Test and the Test For Trend {#sec-C1.2}
+
+::: {.callout-important icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+- Understand the concept of contingency tables (2x2 table, 2xk table, rxc table)
+
+- Calculate and interpret a chi-squared test of association
+
+- Calculate and interpret a chi-squared test for linear trend in proportions (2xk table)
+:::
+
+You can download a copy of the slides here: [C1.2 The Chi-Square Test and the Test For Trend](https://1drv.ms/p/s!AtvH6PgKXPEDgm0tmzRh9XlOU7lN?e=0MIWnY){target="_blank"}
+
+### 2x2 Contingency Tables
+
+
+|                |       |Disease|No Disease|Total  |
+|:--------------:|:-----:|:-----:|:--------:|:-----:|
+| Exposure Status|Exposed|a      |b         |a+b    |
+|Exposure Status |Unexposed|c    |d         |c+d    |
+|                |Total |a+c     |b+d       |N      |
+
+: Disease Status {#tbl-first}
+
+#### Effect of BMI on the Risk of Death {#sec-BMI}
+
+|    |         |DEATH      |DEATH     |       |
+|:--:|:-------:|:---------:|:--------:|:-----:|
+|    |         |**Yes**    |**No**    |Total  |
+|**BMI** |≥25 kg/m2|916 (0.21) |816 (0.19)|1732   |
+|**BMI** |<25 kg/m2|589 (0.14) |1945 (0.46)|2534  |
+|    |Total    |1505       |2761       |4266  |
+
+: BMI X Death {#tbl-first}
+
+### Chi-Square Test 
+
+- Chi-squared test allows us to determine if there is a statistically significant difference between the expected and observed frequencies in one or more categories 
+- If expected frequencies differ from the observed frequencies, there may be an association between the two categories. 
+- Ho: No association between the BMI groups and death 
+- Ha: There is an association between the BMI groups and death 
+
+Ho: the proportion $\pi$ of death is the same in each group
+
+Ho: $\pi_{{BMI} \geq 25kg/m2} - \pi_{{BMI} < 25kg/m2}$
+
+Ha: the proportion $\pi$ of death is different
+
+Ha: $\pi_{{BMI} \geq 25kg/m2} \neq \pi_{{BMI} < 25kg/m2}$
+
+#### Observed Frequencies for 2x2 Table
+
+|    |         |DEATH      |DEATH     |       |
+|:--:|:-------:|:---------:|:--------:|:-----:|
+|    |         |**Yes**    |**No**    |Total  |
+|**BMI** |≥25 kg/m2|916 (a) |816 (b)|1732 (a+b)|
+|**BMI** |<25 kg/m2|589 (c) |1945 (d)|2534 (c+d)|
+|    |Total    |1505 (a+c)  |2761 (b+d)|4266 (a+b+c+d)|
+
+#### Expected Frequencies for 2x2 Table
+
+The expected frequency for each cell in a 2x2 contingency table is given by:
+
+$$
+E_{ij} = \frac{\text{Row Total}_i \times \text{Column Total}_j}{\text{Grand Total}}
+$$
+
+where:
+
+- $E_{ij}$ is the expected frequency for the cell in row $i$ and column $j$.
+- $\text{Row Total}_i$ is the total sum for row $i$.
+- $\text{Column Total}_j$ is the total sum for column $j$.
+- $\text{Grand Total}$ is the total count of all observations in the table.
+
+|       |         |DEATH                        |DEATH                       |         |
+|:-----:|:-------:|:---------------------------:|:--------------------------:|:-------:|
+|       |         |**Yes**                      |**No**                      |Total    |
+|**BMI**|≥25 kg/m2|$\frac{(a+b)(a+c)}{a+b+c+d}$ |$\frac{(a+b)(b+d)}{a+b+c+d}$|a+b      |
+|**BMI**|<25 kg/m2|$\frac{(c+d)(a+c)}{a+b+c+d}$ |$\frac{(c+d)(b+d)}{a+b+c+d}$|c+d      |
+|       |Total    |    a+c                      |                    b+d     |a+b+c+d  |
+
+
+#### Observed and Expected Frequencies
+
+|    |         |DEATH      |DEATH     |       |
+|:--:|:-------:|:---------:|:--------:|:-----:|
+|    |         |**Yes**    |**No**    |Total  |
+|**BMI** |≥25 kg/m2|916 (*611*) |816 (*1211*)|1732   |
+|**BMI** |<25 kg/m2|589 (*894*) |1945 (*1640*)|2534  |
+|    |Total    |1505       |2761       |4266  |
+
+: BMI X Death {#tbl-second}
+
+#### Chi-Squared Formula 
+
+The chi-squared test statistic is calculated as:
+
+$$
+\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}
+$$
+
+where:
+
+- $O_i$ is the observed frequency.
+- $E_i$ is the expected frequency.
+
+The chi-squared ($\chi^2$) calculation is as follows:
+
+$$
+\chi^2 = \frac{(1945 - 1640)^2}{1640} + \frac{(589 - 894)^2}{894} + \frac{(816 - 1121)^2}{1121} + \frac{(916 - 611)^2}{611}
+$$
+
+$$
+\chi^2 = 395.93
+$$
+
+####    Degrees of Freedom
+
+$$
+df = (r-1)(c-1)
+$$
+
+where:
+
+- $df$ is the degrees of freedom
+- $r$ is the number of rows
+- $c$ is the number of columns
+
+
+$$
+df = (2-1)(2-1) = 1
+$$
+
+![](Picture1.jpg)
+
+![](Picture2.png){#fig-Picture2}
+
+#### Performing the chi-square test for association
+
+We want to look at the association of age group with fatal CVD. In order to obtain a chi-square test for association, we use the `chisq.test()` command, and the code looks like this: `chisq.test(df$age_grp, df$cvd_death, correct=FALSE)`
+
+#### Question C1.2a: 
+
+Is there an association between age group and fatal CVD? Just looking at a cross-tabulation table without doing any additional steps, are you able to tell which age groups are different from each other?
+
+```{r}
+chisq.test(whitehall$age_grp, whitehall$cvd_death, correct=FALSE)
+```
+
+The chi-square test statistic is shown below the table and is X2 = 221.6 on 3 df (chi2(3)) which gives a p-value of Pr <2.2E-16.
+
+The p value of the chi-square test is highly significant (p<0.001), suggesting that we can reject the null hypothesis that there is no difference in true fatal CVD prevalence across different age groups. While we can observe in the row percentages that fatal CVD prevalence is the highest at older ages, and lowest at younger ages, the chi-square test is a **global** test so it just tells us there is a difference somewhere in the table; it does not tell us which groups are different nor does it tell us about the nature of the association (e.g if it is positive or negative).
+
+## Test for Linear Trend {#sec-linear}
+
+- We have been discussing 2x2 contigency table see @tbl-first and @tbl-second. This time if we are interested in seeing if higher levels of BMI increase our risk of death.
+- We can recode our binary variable into four categories to better explore the relationship between BMI and risk of death.
+
+#### 4x2 Table
+
+|                   |              |DEATH      |DEATH     |       |
+|:-----------------:|:------------:|:---------:|:--------:|:-----:|
+|                   |              |**Yes**    |**No**    |Total  |
+|**BMI Categories** |<18.5 kg/m2   |169 (0.11) |822 (0.30)|991    |
+|**BMI Categories** |18.5-<25 kg/m2|190 (0.13) |601(0.22) |791    |
+|**BMI Categories** |25-<30 Kg/m2  |230 (0.15) |522 (0.19)|752    |
+|**BMI Categories** |≥30 kg/m2     |916 (0.61) |816 (0.3) | 1732  |
+|                   |Total         |1505       |2761      |4266   |
+
+
+: BMI X RISK OF DEATH{#tbl-second}
+
+If we take a look at the proportions in the table, it would appears that there is a trend where those with higher BMI have a greater risk of death than those a lower BMI.
+
+And we can see here that it seems that those with the highest level of BMI have 61% risk of death. However, this is just an observation, and we would need to use some statistical test to determine if this observation is true.
+
+- The chi-square test for linear trend (Cochran-Armitage) is used to test for trend in proportions
+
+- Typically used between a binary variable and an ordinal variable with k categories
+
+Ho: there is no trend in the proportion of death across BMI categories
+
+Ha: There. is trend in the proportion of death across BMI categories  
+
+The chi-square test for linear trend (also called the Cochran-Armitage test for linear trend) is obtained using the `prop.trend.test()` command. The setup of this command is: `prop.trend.test(x, n)`
+
+where:
+
+- x is the number of events per group, and
+- n is the total sample size per group
+
+```{r}
+death_BMI4cat <- c(169, 190, 230, 916) 
+
+total_BMI4cat <- c(991,  791,  752, 1732)
+
+prop.trend.test( x=death_BMI4cat, n=total_BMI4cat)
+```
+
+**We can reject the null hypothesis that there is no linear trend in the proportion of death across the BMI categories**
+
+*If, we plot a line graph that depicts the relationship of risk of death against Categories of BMI, it will showed that those at the lower levels of BMI have about 15% risk of death as compare to 60% for those in the highest levels of BMI.*
+
+
+#### Question C1.2b.i: 
+
+Obtain the prevalence of prior diabetes in the different groups of BMI. What happens to diabetes prevalence as the BMI group increases?
+
+```{r}
+whitehall$bmi_grp41 <- factor(whitehall$bmi_grp4, levels=c(1,2,3,4), labels=c("Underweight", "Normal", "Overweight", "Obese"))
+
+prop.table(table(whitehall$bmi_grp41, whitehall$prior_t2dm), 1)
+```
+
+**The prevalence of diabetes increases from 8% (underweight) to 5% (normal weight) to 8.8% in the group with obesity.**
+
+#### Question C1.2b.ii: 
+
+Perform a chi-square test of linear trend. What is the null hypothesis and what do the results of this test suggest?
+
+```{r}
+table(whitehall$bmi_grp41, whitehall$prior_t2dm)
+```
+
+```{r}
+t2dm_bmig <- c(4, 91, 129, 33)
+
+table(whitehall$bmi_grp41)
+
+total_bmig <- c(50, 1793, 2091, 376)
+
+prop.trend.test(x = t2dm_bmig , n = total_bmig)
+```
+*The chi-square test for linear trend is obtained using the `prop.trend.test()` command.  The chi-square value (for 1 degree of freedom) is 5.8 and the p-value=0.02.  There is evidence of a significant linear trend, and we can reject the null hypothesis that there is no association between diabetes status and BMI group.*
+
+
+## C1.3 Univariable Logistic Regression {#sec-C1.3}
+
+::: {.callout-important icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+- Calculate and interpret a logistic regression for a binary exposure variable
+
+- Calculate and interpret a logistic regression for a categorical exposure variable
+
+- Calculate and interpret a logistic regression for a continuous exposure variable
+:::
+
+You can download a copy of the slides here: [C1.3a Univariable Logistic Regression](https://1drv.ms/p/s!AtvH6PgKXPEDgm_KjLNhJ6sxFAos?e=hnVcsy){target="_blank"}
+
+### Logistic Regression Models for Binary Exposure
+
+#### Review: Regression Models
+
+- **Describe:** relationship between 2 or more variables, where one of these is the "outcome".
+- **Predict** the value of the outcome for a given value of the "explanatory, exposure" variable.
+
+![](Picture3.jpg){#fig-Picture3}
+
+- The scatterplot (@fig-Picture3) describe linear relationship using the following formula: $y = \alpha + \beta x$.
+
+- Linear relationship between SBP and BMI: $\text{SBP} = \alpha + \beta\text{BMI}$. $\text{SBP} = 119.1 + 0.46\text{ BMI }$ : Means SBP of 119.1 mmHg when the BMI is 0 and the $\beta$ coefficient for BMI as per 1 unit increase in BMI, SBP increases by 0.46 mmHg.
+
+![](Picture4.jpg){#fig-Picture4}
+
+- But a linear regression may not be appropriate when the SBP(outcome) is binary (high SBP $\geq$ 120 mmHg and low SBP $<$ 120 mmHg), as seen in @fig-Picture4.
+
+![](Picture6.jpg){#fig-Picture6}
+
+- When the outcome and exposure and **binary** there are only `4 possible values` in the scatterplot @fig-Picture6 between SBP (1 ≥ 120 mmHg  and 0 < 120 mmHg)  and BMI (1 ≥ 25 kg/m2 and 
+0 if < 25 kg/m2). So a `2x2 table` may be more appropriate.
+
+|        |         |SBP        |SBP       |       
+|:------:|:-------:|:---------:|:--------:|
+|        |         |<120 mmHg  |≥120 mmHg |
+|**BMI** |<25 kg/m2|543 (0.30) |1277 (0.70)|
+|**BMI** |≥25 kg/m2|613 (0.25) |1833 (0.75)|
+
+- Statistical models based on proportions can be problematic because the proportions are constrained to lie between 0 and 1.
+
+#### Possible Ways to Model a Binary Outcome 
+
+1. **Proportion** of the outcome in exposed and unexposed `but constrained` to 0 to 1, which posed problematic.
+
+2. Odds of the outcome in exposed and unexposed `but constrained` from 0 to $\infty$, which is also problematic.
+
+3. Log odds of the outcome in exposed and unexposed are unconstrained, also spanned from $-\infty$ to $\infty$. Best to use rather than above methods.
+
+$\text{log(odds)} = \alpha + \beta\text{x}$
+
+- y = log odd of disease
+- $\alpha$ = true intercept (value of y when x = 0)
+- $\beta$ = true slope (the increase in log odds per unit increase in x)
+
+- Smoking (Binary exposure): 1= current and 0 = never 
+- Death (Binary outcome):  1= died and 0 = alive
+
+$\text{log(odds of death)} = \alpha + \beta\text{smoking }$
+
+$\text{log of disease in the never smokers (unexposed)} = \alpha + \beta(0) = \alpha$
+
+$\text{log of disease in the current smokers (exposed)} = \alpha + \beta(1) = \alpha + \beta$
+
+Refer back to @tbl-first, @fig-Picture2 and @sec-BMI.
+
+- This time, we are interested in quantifying the strength of association between BMI and the risk of death, as well as the directional effect. 
+
+- To run a logistic regression in R, we use the `glm()` command. The set up of the command is: `glm(formula, family, data)`
+
+where:
+
+- formula has the format `outcome ~ exposure`,
+- family is `binomial(link = “logit”)` for logistic regression, and
+- data corresponds to the dataframe including our data.
+
+To use this command, you need to confirm that your outcome variable is coded as a factor variable. You can find more details on glm() command in [this help file](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/glm.html){target="_blank"}.
+
+Using the `glm()` command above, the `log OR (Estimate)` and its `standard error (Std. Error)` are printed, and we estimate the `OR` and the `95% confidence intervals` by exponentiating the results with this post-estimation command: `exp(cbind(coef(model), confint(model)))`
+
+#### Example:
+
+```{r}
+# Create a DataFrame representing the table
+df <- data.frame(
+  BMI = c("≥25 kg/m2", "<25 kg/m2", "Total"),
+  DEATH_Yes = c("916 (611)", "589 (894)", "1505"),
+  DEATH_No = c("816 (1211)", "1945 (1640)", "2761"),
+  Total = c("1732", "2534", "4266")
+)
+
+print(df)
+```
+
+To run logistic regression on this dataset, you'll first need to transform it into a format suitable for analysis. The current dataset contains counts in the form of text (e.g., "916 (611)") and includes a "Total" row that should be excluded. We need to clean this data, extract the numeric values, and set up a binary variable for logistic regression.
+
+```{r}
+df <- data.frame(
+  BMI = c("≥25 kg/m2", "<25 kg/m2"),
+  DEATH_Yes = c("916", "589"),
+  DEATH_No = c("816", "1945")
+)
+
+# Convert the count columns to numeric
+df$DEATH_Yes <- as.numeric(df$DEATH_Yes)
+df$DEATH_No <- as.numeric(df$DEATH_No)
+
+# Reshape the data to a long format
+df_long <- data.frame(
+  BMI = rep(df$BMI, times = 2),
+  Death = c(rep(1, nrow(df)), rep(0, nrow(df))),
+  Count = c(df$DEATH_Yes, df$DEATH_No)
+)
+
+# Run logistic regression
+model4 <- glm(Death ~ BMI, data = df_long, family = binomial, weights = Count)
+
+# Display the summary of the model
+summary(model4)
+```
+- **The intercept can be explained as the risk of death or the log risk of death in those with BMI of less than 25 kg/m^2 and the BMI coefficient, we can estimate that as the log odds ratio of death for those with a BMI of** $\geq$. 
+
+- **The Second column showed the standard error for the test.**
+
+- **The third and fourth column show the Z statistic for the wald test of the parameter estimates and their corresponding p-values.**
+
+- **The Z statistic in this model tests the null hypothesis that the true parameter or coefficient equals 0.**
+
+- **In this test, the null hypothesis is that the $\beta$ for BMI is 0. However, given the Z statistic for wald test for BMI and the p-value for BMI, we can sufficiently reject the null hypothesis and conclude that the estimates for BMI is significantly different from 1, given that the p-value is 2e-16.**
+
+- **However, the results given for R for the logistic regression are given on the log scale, which are terribly meaningful.**
+
+- **Hence, we have to take the exponent of those estimates to get the odds ratio for BMI.**
+
+```{r}
+exp(cbind(coef(model4), confint(model4)))
+```
+**The odds of death in those with BMI of < 25 kg/m^2 is 30%. The odds of dying is 3.71 times higher in those with a BMI of $\geq$ 25 kg/m2 vs a BMI of < 25 kg/m2.**
+
+
+#### Question C1.3a: 
+
+**Dichotomise the variable ‘sbp’ into below 140 mmHg and greater than or equal to 140 mmHg. Call this variable “hyperten” to indicate “hypertensive”. Use logistic regression to examine the association of hypertensive on your odds of having prior CVD (‘prior_cvd’). Interpret the output**
+
+To dichotomise the “sbp” variable, use the following command:
+
+```{r}
+# Assign 0 to "hyperten" where sbp < 140 and sbp is not NA
+whitehall[!is.na(whitehall$sbp) & whitehall$sbp < 140, "hyperten"] <- 0
+
+# Assign 1 to "hyperten" where sbp >= 140 and sbp is not NA
+whitehall[!is.na(whitehall$sbp) & whitehall$sbp >= 140, "hyperten"] <- 1
+```
+
+To run the logistic regression we use the `glm()` command:
+
+```{r}
+model <- glm(prior_cvd ~ hyperten, family = binomial(link = "logit"), data = whitehall)
+
+summary(model)
+```
+The lnOR (Estimate) and its standard error (Std. Error) are printed, and we estimate the OR and the 95% confidence intervals by exponentiating:
+
+```{r, warning=FALSE}
+exp(cbind(coef(model), confint(model)))
+```
+**The odds of having prior CVD are 1.60 times greater for someone that was hypertensive compared to those who were not (95% CI: 1.38-1.86). This effect is significant (p<0.001), which means that we can reject the null hypothesis that there is no association between hypertension and prior CVD, and that the odds ratio is equal to 1.**
+
+
+### Logistic regression with a categorical exposure
+
+You can download a copy of the slides here: [C1.3b Univariable Logistic Regression](https://1drv.ms/p/s!AtvH6PgKXPEDgm77cgI8m1uaES9R?e=9poXuT){target="_blank"}
+
+We may use the `glm()` command to obtain odds ratios for a categorical variable such as BMI group. By default, the category with the lowest numerical value is treated as reference category. 
+
+#### Research Question
+
+Are categories of BMI (categorical exposure) associated with the risk of death (outcome) ?
+
+Refer back to the table @tbl-second used for test for linear trend section @sec-linear
+
+```{r}
+df1 <- data.frame(
+  BMI = c("<18.5 kg/m2", "18.5-<25 kg/m2", "25-<30 kg/m2", "≥30 kg/m2"),
+  Death_Yes = c(169, 190, 230, 916),
+  Death_No = c(822, 601, 522, 816)
+)
+
+# Reshape to long format for logistic regression
+df_long1 <- data.frame(
+  BMI = rep(df1$BMI, times = 2),
+  Death = c(rep(1, nrow(df1)), rep(0, nrow(df1))),
+  Count = c(df1$Death_Yes, df1$Death_No)
+)
+
+df_long1$BMI_ordinal <- as.numeric(df_long1$BMI)
+
+# Logistic regression model
+model5 <- glm(Death ~ BMI, data = df_long1, family = binomial, weights = Count)
+
+# Display the model summary
+summary(model5)
+```
+**Unlike the previous example, where we fit BMI as a binary variable. We have 3 variables in the model that relate to BMI. So these BMI variables are known as INDICATOR variables, and they are coded as 0 and 1. And each of these variables are comparing the log odds ratio of death to the reference group of BMI, which is the BMI < 18.5 kg/m2.**
+
+**The intercept is the log odds of death in the unexposed group, so that would be the log odds of death in those with BMI category of 0, which is the reference group for the 4 levels variable of BMI.**
+
+The next code will help analyze the results in a form of odds ratio rather than log odds ratio for better interpretation:
+
+```{r}
+exp(cbind(coef(model5), confint(model5)))
+```
+**HOW DO WE INTERPRET THESE ODDS RATIO ?**
+
+For instance, those with a BMI of 25-<30 kg/m2, they have a 2.14 times higher odds of death than those with a BMI of < 18.5 kg/m2. Those with the BMI of $\geq$ 30 kg/m2 have a 5.5 times higher odds of death than those with a BMI of < 18.5 kg/m2.
+
+```{r}
+model6 <- glm(prior_cvd ~ bmi_grp41, family = binomial(link = "logit"), data = whitehall)
+
+summary(model6)
+```
+Odd ratios in a logistic regression with a categorical variable are interpreted as the odds of the outcome in the specified level compared with a baseline level. The constant refers to the odds of the outcome in the baseline category. We estimate the OR and the 95% confidence intervals by exponentiating:
+
+```{r}
+exp(cbind(coef(model6), confint(model6)))
+```
+
+Here, the odds of having prior CVD are 36% higher if a participant has obesity compared to if they have a normal weight (OR:1.39, 95% CI:0.71-2.95). This association is not statistically significant (p=0.40) so we cannot reject the null hypothesis that the OR of obese vs normal weight is 1.
+
+### Logistic regression with an ordered categorical exposure
+
+We can use the logistic command to obtain an odds ratio and a linear trend test for an ordered categorical variable such as BMI group. For this reason, we should tell R that our exposure variable is to be treated as a continuous variable rather than as a categorical variable. We achieve that using the `as.numeric()` command in the formula.
+
+#### Research Question 
+
+Are higher levels of BMI (ordered categorical exposure) associated with the risk of death (outcome) ?
+
+Refer back to the table @tbl-second used for test for linear trend section @sec-linear
+
+This is similar to the linear trend test @sec-linear, we want to assess whether there is a linear association between BMI categories with the risk of death. We will be using logistic regression model.
+
+
+$$
+\text{log odds}=\alpha+\beta\text{BMI4cat}
+$$
+
+$\beta\text{BMI4cat}$ = log OR per unit increase in BMI categories.
+
+A unit increase is given by:
+< 18.5 (1, ref) vs 18.5-<25 kg/m2 (2), or
+18.5-<25(2) vs 25-<30 kg/m2 (3), or
+25-<30 (3) vs >= 30 kg/m2 (4)
+
+We can perform logistic regression treating our categorical BMI variable as continuous.
+
+```{r}
+df1 <- data.frame(
+  BMI = c("<18.5 kg/m2", "18.5-<25 kg/m2", "25-<30 kg/m2", "≥30 kg/m2"),
+  Death_Yes = c(169, 190, 230, 916),
+  Death_No = c(822, 601, 522, 816)
+)
+
+# Reshape to long format for logistic regression
+df_long1 <- data.frame(
+  BMI = rep(df1$BMI, times = 2),
+  Death = c(rep(1, nrow(df1)), rep(0, nrow(df1))),
+  Count = c(df1$Death_Yes, df1$Death_No)
+)
+
+# Convert BMI to an ordered factor and then to numeric for ordinal regression
+df_long1$BMI <- factor(df_long1$BMI, levels = c("<18.5 kg/m2", "18.5-<25 kg/m2", "25-<30 kg/m2", "≥30 kg/m2"), ordered = TRUE)
+df_long1$BMI_ordinal <- as.numeric(df_long1$BMI)
+
+# Logistic regression model
+model7 <- glm(Death ~ BMI_ordinal, data = df_long1, family = binomial(link = "logit"), weights = Count)
+
+# Summary of the model
+summary(model7)
+```
+We can see that per 1 unit increase across the categorical variables, the log OR is 0.59.
+
+We need to convert the log OR to odds ratio.
+
+```{r}
+exp(cbind(coef(model7), confint(model7)))
+```
+**How do we interpret an OR of 1.80 for BMI?**
+
+OR=1.80 for 18.5-<25 versus < 18.5 kg/m2
+OR=1.80 for 25-<30 versus 18.5-<25 kg/m2 
+OR=1.80 for >= 30 versus 25-<30 kg/m2
+
+It can be interpreted as Per one unit increase in BMI categories, the OR for death is 1.80.
+
+After obtaining our odds ratio, we wants to determine whether BMI as an ordinal variable is significant or not.
+
+The wald test null hypothesis is equivalent to the chi-squared test for linear trend.
+
+The wald test null hypothesis is that there is no association between BMI categories ion death (i.e linear trend OR=1). In our alternative hypothesis, it states that there is an increasing or decreasing linear trend.
+
+In the test, we can see that our Z-value or our wald test is 19.32 and we have p-value of 2e-16, so we have sufficient evidence the null hypothesis and we can interpret these values as there is a statistically significant increasing trend in the log odds of death with linear trend odds ratio of 1.8 and that is significantly different to 1.
+
+```{r}
+model8 <- glm(prior_cvd ~ as.numeric(bmi_grp41), family = binomial(link = "logit"), data = whitehall)
+
+summary(model8)
+```
+
+Note that the Wald test here is equivalent to the chi-square test for linear trend @sec-linear.  The null hypothesis is that there is no association between BMI group and prior CVD (i.e. that the linear trend OR equals 1), and the alternative hypothesis is that there is a linear increasing or decreasing trend. Here, the p-value (p=0.07) indicates that there is not evidence against the null hypothesis (although this is a borderline significant p-value) and we conclude that there is not a statistically significant increasing trend in log odds of prior CVD across groups of BMI.
+
+#### Question C1.3bi.: 
+
+Use logistic regression to obtain odds ratios for the association of BMI group on prior diabetes. Try fitting this variable both as a categorical variable and as a linear trend.
+
+```{r}
+
+whitehall$bmi_grp41 <- relevel(whitehall$bmi_grp41, ref = "Normal")
+
+model9 <- glm(prior_t2dm ~ bmi_grp41, family = binomial(link = "logit"), data = whitehall)
+
+summary(model9)
+```
+
+Just to note that the reference group in the model is those with a normal weight. We can estimate the different ORs and their corresponding the 95% confidence intervals from the model by taking the exponential:
+
+```{r}
+exp(cbind(coef(model9), confint(model9)))
+```
+
+The odds ratio of prior diabetes for underweight vs normal weight (as BMI group 2 is the reference group) is 1.63 (95% CI: 0.50-4.11). The z-statistic for this odds ratio is 0.91 and p=0.360 so this odds ratio is not significantly different to 1.
+
+The odds ratio for overweight vs normal weight is 1.23 (95% CI: 0.93-1.62).  The z-statistic for this odds ratio is 1.47 and p=0.142 so this odds ratio is not significantly different to 1.
+
+Finally, the odds ratio for obese vs normal weight is 1.80 (95% CI: 1.17-2.70).  The z-statistic for this odds ratio is 2.78 and p=0.006 so this odds ratio is significantly different to 1.
+
+### Logistic regression with a continuous exposure
+
+To fit a logistic regression with a continuous exposure, we type the variable as it is (with no prefix) and we interpret the OR in terms of a 1-unit change in the exposure:
+
+```{r}
+model10 <- glm(prior_cvd ~ hdlc, family = binomial(link = "logit"), data = whitehall)
+
+summary(model10)
+```
+We estimate the OR and the 95% confidence intervals by exponentiating:
+
+```{r}
+exp(cbind(coef(model10), confint(model10)))
+```
+**The odds of having prior CVD were 51% lower for each 1 unit increase in HDL-C (OR: 0.49, 95%CI: 0.40-0.59). This association was statistically significant.**
+
+#### Question C1.3b.ii: 
+
+**Use logistic regression to assess the association between ‘prior_t2dm’ and the continuous exposure variable ‘hdlc’. How would you interpret this output?** 
+
+```{r}
+model11 <- glm(prior_t2dm ~ hdlc, family = binomial(link = "logit"), data = whitehall)
+
+summary(model11)
+```
+
+```{r}
+exp(cbind(coef(model11), confint(model11)))
+```
+**For every 1 unit increase in HDL-C, the odds of having prior diabetes were 54% lower (OR: 0.46 95% CI: 0.32-0.67). This association is statistically significant (p<0.001) so we can reject the null hypothesis that there is no association of HDL-C with prior diabetes.**
+
+## C1.4 Multivariable Logistic Regression {#sec-C1.4}
+
+
+::: {.callout-important icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+- Understand the concepts of confounding
+
+- Use logistic regression to assess for confounding.
+
+- Perform a Wald test on an adjusted odds ratio.
+
+- Control the association of an exposure for additional variables in a logistic regression model.
+:::
+
+You can download a copy of the slides here: [C1.4 Multivariable Logistic Regression](https://1drv.ms/p/s!AtvH6PgKXPEDgmzjse6l7obGm4t7?e=YHLEib){target="_blank"}
+
+### Controlling for Confounding in Logistic Regression Models
+
+#### Research Question
+
+**Is alcohol consumption associated with the risk of heart disease?**
+
+#### Effect of Alcohol on Heart Disease {#sec-Alcohol}
+
+|               |         |Heart Disease|Heart Disease|       |
+|:-------------:|:-------:|:-----------:|:-----------:|:-----:|
+|               |         |**No**       |**Yes**      |Total  |
+|**Alcohol Use**|No       |815          |83           |898    |
+|**Alcohol Use**|Yes      |1664         |328          |1972   |
+|               |Total    |2479         |411          |2870   |
+
+: Alcohol Use X Heart Disease {#tbl-third}
+
+```{r}
+# Define the raw counts in a data frame
+df_counts <- data.frame(
+  Alcohol_Use = c("No", "No", "Yes", "Yes"),
+  Heart_Disease = c("No", "Yes", "No", "Yes"),
+  Count = c(815, 83, 1664, 328)
+)
+
+# Expand the data frame by repeating rows according to the count
+df_expanded <- df_counts[rep(1:nrow(df_counts), df_counts$Count), c("Alcohol_Use", "Heart_Disease")]
+
+# Convert to a table format
+table_df <- table(df_expanded$Alcohol_Use, df_expanded$Heart_Disease)
+
+# Perform Chi-squared test
+chisq.test(df_expanded$Alcohol_Use,  df_expanded$Heart_Disease,
+           correct=F)
+```
+
+**From the chi-squared test there is a significant association between the two variables. Although, the chi-squared test indicated that there is a difference between alcohol consumption and heart disease. We need to quantify this estimates. So first, we can run a logistic regression test and you can see this output at the top of this fight**
+
+```{r}
+# Convert the variables to factors for logistic regression
+df_expanded$Alcohol_Use <- factor(df_expanded$Alcohol_Use, levels = c("No", "Yes"))
+df_expanded$Heart_Disease <- factor(df_expanded$Heart_Disease, levels = c("No", "Yes"))
+
+# Run the logistic regression model
+m1 <- glm(Heart_Disease ~ Alcohol_Use, data = df_expanded, family = binomial)
+
+# Display the summary of the model
+summary(m1)
+```
+**So overall, we can see from the results of this logistic regression that alcohol is significantly associated with heart disease. However, this estimates are on a log scale. So let us take the exponent so we can get the odds ratio**
+
+```{r}
+exp(cbind(coef(m1), confint(m1)))
+```
+**We can see that the odds of the heart disease is nearly twice as high (OR = 1.94, 95% CI: 1.51-2.51) in those who consume alcohol versus those who do not consume alcohol**
+
+**ARE THERE POSSIBLE EXPLANATIONS FOR THIS FINDINGS ?**
+
+#### Possible Explanations 
+
+1. **Chance** - the z test value of 5.17 gives p<0.001, so chance is very unlikely.  
+
+2. **Bias** - e.g. reporting bias if people with heart disease are more likely to remember risk behaviours.
+
+3. **Confounding** – that this association is wholly/partly due to another risk factor for heart disease. People who consume alcohol may also be more likely to smoke. 
+
+4. The association between alcohol use and heart disease is **real**
+
+#### Confounders
+
+- A Confounder is a variable that distorts the apparent magnitude of the  relationship between an exposure and an outcome.  
+
+- For a variable to be a confounder, it needs to be:
+  + a risk factor for the outcome, and 
+  + associated with the exposure and
+  + not on causal pathway between exposure and outcome. 
+
+- Smoking is a potential confounder of this association if it is:
+  + a risk factor for heart disease and 
+  + associated with alcohol consumption. 
+
+#### Effect of Smoking on Heart Disease
+
+To determine if smoking is a risk factor for heart disease, we can perform a logistic regression test to determine if it's associated with heart disease.
+
+```{r}
+# Create a data frame with counts for smoking and heart disease
+df4 <- data.frame(
+  smoke = c("No", "No", "Yes", "Yes"),
+  heart_disease = c("No", "Yes", "No", "Yes"),
+  count = c(1488, 83, 1664, 328)  # These values may need adjusting based on trial and error
+)
+
+
+# Expand the data frame to use it for logistic regression
+df_exp <- df4[rep(1:nrow(df4), df4$count), c("smoke", "heart_disease")]
+
+# Convert 'smoke' and 'heart_disease' to factors
+df_exp$smoke <- factor(df_exp$smoke, levels = c("No", "Yes"))
+df_exp$heart_disease <- factor(df_exp$heart_disease, levels = c("No", "Yes"))
+
+# Run logistic regression
+m2 <- glm(heart_disease ~ smoke, data = df_exp, family = binomial)
+
+# Display the summary of the model
+summary(m2)
+```
+
+**We can see from the logistic regression output that smoking is significantly associated with the risk of heart disease, chi-squared test can also be used**
+
+#### Effect of Smoking on Alcohol Use
+
+Next, we want to see whether smoking is associated with alcohol consumption and this can be achieved by creating 2 x 2 table and perfoming a chi-squared test.
+
+|               |         |Smoking      |Smoking      |       |
+|:-------------:|:-------:|:-----------:|:-----------:|:-----:|
+|               |         |**No**       |**Yes**      |Total  |
+|**Alcohol Use**|No       |650          |83           |898    |
+|**Alcohol Use**|Yes      |838          |1134         |1972   |
+|               |Total    |1488         |1382         |2870   |
+
+```{r}
+# Define the raw counts in a data frame
+df5 <- data.frame(
+  Alcohol_Use = c("No", "No", "Yes", "Yes"),
+  Smoking = c("No", "Yes", "No", "Yes"),
+  Count = c(650, 248, 838, 1134)
+)
+
+# Expand the data frame by repeating rows according to the count
+df_exp2 <- df5[rep(1:nrow(df5), df5$Count), c("Alcohol_Use", "Smoking")]
+
+# Convert to a table format
+table_df2 <- table(df_exp2$Alcohol_Use, df_exp2$Smoking)
+
+# Perform Chi-squared test
+chisq.test(df_exp2$Alcohol_Use,  df_exp2$Smoking,
+           correct=F)
+```
+
+**We can see that the results of the chi-squared test indicate that smoking is significantly associated with alcohol use. As earlier discussed, we determined that smoking was a risk factor for heart disease and it was associated with alcohol use**
+
+**So since these assumptions have been meet, then, smoking is a potential confounder**
+
+- So we need to take account of smoking as a confounder:
+
+1. Either at the study design stage: 
+  + Randomisation
+  + Restriction
+  + Matching 
+
+2. Or the analysis stage: 
+  + Stratification
+  + Regression modelling
+
+3. Failure to account for a confounder means that ORs may be biased
+
+**In order to control for confounding, we have to use multivariable logistic regression**
+
+- Logistic regression models can be extended to include >1 explanatory variable.  
+
+- By including 2+ explanatory variables in the same model, we are fitting a model in which each explanatory variable is controlled for the other
+
+- We may fit multivariable models which include:
+  + *>2 variables*
+  + *Binary, categorical & continuous (quantitative) variables*
+  
+
+#### Effect of Alcohol on Heart Disease - Adjusted for Smoking 
+
+```{r}
+# Create a data frame with counts for alcohol use, smoking, and heart disease
+df6 <- data.frame(
+  alcohol = c("No", "No", "No", "No", "Yes", "Yes", "Yes", "Yes"),
+  smoke = c("No", "No", "Yes", "Yes", "No", "No", "Yes", "Yes"),
+  heart_disease = c("No", "Yes", "No", "Yes", "No", "Yes", "No", "Yes"),
+  count = c(1250, 100, 1250, 300, 900, 150, 1100, 300)  # Adjusted counts to fit approximate output
+)
+
+# Expand the data frame by repeating rows according to the count
+df_exp3 <- df6[rep(1:nrow(df6), df6$count), c("alcohol", "smoke", "heart_disease")]
+
+# Convert 'alcohol', 'smoke', and 'heart_disease' to factors
+df_exp3$alcohol <- factor(df_exp3$alcohol, levels = c("No", "Yes"))
+df_exp3$smoke <- factor(df_exp3$smoke, levels = c("No", "Yes"))
+df_exp3$heart_disease <- factor(df_exp3$heart_disease, levels = c("No", "Yes"))
+
+# Run logistic regression
+m3 <- glm(heart_disease ~ alcohol + smoke, data = df_exp3, family = binomial)
+
+# Display the summary of the model
+summary(m3)
+```
+```{r}
+exp(cbind(coef(m3), confint(m3)))
+```
+**After taking the exponents of the** $\beta$ **coefficients from our logistic regression model, we can see that the odds ratio for alcohol use is about 1.40. This odds ratio is much smaller than the crude or unadjusted odds ratio (1.94) we had before we add smoking to the model** 
+
+**So we can interpret this odds ratio for alcohol use after adjusting for smoking, the effect of alcohol use on heart disease is similar with an adjusted odds ratio of about 1.40 in the 95% CI: 1.19 - 1.60. And this is statistically significant**
+
+#### Controlling for confounders in a logistic regression using whitehall data
+
+Now use the `glm()` command to obtain the odds ratio for prior CVD with hypertension, adjusted for HDL-C. This may be obtained as follows: `model <- glm(prior_cvd ~ hypertens + hdlc, family = binomial(link = "logit"), data = df)`
+
+Note that the output gives us the odds ratio for ‘hyperten’ adjusted for ‘hdlc’ but it also gives us the odds ratios for ‘hdlc’ adjusted for ‘hyperten’.
+
+#### Question C1.4b: 
+
+**What are the odds of having prior CVD if a participant is hypertensive, once you have adjusted for their levels of HDL-C?**
+
+```{r}
+m4 <- glm(prior_cvd ~ hyperten + hdlc, family = binomial(link = "logit"), data = whitehall)
+
+summary(m4)
+```
+
+```{r}
+exp(cbind(coef(m4), confint(m4)))
+```
+
+**Here, the odds ratio for prior CVD is 1.55 times higher in those with hypertension compared to those without hypertension, after adjusting for HDL-C (OR: 1.55, 95% CI: 1.33-1.80).**
+
+# C2: Survival Data
+
+## C2.1 Introduction to Survival Data {#sec-C2.1}
+
+::: {.callout-important icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+- Understand what **survival data** are
+
+- Understand the notion of **event, time to event** and **censoring** (informative and non-informative)
+
+- Understand **assumptions underpinning censoring** in survival data.
+
+- Definition of **Survival function** and **hazard function**.
+:::
+
+### Characteristics of Survival Data
+
+Survival data are **time-to-event:**
+
+- Cohort study on heart disease - time to first heart disease event.
+- Breast cancer trial time to first recurrence of cancer.
+- IVF study - time to pregnancy.
+
+Special features are **time** and **censoring**
+
+- **time** to occurrence of the event of interest.
+- time to event may not be observed within the timeframe we have, it is therefore **censored**
+
+Summarized by the **survival function (and hazard function)**
+
+![](Survival3.png){#fig-Sur3}
+
+### Defining time-to event
+
+- **Event:**
+  + e.g. death, recurrence, failure of prosthesis, success of implantation.
+  + Usually a well-defined binary variable for the outcome (e.g, Event: Death- 1=yes, 0=no)
+
+- **Time:**
+Depends on:
+  + **Origin:** Time when risk of event begins.
+  + **entry:**  Time when follow-up begins (often origin=entry)
+  + **exit:**  Time of event or censoring.
+  + **Scale:** Units of time e.g Scale days to years by specifying 365.25 as scale if time is measured in days.
+  
+Measured in person-time, the sum of observation time contributed by all individuals in the study [$=(\frac{\text{time/origin}}{scale})$]
+
+### Censoring
+
+Subjects censored at some time t are ignored at all future times.
+
+#### Assumptions of censoring
+
+- They carry no information about the survival function after t.
+- If distribution of event-times is similar for censored vs non-censored subjects at a given time, then censoring is "non-informative"
+
+#### Non-informative Censoring
+
+- Censoring at fixed times e.g pre-assigned end of study.
+- Competing events e.g accidental deaths in a study of death due to MI
+
+Loss to follow-up may be informative, e.g if subjects are too ill to continue study - this may be problematic.
+
+Informative censoring usually problematic - carefully check distribution of censoring times.
+
+### Possible Observations of an individual being followed up for time-to-event
+
+1. They may `experience` the outcome event - "failure"
+2. They may not `experience` the outcome event - "survival"
+3. Their event status may `not be observed` - "censoring"
+
+Examples:
+
+- had other event e.g died
+- loss to follow-up
+- overextend to the end of the study and no events was observed for this individual.
+
+### How Censoring may arise
+
+- Left censoring: First observation occurs after individual has experienced the outcome, but exact time of outcome is unknown.
+- Right censoring: The study ends before they experience the event.
+- Interval censoring: Individual experiences outcome between two observations, but exact time of event is unknown.
+
+### Survival and Hazard functions
+
+- Two functions are very important in survival analysis, and these are the `Survival function` and `Hazard function`
+
+- `Survival function:s(t)`
+  + It is the probability that an individual is event-free beyond time (t) also written as $s(t) = P(T\geq t)$
+  
+Where: T is the time to event, t = time of event
+
+- `Hazard function (hazard rate):`
+
+The hazard function, denoted as $h(t)$, represents the instantaneous risk of an event occurring
+after time $t$, given that the individual is event-free up to time $t$. In other word, What is the probability that the event will happen between $T$ and the next fraction of time. The formula is:
+
+$$
+h(t) = \lim_{\Delta t \to 0} \frac{P(t \leq T < t + \Delta t \mid T \geq t)}{\Delta t}
+$$
+
+where:
+
+- $h(t)$: Hazard function at time $t$
+- $T$: Random variable representing the time to event
+- $\Delta t$: Infinitesimally small time interval
+
+Alternatively, the hazard function can also be expressed in terms of the probability density function $f(t)$ and the survival function $S(t)$ as:
+
+$$
+h(t) = \frac{f(t)}{S(t)}
+$$
+
+where:
+
+- $f(t)$: Probability density function of time to event
+- $S(t) = P(T > t)$: Survival function
+
+In contrast to the survival function, which focuses on not having an event, the hazard function focuses on the event occurring.
+
+### Why we estimate the Survival function ?
+
+- `Risk(proportion) or odds of events at the end of follow-up`
+  + Ignore differences in follow-up times across individuals.
+  + Does not deal with censoring appropriately.
+
+- `Average time-to-event:`
+  + Event rates may not be constant during follow-up, an 'average' would be misleading.
+  + Times-to-event may not follow a know distribution (useful for parametric analysis).
+  
+`The Survival function can overcome these limitations`
+
+
+The command `Surv` is used to create a survival object, which sets up a time to event data structure. When we have only one time period, like in this study, we specify in the form `Surv(follow up time, event indicator)`. 
+
+Since we want to look at the event of “death”, and we have followed participants for several years, the following command is used:
+
+`library(survival)`, `surv_object <- Surv(whitehall$fu_years, whitehall$death)`
+
+The output from R is a matrix with two columns – the first is the survival time, and the second an indicator for death or not.
+
+### Question C2.1a:  
+
+**How many events occurred during the follow up period? **
+
+```{r}
+# Calculate the number of death events during the follow-up period
+number_of_deaths <- sum(whitehall$death)
+
+number_of_deaths
+
+```
+**1,526 deaths**
+
+## C2.2 Kaplan-Meier Survival Function & the Log Rank Test {#sec-C2.2}
+
+::: {.callout-important icon="false"}
+## Learning Outcomes
+
+By the end of this section, students will be able to:
+
+- Produce a Kaplan-Meier survival curve and interpret it.
+
+- Test for differences in survival by using a log-rank test.
+:::
+
+### C2.2.1 Kaplan-Meier Survival Function {#sec-C2.2.1}
+
+::: {.callout-tip icon="false"}
+## Learning Objectives
+
+By the end of this section, students will be able to:
+
+- Estimate the survival function using Kaplan-Meier method. 
+
+- Plot the estimated survival function.
+:::
+
+#### Kaplan-Meier (K-M) method
+
+- Consider $n$ individuals with observed survival times $t_{1}, t_{2},....,t_{n}$ and suppose there are $r$ events of interest, in our case, we call them deaths.
+- If we rearrange the death in ascending order $j=1,2,...,r$
+
+The $\text{estimated survival function}$ is 
+
+The Kaplan-Meier estimator, denoted as $\hat{S}(t)$, estimates the survival function as:
+
+$$
+\hat{S}(t) = \prod_{t_j \leq t} \left(P_{j}\right)
+$$
+
+where:
+
+- $P_{j} = 1 - \frac{d_j}{n_j} = \frac{n_{j} - d_{j}}{n_{j}}$
+- $t_j$: Distinct time points at which events occur
+- $d_j$: Number of events (deaths) at time $t_j$
+- $n_j$: Number of individuals at risk just before time $t_j$
+
+The *estimated survival function* is *constant between events*, so the graph is a *step function*
+
+Recall @fig-Sur3, we have different characteristic of this participants. Some of them died, some of them were lost to follow up, some of them had the event of interest (MI).
+
+Let us compute kaplan-meier estimate of the survival function
+
+To produce a Kaplan-Meier (K-M) Survival Curve for all-cause mortality, we will use the `survminer` R package which aims to plot time-to-event data using the ggplot R package.
+
+##### Produce a Kaplan-Meier curve for mortality
+
+The command `ggsurvplot()` from the `survminer` R package produces a plot of the K-M survivor function. There are a variety of options that you could use that might make a graph more informative. You can find more details about the `survminer` R package in [this website](https://rpkgs.datanovia.com/survminer/){target="_blank"}.
+
+To produce a Kaplan-Meier curve for the total population we run the following command: `model <- survfit(Surv(fu_years, death) ~ 1, data = df)`
+
+To get the risk table at prespecified times, we used the summary() command with the times option: `summary(model, times)`
+
+##### Question C2.2a.i: 
+
+Use the `survfit()` and `summary()` commands and the times option `seq(0.5, 9, 0.5)` to see what time since re-survey corresponds to 75% survival.
+
+```{r}
+library(survminer)
+library(survival)
+
+
+m5 <- survfit(Surv(fu_years, death) ~ 1, data = whitehall)
+
+summary(m5, times = seq(0.5, 9, 0.5))
+```
+
+*75% survival occurs at around 6 years, and this agrees with report from stsum below.*
+
+##### Question C2.2a.ii: 
+
+Use the `ggsurvplot()` command to plot the cumulative survival, and use the appropriate option to estimate how many participants were at risk going into the 8th year of follow-up.
+
+```{r}
+ggsurvplot(m5, risk.table = T)
+```
+
+*The graph shows that 1458 participants were at risk going into the 8th year of follow-up.*
+
+::: {.callout-note}
+- Time intervals constructed so that each contains 1 event time, which is taken to occur at the start of the interval. 
+- No interval begins at censoring time 
+- $\hat{S}(t) = \text{Survival probability * Survival Probability at previous time (t) interval}$
+- The survival function plot is a step function, with sudden changes in the estimated probability corresponding to times at which an event was observed.
+- There are vertical lines, which correspond to the times the data were censored, while the horizontal parts correspond to the survival function.
+:::
+
+### Confidence Interval for Survival function
+
+- Variance for $\hat{S(t)}$ is usually calculated using **Greenwood's formula**
+
+#### No Censoring
+
+$$
+\hat{S}(t) = \frac{\text{initial number of individuals - number of event up to t}}{\text{initial number of individuals in the study}}
+$$
+
+$$
+\text{Var}(\hat{S}(t)) = \frac{\hat{S}(t)[1 - \hat{S}(t)]}{n}
+$$
+
+
+#### With Censoring
+
+The variance of the Kaplan-Meier survival estimate with censoring, using Greenwood's formula, is:
+
+$$
+\text{Var}(\hat{S}(t)) = \hat{S}(t)^2 \sum_{i: t_i \leq t} \frac{d_i}{n_i (n_i - d_i)}
+$$
+
+where:
+
+- $\hat{S}(t)$ is the Kaplan-Meier survival estimate at time $t$,
+- $d_i$ is the number of observed events at time $t_i$,
+- $n_i$ is the number of individuals at risk just before $t_i$.
+
+
+#### Confidence Interval for the Kaplan-Meier Survival Estimate (Using Variance)
+
+The approximate $100(1 - \alpha)\%$ confidence interval for the Kaplan-Meier survival estimate $\hat{S}(t)$, using the variance, is given by:
+
+$$
+\left( \hat{S}(t) - z \cdot \sqrt{\text{Var}(\hat{S}(t))}, \hat{S}(t) + z \cdot \sqrt{\text{Var}(\hat{S}(t))} \right)
+$$
+
+where:
+
+- $\hat{S}(t)$ is the Kaplan-Meier survival estimate at time $t$,
+- $z$ is the z-score for the desired confidence level (e.g., $z = 1.96$ for a 95% confidence interval),
+- $\text{Var}(\hat{S}(t))$ is the variance of the survival estimate at time $t$.
+
+This formula provides a confidence interval around the survival estimate by directly using the variance, giving an interval centered on $\hat{S}(t)$ with width determined by the variance.
+
+::: {.callout-tip icon="false"}
+## Greenwood formula:
+
+- Only asymptomatically correct: It underestimates variance when few subjects remain at risk
+- Can give CIs outside the range 0 to 1; solution to this problems include:
+  + Truncation
+  + Log-transformation
+  + Log-log transformation.
+:::
+
+#### Confidence Interval for the Kaplan-Meier Survival Estimate (With log-log tranformation)
+
+For a Kaplan-Meier survival estimate $\hat{S}(t)$, the approximate $100(1 - \alpha)\%$ confidence interval is:
+
+$$
+\left( \hat{S}(t)^{\exp\left(-z \cdot \text{SE}(\log(-\log(\hat{S}(t))))\right)}, \hat{S}(t)^{\exp\left(z \cdot \text{SE}(\log(-\log(\hat{S}(t))))\right)} \right)
+$$
+
+where:
+
+- $\hat{S}(t)$ is the Kaplan-Meier survival estimate at time $t$,
+- $z$ is the z-score for the confidence level (e.g., $z = 1.96$ for 95% confidence),
+- $\text{SE}(\log(-\log(\hat{S}(t))))$ is the standard error of the log-log transformed survival probability.
+
+This formula gives a confidence interval for the survival probability at each time point, accounting for the variability in the estimate.
+
+This formula provides an estimate of the variance in survival probability at each observed time point.
+
+#### The Log-Rank Test
+
+::: {.callout-tip icon="false"}
+#### Learning Objectives
+
+By the end of this section, students will be able to:
+
+- Understand the log-rank test for comparing the equality of survival functions across groups
+:::
+
+#### Comparing Survival in Two or More Grroups 
+
+##### Log-rank test (Test the equality of the survival functions in k groups)
+
+- Generally, principles of the log-rank test is that their survival function across the key group is the same.
+- The issue now is that we have certain number of times in which we are looking at this observed events and expected events. And also we not only have the number of times, but we also look at this observed events and expected events across groups.
+- For example, if we take the case of 2 groups of patients, are there observed events at a particular time $t$ in a group k or we indicated this with $O_{jk}$ when the time is equal to j and then we have expected events at time j for group k and we indicate this with $E_{JK}$.
+- If we take the sum of all the observed events across all the times that we have for a particular group, and we take the sum of all expected event across the times that we have in a particular group. And we take the difference of these 2 quantities, and then we take the square. If we divide this by the sum across all the possible times that we have of the various $j$ and we do the same across all the groups that we have, then it can be shown that this test statistics, is distributed as a Chi-Squared distribution with 1 degree of freedom.
+
+In the case of **two groups** the formula is:
+
+
+$$
+\sum_{k=1}^2\frac{\left( \sum_{j=1}^{t} O_{jk} - \sum_{j=1}^{t} E_{jk}\right)^2}{\sum_{j=1}^{t} V_j} - \chi_{1}^2
+$$
+
+- If we have more than two groups, then it is still distributed as a Chi-Squared distribution, but in this case, the degrees of freedom becomes $k-1$.
+- We have to be careful because the log-rank test is just a test of significance, so it doesn't gives us an estimate of the difference of the groups or it doesn't provide us with a confidence interval.
+
+ 
+|               |         |$k=1$          |$K=2$          |Total        |
+|:-------------:|:-------:|:-------------:|:-------------:|:-----------:|
+|**Event at t** |Yes      |$d_{t1}$       |$d_{t2}$       |$d_t$        |
+|**Event at t** |No       |$n_{t1}-d_{t1}$|$n_{t2}-d_{t2}$|$n_{t}-d_{t}$|
+|               |Total    |$n_{t1}$       |$n_{t2}$       |$n_t$        |
+
+Where:
+
+- $d_{t1}$ = Observed events for group 1 this will be $O_{t1}$, i.e, death at time t for group 1
+- $d_{t2}$ = Observed events for group 2 this will be $O_{t2}$, i.e, death at time t for group 2
+
+*There will be need to calculates the expected events* $E_{t1}$ *for group 1,* $E_{t2}$ *for group 2 and variance* ($V_t$)
+
+$$
+E_{t1} = \frac{n_{t1}d_t}{n_t}, E_{t2}= \frac{n_{t2}d_t}{n_t} \text{ and}, V_t = \frac{n_{t1}n_{t2}d_t(n_t-d_t)}{(n_t)^2(n_t-1)}
+$$
+
+*The above formula is use to calculate expected event and variance in case of Chi-square test*
+
+First, we will divide the variable vitd at the median (nb: there are several methods you can use to code this correctly in R). We will show a recoding approach based on tidyverse R package. We can use a combination of the `mutate()` command and `case_when()` command as follows: `df <- df %>% mutate(vitd_med = case_when(vitd <= summary(df$vitd)[3] ~ 0, vitd > summary(df$vitd)[3] ~ 1))`
+
+::: {.callout-note}
+We use the `summary()` command to estimate the descriptive statistics (i.e., minimum value, 1st quartile, median, mean, 3rd quartile, and maximum value) of the `vitd` variable. The 3rd element in the output of the `summary()`command is the median which is used to dichotomise the `vitd` variable.
+:::
+
+The `survdiff()` command compares the survival distrubutions of an exposure variable by performing a log-rank test. The syntax of the `survdiff()` command is the following: `survdiff(Surv(time, event) ~ variable, data)`
+
+The `survdiff()` command uses as a dependent variable a survival object which is produced by the `Surv()` command. To create a survival object, we should define the follow up time `(time)` and the outcome status `(event)` in the `Surv()` command.
+
+##### Question C2.2b: 
+
+Using the `survdiff()` command, compare the survival distributions for the two categories of VitD. Is there a significant difference in the survival of participants below and above the median of vitamin D concentration?
+
+```{r}
+library(tidyverse)
+library(survminer)
+library(survival)
+
+# Calculate the median of `vitd` once and store it in a variable
+vitd_median <- median(whitehall$vitd, na.rm = TRUE)
+
+# Use the median in your mutate statement
+whitehall <- whitehall %>%
+  mutate(vitd_med = case_when(
+    vitd <= vitd_median ~ 0,
+    vitd > vitd_median ~ 1
+  ))
+
+survdiff(Surv(fu_years, death) ~ vitd_med, data = whitehall)
+```
+*The log-rank test indicates that we can reject the null hypothesis that the survival distributions for the two categories are the same, as the chi(1)=120 , p<2e-16. There is a statistically significant difference in survival for participants above and below the median of vitamin D concentrations. Looking at the KM plot of the survival functions, we can see that participants with vitamin D above the median tend to survive longer.*
+
+## C2.3 Cox Proportional Hazards Regression
+
+::: {.callout-tip icon="false"}
+### Learning Outcomes
+
+By the end of this section, students will be able to:
+
+- Understand the theory of proportional hazards models (modelling equation)
+- Calculate and interpret the results of a Cox proportional hazards regression model
+- Test the assumptions underlying a Cox regression (proportional hazards) model
+:::
+
+### Cox Model (Cox 1972)
+
+- It models the hazard function $h(t)$ as
+
+$$
+h(t | X) = h_0(t) \exp(\beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p) 
+$$
+
+where:
+
+- $h(t | X)$ is the hazard function at time $t$ for an individual with covariates $X$,
+- $h_0(t)$ is the baseline hazard function at time $t$,
+- $\beta_1, \beta_2, \dots, \beta_p$ are the coefficients for the covariates $X_1, X_2, \dots, X_p$.
+
+This model assumes that the effect of covariates on the hazard is multiplicative and proportional over time.
+
+Alternative writing:
+
+$$
+\log(\frac{h(t | X)}{h_0(t)})= \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p
+$$
+
+where:
+
+- $\log(h(t | X))$ is the log hazard function at time $t$ for an individual with covariates $X$,
+- $\log(h_0(t))$ is the log of the baseline hazard function at time $t$,
+- $\beta_1, \beta_2, \dots, \beta_p$ are the coefficients for the covariates $X_1, X_2, \dots, X_p$.
+
+This equation shows that the covariates $X$ have a linear effect on the log of the hazard function, a key assumption in the Cox model.
+
+##### Characteristics of the Cox Model
+
+- It is a `Semi-parametric model` because there are no assumptions about the shape of the baseline hazard function and because there is a `Non-Parametric` part, i.e, the one with log and `parametric part` that is given by the exponential part of the coefficient.
+- The coefficients $\beta_1, \beta_2, \dots, \beta_p$ can be estimated by maximizing the partial likelihood.
+- Confidence intervals and test of hypothesis can be obtained.
+- There is no assumption needed for the baseline $(h_0(t))$ as a function. This is a very strong point because essentially we are able to estimate the coefficient of the model without imposing any shape or constraint on the baseline as a function.
+
+Suppose now we have estimated our coefficients intermodal, so we want to see how we can interpret this coefficient $\beta_1 \text{ to } \beta_p$.
+
+1. If the first covariate $X_1$ corresponds to an indicator variable representing assignment to a treatment group (drug) or a control group (placebo), then the coefficient $\beta_1$ represents the $log-hazards-ratio$ between the two groups after adjusting for other covariates $X_2,\dots,X_p.$
+2. In this case, $\text{the Hazard Ratio(HR) is} \exp(\beta_1)$
+
+##### Prortional Hazards Assumption
+
+- The Cox model is also called the Cox proportional hazards model because there is a very strong and important assumption that the needs to be satisfied, if we want to use this model, and this assumption is called the **Proportional hazards assumption**
+- If we take a group of individuals that are in an exposed group and we take the ratio as a function of this group of exposed individuals with respect to their hazard function, to an unexposed group of individuals, the ratio needs to be constant over time.
+
+$$
+\text{Proportional hazards assumption:} \frac{h(t)_{exposed}}{h(t)_{unexposed}} \text{ is constant over time.} 
+$$
+
+- Suppose that a group of cancer patients on an experimental treatment for 10 years.
+- If the hazard of dying for the $\text{non-treated group}$ is twice the rate as that of the $\text{treated group(HR=2.0)}$, the proportional-hazards assumption implies that this ratio is the same at 1 year, at 2 years, or at any point on the time scale.
+- Because the Cox model, by definition, is constrained to follow this assumption, it is important to evaluate its validity.
+- If there is *violation* of the Cox proportional hazard assumption, this implies that there are *time-varying coefficients* in the model, or valid for a particular certain time points but not for all time points in the study.
+- It is important not to confuse *time dependent coefficients* with time *dependent covariates*. They are two different concepts.
+
+#### Unadjusted Cox regression
+
+The `coxph()` command is used to run a Cox proportional hazards regression model in R.  The simplified syntax of the `coxph()` command is the following: `coxph(formula, data)`
+
+The formula used in the `coxph()` command needs a survival object as dependent variable which is created using the `Surv()` command. The syntax of the `Surv()` command is the following: `Surv(time, event)`
+
+where time is the follow-up time per individual and event is the disease/outcome status per individual.
+
+For example, we can examine the effect of frailty on the risk of death. Frailty is measured using a quantitative scale and it would be better to treat it as a categorical variable:
+
+```{r}
+library(survminer)
+library(survival)
+
+whitehall$frailty <- as.factor(whitehall$frailty)
+
+m6 <- coxph(Surv(fu_years, death) ~ frailty, data = whitehall) 
+
+summary(m6)
+```
+*Looking at the output, you can see that the hazard of dying is nearly 6 times greater for participants in frailty level 5 compared with frailty level 1 (HR 5.7, 95% CI:4.8-6.8). This is statistically significant.*
+
+##### Question C2.3a.i: 
+
+What is association of vitamin D (using the variable coded above and below the median) with the risk (hazard) of dying?
+
+```{r}
+library(survminer)
+library(survival)
+
+whitehall$vitd_med <- as.factor(whitehall$vitd_med)
+
+m7 <- coxph(Surv(fu_years, death) ~ vitd_med, data = whitehall) 
+
+summary(m7)
+```
+*Participants that have vitamin D concentrations above the median have a 43% lower hazard (or risk) of dying, and this is statistically significant (HR 0.57, 95% CI: 0.51-0.63).*
+
+### Test the Proportional Hazards Assumption (PHA)
+
+::: {.callout-tip icon="false"}
+### Learning Objectives:
+
+By the end of this section, students will be able to:
+
+- Test Proportionality Hazards Assumption
+- Learn some solutions in case of violations of proportionality hazards assumption.
+:::
+
+#### Dealing with violation of PHA
+
+- Violation implies that there are time-varying coefficients in the model. To deal with this:
+
+Two solutions:
+
+1. **Stratify** by the offending variable- fit separate models across the levels of the variable (Strata option)
+
+or
+
+2. **model** the offending variable as the **time-varying coefficient(s).**
+
+There are many similarities between Cox regression and linear and logistic regression. We have seen that you can adjust for additional variables in the same way. You can also fit interactions using the same commands. However, the one key difference between a Cox regression and other regression models is the *proportional hazards assumption*.
+
+The proportional hazards assumption states that hazard ratio (comparing levels of an exposure variable) is constant over time. This assumption needs to be tested. The lecture explained 3 ways to do this: fitting an interaction with time, examining the residuals with a log-log plot and testing the residuals for a correlation with time. In practice, generally just choosing one method to use is sufficient.
+
+#### Fitting an interaction with time
+
+If the PH assumption is violated, it means that the hazard ratio is not constant over time, i.e. there is an interaction between a covariate and time. Thus, we can fit a Cox model with a time interaction in it and see if this is significant. We can also use a likelihood ratio (LR) test to see if a model with a time-varying covariate fits better than one without. In R, the interaction of a covariate with time can be fitted by using the time-transform functionality `tt()` in the `coxph()` command.
+
+```{r}
+library(survminer)
+library(survival)
+
+whitehall$age_grp <- as.factor(whitehall$age_grp)
+
+m8 <- coxph(formula = Surv(fu_years, death) ~ frailty + age_grp + tt(age_grp), data = whitehall)
+
+summary(m8)
+```
+
+*When we look at the p-value for the coefficient in the tt(age_grp) row, we see that it is significant (p=0.03). This suggests there is a significant interaction with time, which indicates the HR for age group is not constant over time.*
+
+#### Inspecting log-log plots
+
+To compute a log-log plot, we should compute the survival curves for our variable using the `survfit()` command and then we can print the log-log plot using the `ggsurvplot()` command.
+
+A log-log plot for age group is computed using the command below:
+
+```{r}
+library(survminer)
+library(survival)
+
+m9 <- coxph(Surv(fu_years, death) ~ frailty + strata(age_grp), data = whitehall)
+
+fit <- survfit(m9)
+
+ggsurvplot(fit, data = whitehall, fun = "cloglog")
+```
+*When we inspect a log-log plot, we want to see that the curves in the main portion of the plot (i.e. not the tails of the plot, where there are few events) are generally parallel over time. If the curves touch or cross, this indicates there is a violation of the PH assumption.*
+
+*Looking at the curves for each level of age group above, they appear to be generally parallel with similar slopes over time. This looks acceptable and does not indicate a meaningful violation of the PH assumption. This may contradict the results of the tt() command above as statistical tests will often be significant for small deviations if you have a lot of power (e.g. if you have a large dataset). For this reason, we often prefer to visually inspect the data for obvious violations of the PH assumption.*
+
+#### Testing the residuals for a correlation with time
+
+The PH assumption can be also assessed using a statistical test based on the scaled Schoenfeld residuals. In principle, Schoenfeld residuals are independent of time. If a plot shows that Schoenfeld residuals are distributed in a non-random pattern against time, this is evidence of violation of the PH assumption.
+
+We can test the proportional hazards assumption for each covariate in a Cox model using the `cox.zph()` command.
+
+In a cox model including `age_grp` and `frailty` as covariates, we can examine if any of these variables violate the PH assumption by running the following command:
+
+```{r}
+library(survminer)
+library(survival)
+
+m10 <- coxph(Surv(fu_years, death) ~ frailty + age_grp, data = whitehall)
+
+cox.zph(m10)
+```
+
+*The cox.zph() command has two outputs. The first one is a chi-squared test and a p-value for testing the violation of PH assumption for each one of the variables included in the cox model. The second one is a global chi-squared test and a p-value for testing if there is any variable in our model that violates the PH assumption.*
+
+*We observe that both frailty and age_grp variables violate the PH assumption.*
+
+##### Question C2.3b:  
+
+Interpret a log-log plot for frailty (adjusted for age group) and assess if it violates the PH assumption.
+
+```{r}
+library(survminer)
+library(survival)
+
+m11 <- coxph(Surv(fu_years, death) ~ strata(frailty) + age_grp, data = whitehall)
+
+fit7 <- survfit(m11)
+
+ggsurvplot(fit7, data = whitehall, fun = "cloglog")
+```
+*In this log-log plot, we see the curves for the different levels of frailty (levels 1-4) criss-cross and touch each other at several points over time. This is a clearer violation of the PH assumption.*
+
+#### Fixing violations in the PH assumption
+
+If the PH assumption has been violated for a covariate, we can fit a stratified Cox model where we stratify by the covariate that violates the PH assumption.
+
+To stratify a Cox model by a specific variable, we use the `strata()` command from the `survival` R package.
+
+```{r}
+library(survminer)
+library(survival)
+
+m12 <- coxph(formula = Surv(fu_years, death) ~ strata(frailty) + age_grp, data = whitehall)
+
+summary(m12)
+```
+*Notice that you do not get any output regarding the variable ‘frailty’ that you stratified on, although R indicates in the formula that you have used this variable in the strata. You would still interpret the HR of age_grp as having been adjusted for frailty, though. So you would say that the hazard of dying was 4.3 times greater in the 81-95 age group compared to the 60-70 age group, once it was adjusted for frailty (as stratifying on a variable is another way to adjust for its association).*
+
+## C2.4 Poisson Regression
+
+::: {.callout-tip icon="false"}
+### Learning Objectives:
+
+By the end of this section, students will be able to:
+
+- Open datasets in their chosen statistical software programme
+- Explore datasets and understand what data they have
+- Use basic commands to edit their data
+:::
+
+#### Use of Poisson Regression
+
+There are several situations where Poisson regression can be useful. It can be use to:
+
+- Obtain rates and their rtios from **Cohort studies or RCTs** in which person-time varies across individuals.
+  + It is important to obtain a **value for rates** as well as rate ratios (See Cox regression, in which rates are not estimates).
+  + It is reasonable to assume that **rates are constant** over time, or within time bands.
+  
+- Poisson regression can also be used for analysis of count e.g number of admissions per day in a hospital.
+ 
+Here, we show a Poisson regression modelling the log(rate of disease) as the outcome.
+
+In R, we can use the `glm()` command to fit a Poisson regression model as follows: `glm(formula, data, family = poisson(link = “log”))`
+
+The command `glm()` is the same command that was used to fit a logistic regression model in the previous module. The only difference is that in Poisson regression we use the family `poisson(link = “log”)`, whereas in logistic regression we use the family `binomial(link = “logit”)`. Note that we use the offset(time) when we specify the formula of the Poisson regression to specify follow-up time. If you do not use the `offset(time)` to specify the period of follow-up time, then you will be analysing a log(count) [rather than rate].
+
+#### For example
+
+To estimate the incidence rate ratio of death for current smokers compared to non-smokers, we run the following command:
+
+```{r}
+model12 <- glm(death ~ offset(log(fu_years)) + currsmoker, data = whitehall, family = poisson(link = "log"))
+
+summary(model12)
+
+exp(cbind(coef(model12), confint(model12)))
+```
+*The estimate in the row for ‘currsmoker’ is the rate ratio of death for current smokers compared to non-smokers. This output shows that the rate of death is 18% higher in current smokers compared to non-smokers (RR 1.18, 95% CI: 1.03-1.37). This association is statistically significant (p=0.02).*
+
+#### Assumptions of Poisson regression
+
+There are some assumptions that needs to be satisfied in order to use a Poisson model.
+
+We can use the Poisson model when:
+
+- Events (counts) follows a poisson distribution.
+- Events (counts) are independent of one another.
+- Rates in different groups are proportional (See also Cox regression).
+- Also, Poisson regression requires that within an exposure group such as smokers or non-smokers, the rate of the event of interest (such as death) stays constant over time, a very strong assumption. A cohort study often involves follow-up over many years and it is unrealistic, because of changes in age, to assume that the rate stays unchanged over follow-up.
+
+#### Poisson Regression Model
+
+- In Poisson regression, we model the log(rate of disease) as the outcome:
+
+$$
+log(\text{rate of disease}) = \beta_o + \beta_1X_1
+$$
+
+$$
+\exp(\beta_o) = \text{ratebin unexposed group,} \exp(\beta_1) = \text{rate ratio}
+$$
+
+Poisson regression model assumes that the events occur following POisson distribution.
+
+#### Same Model
+
+A Poisson model can be written in many different ways. For examples, we can represents it as follows:
+
+$$
+log(\text{rate of disease}) = \beta_o + \beta_1X_1 + \beta_2X_2+\dots
+$$
+
+$$
+log(\text{events| time}) = \beta_o + \beta_1X_1 + \beta_2X_2+\dots
+$$
+
+$$
+log(events) - log (time) = \beta_o + \beta_1X_1 + \beta_2X_2+\dots
+$$
+
+$$
+log(events) = \beta_o + \beta_1X_1 + \beta_2X_2+\dots + log (time)
+$$
+
+##### Question C2.4: 
+
+Use a Poisson regression to assess if current smoking associated with the rate of death, once adjusted for age group and frailty?
+
+```{r}
+m13 <- glm(death ~ offset(log(fu_years)) + currsmoker + age_grp + frailty, data = whitehall, family = poisson(link = "log"))
+
+summary(m13)
+
+exp(cbind(coef(m13), confint(m13)))
+```
+
+*The rate of death is 25% higher in current smokers compared to non-smokers, once adjusted for age group and frailty (RR 1.25, 95% CI: 1.09-1.43). This association is statistically significant (p=0.002).*
+
+The detailed explanation each section of the output from a Poisson regression model is as follows:
+
+1. Model Call
+
+- The model is a Poisson regression using death as the outcome variable, with the log link function.
+- Predictors include:
+  + **offset(log(fu_years))**: An offset term that adjusts for follow-up time (`fu_years`) in log scale, effectively modeling rates instead of simple counts.
+  + **currsmoker**: Indicator for current smoking status.
+  + **age_grp**: Categorical variable indicating age groups, with several levels (`age_grp2`, `age_grp3`, `age_grp4`) comparing each age group to the reference (likely the youngest age group).
+  + **frailty**: Categorical variable indicating frailty levels, with levels (`frailty2`, `frailty3`, etc.) compared to a reference group (likely the lowest frailty level).
+
+2. Deviance Residuals
+
+- These show the distribution of residuals from the model:
+  + Residuals range from -2.0348 to 3.2916, with a median near zero, indicating a reasonable but not perfect fit for most observations.
+  + Deviance residuals closer to zero indicate better fit for individual data points.
+
+3. Coefficients Table
+
+- Each predictor has an **Estimate**, **Standard Error**, **z value**, and **Pr(>|z|)** (p-value).
+
+- Here’s what each of these columns represents:
+  + **Estimate**: The log-rate ratio associated with each predictor.
+  + **Std. Error**: The standard error of each estimate.
+  + **z value**: The test statistic for each coefficient $(Estimate/Std.Error)$.
+  + **Pr(>|z|)**: The p-value indicating statistical significance.*
+
+**Interpretation of Key Predictors**:
+
+- **(Intercept)**: The intercept is -4.35993. Exponentiating this (`exp(-4.35993) ≈ 0.0128`) gives the baseline event rate for individuals in the reference categories of `currsmoker`, `age_grp`, and `frailty`.
+
+- **currsmoker**: The estimate for currsmoker is 0.22259, indicating that current smokers have a higher death rate compared to non-smokers.
+  + **Exponentiating** gives `exp(0.22259) ≈ 1.25`, so current smokers have a 25% higher death rate than non-smokers.
+  + The p-value (0.00239) indicates this effect is statistically significant at the 0.01 level.
+
+- **age_grp**: The coefficients for `age_grp2`, `age_grp3`, and `age_grp4` indicate that death rates increase with age:
+  + **age_grp2** (second age group) has a log-rate ratio of 0.5499, or about 73% higher death rate than the reference age group `(exp(0.5499) ≈ 1.73)`.
+  + **age_grp3** has a rate ratio of `exp(0.94373) ≈ 2.57`, or a 157% higher death rate.
+  + **age_grp4** has a rate ratio of `exp(1.38579) ≈ 4.00`, or a 300% higher death rate.
+  + All age groups have highly significant p-values, showing that increased age is strongly associated with higher death rates.
+
+- **frailty**: The coefficients for `frailty2`, `frailty3`, etc., indicate that higher frailty levels are associated with increasing death rates compared to the reference frailty level:
+
+  + **frailty2** has a rate ratio of `exp(0.26967) ≈ 1.31`, or a 31% higher death rate.
+  + **frailty3** has a rate ratio of `exp(0.46882) ≈ 1.60`.
+  + **frailty4** has a rate ratio of `exp(0.76742) ≈ 2.15`.
+  + **frailty5** has the highest rate ratio, `exp(1.33908) ≈ 3.82`, or a 282% higher death rate.
+  + These coefficients are significant, indicating that as frailty increases, so does the risk of death.
+
+4. Significance Codes
+
+- The stars next to the p-values indicate the level of significance:
+  + *** for p < 0.001, ** for p < 0.01, * for p < 0.05.
+
+5. Deviance and AIC
+
+- **Null deviance**: 5138.5 on 4320 degrees of freedom, representing the deviance for a model with only an intercept.
+- **Residual deviance**: 4352.0 on 4312 degrees of freedom, showing the deviance for the fitted model with all predictors.
+- A large drop in deviance (from 5138.5 to 4352.0) indicates a substantial improvement in model fit over the null model.
+- **AIC**: 7412, a measure of model quality, with lower values indicating a better fit after accounting for model complexity.
+
+6. Fisher Scoring Iterations
+
+- The model took 6 iterations to converge, suggesting that the fitting process was stable.
+
+###### Summary Interpretation
+
+- The model suggests that current smoking status, age group, and frailty level are all significant predictors of the death rate.
+- Current smokers, older age groups, and individuals with higher frailty levels have significantly higher death rates, even after accounting for follow-up time.
+- The model fit (as indicated by the decrease in deviance and the AIC) is much improved over the null model, showing that these predictors are valuable for explaining variations in death rates.
+
+# Reference
+
+- Fundamentals of Statistical Software & Analysis by Oxford Population Health, University of Oxford Medical Sciences Division. 
