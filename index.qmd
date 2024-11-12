@@ -1081,9 +1081,8 @@ You can download a copy of the slides here: [A2.5: Sample size calculations for 
 
 To determine the sample size $n$ for estimating a population proportion in a cross-sectional study, use the following formula:
 
-
 $$
-n = \frac{{Z_{\frac{\alpha}{2}}^2 \cdot p \cdot (1 - p)}}{{d^2}}
+n = \frac{Z_{\frac{\alpha}{2}}^2 \cdot p \cdot (1 - p)}{d^2}
 $$
 
 
@@ -1186,7 +1185,7 @@ You probably won’t need to use all of these parameters.
 
 If you want to use a test of proportions to assess how large your sample needs to be for an expected odds ratio of the association between tubal ligation and ovarian cancer, you need to have two proportions for the command. Above we assume that 18% of controls have had tubal ligation, so we then can use this formula to work background from an expected odds ratio to see the other proportion:
 
-$$p2 = {\frac{(OR*p1)}{(1+p1(OR-1))}}$$
+$$p2 = \frac{(OR*p1)}{(1+p1(OR-1))}$$
 
 **Example 2.6**
 
@@ -1210,7 +1209,9 @@ power10
 
 We substitute a proportion of 18% and an OR of 0.85 into the formula:
 
-$$p2 = {\frac{(OR*p1)}{(1+p1(OR-1))}}$$
+$$
+p2 = \frac{(OR*p1)}{(1+p1(OR-1))}
+$$
 
 p2= (0.85\*0.18)/(1+0.18(0.85-1)
 
