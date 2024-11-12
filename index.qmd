@@ -2697,11 +2697,11 @@ You can download a copy of the slides here: [C1.2 The Chi-Square Test and the Te
 
 Ho: the proportion $\pi$ of death is the same in each group
 
-Ho: $\pi_{{BMI} \geq 25kg/m2} - \pi_{{BMI} < 25kg/m2}$
+Ho: $\pi_{BMI} \geq 25kg/m2} - \pi_{BMI} < 25kg/m2}$
 
 Ha: the proportion $\pi$ of death is different
 
-Ha: $\pi_{{BMI} \geq 25kg/m2} \neq \pi_{{BMI} < 25kg/m2}$
+Ha: $\pi_{BMI} \geq 25kg/m2} \neq \pi_{BMI} < 25kg/m2}$
 
 #### Observed Frequencies for 2x2 Table
 
