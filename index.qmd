@@ -389,7 +389,7 @@ R views our new variable as ‘numeric’. Clearly, however, it is an ordered ca
 whitehall$bmi.grouped <- factor (whitehall$bmi.grouped, labels=c("<18.5", "18.5-24.9", "25-29.9", ">30"))
 ```
 
-####Question A1.3b.i:
+#### Question A1.3b.i:
 
 **Which type of variable can you plot with a bar chart? When should you use a histogram?**
 
@@ -698,7 +698,7 @@ whitehall$bmi_grp4[whitehall$bmi >= 25] <- 2
 table(whitehall$bmi_grp4)
 ```
 
-I. \*\*What is the mean SBP where BMI \<25 ($\overline{x_1}$)?
+I. **What is the mean SBP where BMI** \<25 ($\overline{x_1}$)?
 
 ```{r}
 x1 <- aggregate(sbp~bmi_grp4, mean, subset = bmi_grp4 == 1, data = whitehall) 
@@ -708,7 +708,7 @@ x1
 
 I. 129.49mmHg
 
-II. \*\*What is the mean SBP where BMI ≥25 ($\overline{x_2}$)?
+II. **What is the mean SBP where BMI** ≥25 ($\overline{x_2}$)?
 
 ```{r}
 x2 <- aggregate(sbp~bmi_grp4, mean, subset = bmi_grp4 == 2, data = whitehall) 
@@ -718,7 +718,7 @@ x2
 
 II. 131.65mmHg
 
-III. \*\*What is the mean difference ($\overline{x_2}-\overline{x_1}$)?
+III. **What is the mean difference** ($\overline{x_2}-\overline{x_1}$)?
 
 ```{r}
 mean_diff <- x1 - x2 
@@ -740,11 +740,11 @@ IV. The t-statistic is the ratio of the departure of the estimated value of a pa
 
 V. **What is 95% CI for the mean difference?**
 
-**95 percent confidence interval: -3.22, -1.10That is to say, we are 95% confident that the difference in the mean systolic blood pressure between those with BMI \<25 and BMI 25 lies between 1.10 and 3.22 mmHg.**
+**95 percent confidence interval: -3.22, -1.10. That is to say, we are 95% confident that the difference in the mean systolic blood pressure between those with BMI \<25 and BMI 25 lies between 1.10 and 3.22 mmHg.**
 
 VI. **What is the p-value for this t-test and what does it mean?**
 
-**The p-value is 6.267e-05 = 0.00006267. Remember that p-values provide us with the probability of getting the mean difference we saw here, or one greater, if the null hypothesis was actually true. In this case, that probability is extremely low.Here, our p-value tells us that there is very strong evidence against the null hypothesis (which would be that there is no difference in SBP between our two BMI groups).Therefore, we can say that there is a significant difference in the mean SBP measures in people who are overweight and those who are not.**
+**The p-value is 6.267e-05 = 0.00006267. Remember that p-values provide us with the probability of getting the mean difference we saw here, or one greater, if the null hypothesis was actually true. In this case, that probability is extremely low. Here, our p-value tells us that there is very strong evidence against the null hypothesis (which would be that there is no difference in SBP between our two BMI groups). Therefore, we can say that there is a significant difference in the mean SBP measures in people who are overweight and those who are not.**
 
 #### Question A1.5b:
 
@@ -936,7 +936,7 @@ power3
 
 **We recruited fewer participants, which would decrease our power, but since our variance was lower our power actually increased overall to 95%**
 
-#A2.3 Power calculations for two proportions {#sec-A2.3}
+# A2.3 Power calculations for two proportions {#sec-A2.3}
 
 ::: {.callout-note icon="false"}
 ## Learning Outcomes
@@ -1015,11 +1015,9 @@ You can download a copy of the slides here: [A2.4: Sample Size Calculations for 
 
 The sample size $n$ for each group in an RCT with continuous outcomes is given by:
 
-
 $$
 n = \frac{2 \sigma^2 \left(Z_{\frac{\alpha}{2}} + Z_{\beta}\right)^2}{\Delta^2}
 $$
-
 
 Where:
 
@@ -1085,7 +1083,6 @@ $$
 n = \frac{Z_{\frac{\alpha}{2}}^2 \cdot p \cdot (1 - p)}{d^2}
 $$
 
-
 Where:
 
 -   $n$ is the required sample size,
@@ -1145,8 +1142,7 @@ By the end of this section, students will be able to:
 
 You can download a copy of the slides here: [A2.6: Sample size calculations for case-control studies](https://1drv.ms/p/s!AtvH6PgKXPEDgk4r89kfykscn_0P?e=XnJyGw){target="_blank"}
 
-To calculate the sample size $n$ for each group (cases and controls) in a case-control study, use the following formula: 
-
+To calculate the sample size $n$ for each group (cases and controls) in a case-control study, use the following formula:
 
 $$
 n = \frac{\left(Z_{\frac{\alpha}{2}} + Z_{\beta}\right)^2 \cdot [p_1 (1 - p_1) + p_2 (1 - p_2)]}{(p_1 - p_2)^2}
@@ -2695,13 +2691,14 @@ You can download a copy of the slides here: [C1.2 The Chi-Square Test and the Te
 -   Ho: No association between the BMI groups and death
 -   Ha: There is an association between the BMI groups and death
 
-Ho: the proportion $\pi$ of death is the same in each group
+$H_o$: the proportion $\pi$ of death is the same in each group
 
-Ho: $\pi_{BMI} \geq 25kg/m2} - \pi_{BMI} < 25kg/m2}$
+$H_0: \pi_{BMI \geq 25 \, \text{kg/m}^2} \;-\; \pi_{BMI < 25 \, \text{kg/m}^2}$
 
-Ha: the proportion $\pi$ of death is different
+$H_a$: the proportion $\pi$ of death is different
 
-Ha: $\pi_{BMI} \geq 25kg/m2} \neq \pi_{BMI} < 25kg/m2}$
+$H_a: \pi_{BMI \geq 25 \, \text{kg/m}^2} \;\neq\; \pi_{BMI < 25 \, \text{kg/m}^2}$
+
 
 #### Observed Frequencies for 2x2 Table
 
@@ -2820,7 +2817,7 @@ The p value of the chi-square test is highly significant (p\<0.001), suggesting 
 | **BMI Categories** |    ≥30 kg/m2    | 916 (0.61) | 816 (0.3)  | 1732  |
 |                    |      Total      |    1505    |    2761    | 4266  |
 
-: BMI X RISK OF DEATH{#tbl-second}
+: BMI X RISK OF DEATH {#tbl-second}
 
 If we take a look at the proportions in the table, it would appears that there is a trend where those with higher BMI have a greater risk of death than those a lower BMI.
 
